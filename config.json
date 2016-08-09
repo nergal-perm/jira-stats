@@ -1,0 +1,17 @@
+{
+    "auth": {
+	"username" : "some_name",
+	"password" : "some_pass"
+    },
+    "jiraUrl" : "someUrl";
+    "queries" : [
+	{
+	    "type" : "Заведено всего дефектов",
+	    "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') ORDER BY priority"
+	},
+	{
+	    "type" : "Актуально на момент выпуска дефектов",
+	    "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
+	}
+    ]
+}
