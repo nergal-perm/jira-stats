@@ -3,7 +3,7 @@
 	"username" : "some_name",
 	"password" : "some_pass"
     },
-    "jiraUrl" : "someUrl";
+    "jiraUrl" : "someUrl",
     "queries" : [
 	{
 	    "type" : "Заведено всего дефектов",
