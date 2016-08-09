@@ -1,17 +1,65 @@
 {
     "auth": {
-	"username" : "some_name",
-	"password" : "some_pass"
+	      "username" : "some_user",
+	      "password" : "some_pass"
     },
-    "jiraUrl" : "someUrl",
+    "jiraUrl" : "some_url",
     "queries" : [
-	{
-	    "type" : "Заведено всего дефектов",
-	    "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') ORDER BY priority"
-	},
-	{
-	    "type" : "Актуально на момент выпуска дефектов",
-	    "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
-	}
+	      {
+	          "type" : "total_defects",
+	          "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') ORDER BY priority"
+	      },
+	      {
+	          "type" : "actual_defects",
+	          "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
+	      },
+        {
+            "type" : "total_questions",
+            "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%)  AND issuetype in (Question) ORDER BY priority"
+        },
+        {
+            "type" : "actual_questions",
+            "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%)  AND issuetype in (Question) AND status not in (Закрыт, Отменена, Closed) ORDER BY priority"
+        },
+        {
+            "type" : "actual_blocker",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Blocker ORDER BY priority"
+        },
+        {
+            "type" : "actual_critical",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Critical ORDER BY priority"
+        },
+        {
+            "type" : "actual_major",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Major ORDER BY priority"
+        },
+        {
+            "type" : "actual_minor",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Minor ORDER BY priority"
+        },
+        {
+            "type" : "actual_trivial",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Trivial ORDER BY priority"
+        },
+        {
+            "type" : "total_blocker",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Blocker ORDER BY priority"
+        },
+        {
+            "type" : "total_major",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Major ORDER BY priority"
+        },
+        {
+            "type" : "total_critical",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Critical ORDER BY priority"
+        },
+        {
+            "type" : "total_minor",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Minor ORDER BY priority"
+        },
+        {
+            "type" : "total_trivial",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%)  AND issuetype in (Bug, 'Наведенный дефект приемки') AND priority = Trivial ORDER BY priority"
+        }
     ]
 }
