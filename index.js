@@ -11,7 +11,7 @@ conf.argv()
 
 var host = conf.get('jiraUrl');
 var auth = conf.get('auth');
-var issueId = 'HCS-27678';
+var issueId = conf.get('issueID');
 
 function performRequest(endpoint, method, data, success) {
 
