@@ -1,0 +1,317 @@
+extends layout
+
+block content
+  div
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Общая информация о тестировании доработки
+        tr.dense-information
+          td.dense-header Название проекта
+          td.dense-data ГИС ЖКХ
+        tr.dense-information
+          td.dense-header Название доработки
+          td.dense-data Какое-то длинное название доработки
+        tr.dense-information
+          td.dense-header Ссылка на доработку
+          td.dense-data 
+            a(href='#') Текст ссылки
+        tr.dense-information
+          td.dense-header Дата завершения теста
+          td.dense-data 28.02.2017
+        tr.dense-information
+          td.dense-header Ссылка на портал
+          td.dense-data
+            a(href='#') Текст ссылки
+        tr.dense-information
+          td.dense-header Ревизия
+          td.dense-data 12345
+        tr.dense-information
+          td.dense-header Браузер
+          td.dense-data Chrome
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Тестовое покрытие
+        tr.dense-information
+          td.dense-header Тестовое покрытие
+          td.dense-data Длинное описание тестового покрытия, возможно, на несколько строк
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Оценка качества доработки на текущий момент
+        tr.dense-information
+          td.dense-header Качество доработки
+          td.dense-data
+            | Качество доработки на текущий момент:&nbsp;&nbsp;
+            case result.actualQuality
+              when 1
+                span.quality-low ОЧЕНЬ НИЗКОЕ
+              when 2
+                span.quality-low НИЗКОЕ
+              when 3
+                span.quality-medium СРЕДНЕЕ
+              when 4
+                span.quality-high ВЫШЕ СРЕДНЕГО
+              when 5
+                span.quality-high ВЫСОКОЕ
+            br
+            br
+        tr.dense-information
+          td
+            div
+              case result.actualQuality
+                when 1
+                when 2
+                  img(src='/images/houseLowQuality.jpg', alt='Low quality', style='width:108px; height: 75px;')
+                when 3
+                  img(src='/images/houseMediumQuality.jpg', alt='Medium quality', style='width:108px; height: 75px;')
+                when 4
+                when 5
+                  img(src='/images/houseHighQuality.jpg', alt='High quality', style='width:108px; height: 75px;')
+            a(href='https://wiki.lanit.ru/pages/viewpage.action?pageId=75140508') Критерии определения качества
+          td
+            p: b Заведенные во время тестирования доработки дефекты и уточнения:
+            table.table-data
+              thead
+                tr
+                  th(width='236px;') 
+                  th.table-highlighted(width='236px;') Заведено всего
+                  th.table-highlighted(width='236px;') Актуально на момент выпуска отчета
+              tbody
+                tr
+                  td.table-highlighted Дефектов
+                  td.centered-text= result.summary.defectsCreated
+                  td.centered-text= result.summary.defectsActual
+                tr
+                  td.table-highlighted Уточнений
+                  td.centered-text= result.summary.questionsCreated
+                  td.centered-text= result.summary.questionsActual
+            br
+            p: b Актуальные на момент выпуска отчёта дефекты в разрезе приоритетов:
+            table.table-data
+              thead
+                tr
+                  th.table-highlighted(width='119px;') Приоритет
+                  th.table-highlighted(width='590px;') Количество дефектов
+              tbody
+                tr
+                  td
+                    img(src='/images/defect-blocker.png', role='presentation') 
+                    | &nbsp;Blocker
+                  td.centered-text= result.actualDefects.blocker
+                tr
+                  td
+                    img(src='/images/defect-critical.png', role='presentation') 
+                    | &nbsp;Critical
+                  td.centered-text= result.actualDefects.critical
+                tr
+                  td
+                    img(src='/images/defect-major.png', role='presentation') 
+                    | &nbsp;Major
+                  td.centered-text= result.actualDefects.major
+                tr
+                  td
+                    img(src='/images/defect-minor.png', role='presentation') 
+                    | &nbsp;Minor
+                  td.centered-text= result.actualDefects.minor
+                tr
+                  td
+                    img(src='/images/defect-trivial.png', role='presentation') 
+                    | &nbsp;Trivial
+                  td.centered-text= result.actualDefects.trivial
+                tr
+                  td ВСЕГО
+                  td.centered-text= result.actualDefects.total
+            if result.detailedBC.length > 0
+              br
+              p: b Актуальные на момент выпуска отчёта дефекты уровня Blocker и Critical, подробно:
+              table.table-data(width='709px;')
+                thead
+                  tr
+                    th.table-highlighted(width='100px;') Номер
+                    th.table-highlighted Название
+                    th.table-highlighted(width='100px;') Приоритет
+                    th.table-highlighted(width='130px;') Статус
+                tbody
+                  each issue, index in result.detailedBC
+                    tr
+                      td= (index + 1) + '. '
+                        a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                      td= issue.fields.summary
+                      td
+                        img(src=issue.fields.priority.iconUrl)
+                        | &nbsp;#{issue.fields.priority.name}
+                      td
+                        img(src=issue.fields.status.iconUrl)
+                        | &nbsp;#{issue.fields.status.name}
+            if result.detailedBlocked.length > 0
+              br
+              p: b Заблокированные на момент выпуска отчёта дефекты, подробно:
+              table.table-data(width='709px;')
+                thead
+                  tr
+                    th.table-highlighted(width='100px;') Номер
+                    th.table-highlighted Название
+                    th.table-highlighted(width='100px;') Приоритет
+                    th.table-highlighted(width='130px;') Причина блокировки
+                tbody
+                  each issue, index in result.detailedBlocked
+                    tr
+                      td= (index + 1) + '. '
+                        a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                      td= issue.fields.summary
+                      td
+                        img(src=issue.fields.priority.iconUrl)
+                        | &nbsp;#{issue.fields.priority.name}
+                      td
+                        a(href='https://jira.lanit.ru/browse/' + issue.fields.customfield_10131)= issue.fields.customfield_10131
+            br
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Информация о качестве доработки в целом
+        tr.dense-information
+          td.dense-header Качество доработки
+          td.dense-data
+            | Качество доработки по общему числу заведенных дефектов:&nbsp;&nbsp;
+            case result.createdQuality
+              when 1
+                span.quality-low ОЧЕНЬ НИЗКОЕ
+              when 2
+                span.quality-low НИЗКОЕ
+              when 3
+                span.quality-medium СРЕДНЕЕ
+              when 4
+                span.quality-high ВЫШЕ СРЕДНЕГО
+              when 5
+                span.quality-high ВЫСОКОЕ
+            br
+            br
+        tr.dense-information
+          td
+          td
+            p: b Всего обнаружено и заведено во время тестирования доработки:
+            table.table-data
+              thead
+                tr
+                  th.table-highlighted(width='119px;') Приоритет
+                  th.table-highlighted(width='590px;') Количество дефектов
+              tbody
+                tr
+                  td
+                    img(src='/images/defect-blocker.png', role='presentation') 
+                    | &nbsp;Blocker
+                  td.centered-text= result.createdDefects.blocker
+                tr
+                  td
+                    img(src='/images/defect-critical.png', role='presentation') 
+                    | &nbsp;Critical
+                  td.centered-text= result.createdDefects.critical
+                tr
+                  td
+                    img(src='/images/defect-major.png', role='presentation') 
+                    | &nbsp;Major
+                  td.centered-text= result.createdDefects.major
+                tr
+                  td
+                    img(src='/images/defect-minor.png', role='presentation') 
+                    | &nbsp;Minor
+                  td.centered-text= result.createdDefects.minor
+                tr
+                  td
+                    img(src='/images/defect-trivial.png', role='presentation') 
+                    | &nbsp;Trivial
+                  td.centered-text= result.createdDefects.trivial
+                tr
+                  td ВСЕГО
+                  td.centered-text= result.createdDefects.total
+          br
+          br
+        tr.dense-information
+          td
+          td 
+            p: b Графическое отображение представленной информации
+            #chart-container
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Дополнительная информация
+  script.
+    var parsedData = !{JSON.stringify(result.chartData)};
+    new FusionCharts({
+              type: 'pie2d',
+                renderAt: 'chart-container',
+                width: '480',
+                height: '360',
+                dataFormat: 'json',
+                dataSource: {
+                  "chart": {
+                      "bgColor": "#ffffff",
+                      "showBorder": "0",
+                      "use3DLighting": "0",
+                      "showShadow": "0",
+                      "enableSmartLabels": "1",
+                      "startingAngle": "0",
+                      "showPercentValues": "1",
+                      "showPercentInTooltip": "0",
+                      "decimals": "1",
+                      "captionFontSize": "14",
+                      "subcaptionFontSize": "14",
+                      "subcaptionFontBold": "0",
+                      "toolTipColor": "#ffffff",
+                      "toolTipBorderThickness": "0",
+                      "toolTipBgColor": "#000000",
+                      "toolTipBgAlpha": "80",
+                      "toolTipBorderRadius": "2",
+                      "toolTipPadding": "5",
+                      "showHoverEffect": "1",
+                      "showLegend": "1",
+                      "showLabels": "1",
+                      "numberSuffix": " км",
+                      "legendBgColor": "#ffffff",
+                      "legendBorderAlpha": "0",
+                      "legendShadow": "0",
+                      "legendItemFontSize": "10",
+                      "legendItemFontColor": "#666666",
+                      "useDataPlotColorForLabels": "1",
+                      "caption": "Заведено дефектов"
+                  },
+                  "data": parsedData
+                }
+            }).render();          

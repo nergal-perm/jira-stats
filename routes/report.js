@@ -96,10 +96,10 @@ function getSomeData(res, cb) {
 function generateResponse(res, incoming_data) {
     result = {
         summary: {
-            defectsCreated: incoming_data.total_defects.count,
-            defectsActual: incoming_data.actual_defects.count,
-            questionsCreated: incoming_data.total_questions.count,
-            questionsActual: incoming_data.actual_questions.count
+            defectsCreated: incoming_data.total_defects.count || 0,
+            defectsActual: incoming_data.actual_defects.count || 0,
+            questionsCreated: incoming_data.total_questions.count || 0,
+            questionsActual: incoming_data.actual_questions.count || 0
         },
         actualDefects: {
             blocker: incoming_data.actual_blocker.count,
@@ -123,12 +123,21 @@ function generateResponse(res, incoming_data) {
         }
     };
 
+    result.chartData = [
+      {label: "Blocker", value: result.createdDefects.blocker },
+      {label: "Critical", value: result.createdDefects.critical },
+      {label: "Major", value: result.createdDefects.major },
+      {label: "Minor", value: result.createdDefects.minor },
+      {label: "Trivial", value: result.createdDefects.trivial }
+    ];
+
     result.actualQuality = getQuality(result.actualDefects);
     result.createdQuality = getQuality(result.createdDefects);
     result.detailedBC = incoming_data.detailed_critical_and_blocker;
     result.detailedBlocked = incoming_data.detailed_blocked;
 
-    res.end(JSON.stringify(result));
+    console.log(JSON.stringify(result));
+    res.render('report', {result: result});
 }
 
 function getQuality(defects) {
