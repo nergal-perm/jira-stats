@@ -4,16 +4,16 @@
 	      "password" : "some_pass"
     },
     "jiraUrl" : "some_url",
-    "issueID": "HCS-48562",
+    "issueID": "some_id",
     "queries" : [
-	      {
-	          "type" : "total_defects",
-	          "query" : "project ='ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) ORDER BY priority"
-	      },
-	      {
-	          "type" : "actual_defects",
-	          "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
-	      },
+        {
+	        "type" : "total_defects",
+	        "query" : "project ='ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) ORDER BY priority"
+	    },
+	    {
+	        "type" : "actual_defects",
+	        "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
+	    },
         {
             "type" : "total_questions",
             "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%, 'содержит уточнения')  AND issuetype in (Question) ORDER BY priority"
@@ -61,6 +61,14 @@
         {
             "type" : "total_trivial",
             "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
+        },
+        {
+            "type" : "detailed_critical_and_blocker",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority in (Critical, Blocker) ORDER BY priority"
+        },
+        {
+            "type" : "detailed_blocked",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status = Заблокирован AND issuetype in (Bug) ORDER BY priority"
         }
     ]
 }
