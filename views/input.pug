@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  form.form-horizontal(method='POST', action='/report')
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Название проекта:
+      .col-sm-9.col-md-10
+        input(readonly="true", value=defaults.projectName, name='projectName').form-control
+    .form-group
+      label.control-label.col-sm-3.col-md-2 ID доработки:
+      .col-sm-9.col-md-10
+        input.form-control(name="featureID", type="text")
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Дата завершения тестирования:
+      .col-sm-9.col-md-10
+        input.form-control(type="date", name="dateTestEnd", value=defaults.date)
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Ревизия:
+      .col-sm-9.col-md-10
+        input.form-control(name="revision", type="text")
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Браузер:
+      .col-sm-9.col-md-10
+        input.form-control(name="browser", type="text")
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Тестовое покрытие:
+      .col-sm-9.col-md-10
+        textarea.form-control(name="testCoverage")
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Дополнительная информация:
+      .col-sm-9.col-md-10
+        textarea.form-control(name="additionalInfo")= defaults.additionalInfo
+    .btn-group
+      button.btn.btn-primary(type="submit") Получить отчет
