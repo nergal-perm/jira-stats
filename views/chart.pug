@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    script(type="text/javascript", src="http://static.fusioncharts.com/code/latest/fusioncharts.js")
+  body
+    #chart-container
+    script.
+      var parsedData = !{JSON.stringify(chartData)};
+      new FusionCharts({
+                type: 'pie2d',
+                  renderAt: 'chart-container',
+                  width: '480',
+                  height: '360',
+                  dataFormat: 'json',
+                  dataSource: {
+                    "chart": {
+                        "bgColor": "#ffffff",
+                        "showBorder": "0",
+                        "use3DLighting": "0",
+                        "showShadow": "0",
+                        "enableSmartLabels": "1",
+                        "startingAngle": "0",
+                        "showPercentValues": "1",
+                        "showPercentInTooltip": "0",
+                        "decimals": "1",
+                        "captionFontSize": "14",
+                        "subcaptionFontSize": "14",
+                        "subcaptionFontBold": "0",
+                        "toolTipColor": "#ffffff",
+                        "toolTipBorderThickness": "0",
+                        "toolTipBgColor": "#000000",
+                        "toolTipBgAlpha": "80",
+                        "toolTipBorderRadius": "2",
+                        "toolTipPadding": "5",
+                        "showHoverEffect": "1",
+                        "showLegend": "1",
+                        "showLabels": "1",
+                        "numberSuffix": "",
+                        "legendBgColor": "#ffffff",
+                        "legendBorderAlpha": "0",
+                        "legendShadow": "0",
+                        "legendItemFontSize": "10",
+                        "legendItemFontColor": "#666666",
+                        "useDataPlotColorForLabels": "1",
+                        "caption": "Заведено дефектов"
+                    },
+                    "data": parsedData
+                  }
+              }).render();          
+

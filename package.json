@@ -13,6 +13,8 @@
     "express": "~4.14.0",
     "morgan": "~1.7.0",
     "nconf": "^0.8.4",
+    "opn": "^4.0.2",
+    "phantomjs-prebuilt": "^2.1.14",
     "pug": "^2.0.0-beta11",
     "querystring": "^0.2.0",
     "request": "^2.79.0",

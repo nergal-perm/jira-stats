@@ -4,7 +4,6 @@
 	      "password" : "some_pass"
     },
     "jiraUrl" : "some_url",
-    "issueID": "some_id",
     "queries" : [
         {
 	        "type" : "total_defects",
@@ -69,6 +68,10 @@
         {
             "type" : "detailed_blocked",
             "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status = Заблокирован AND issuetype in (Bug) ORDER BY priority"
+        },
+        {
+            "type" : "detailed_main",
+            "query" : "project = 'ГИС ЖКХ' AND issue = %issues%"
         }
     ]
 }

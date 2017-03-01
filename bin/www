@@ -3,11 +3,10 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
 var debug = require('debug')('jira-express:server');
 var http = require('http');
-
+var opn = require('opn');
 /**
  * Get port from environment and store in Express.
  */
@@ -87,4 +86,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  opn('http://localhost:3100');
 }
