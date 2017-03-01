@@ -25,7 +25,7 @@ block content
         tr.dense-information
           td.dense-header Ссылка на портал
           td.dense-data
-            a(href='https://mob.hcs.lanit.ru:63343') https://mob.hcs.lanit.ru:63343
+            a(href=result.input.portalLink)= result.input.portalLink
         tr.dense-information
           td.dense-header Ревизия
           td.dense-data= result.input.revision
@@ -64,9 +64,9 @@ block content
             | Качество доработки на текущий момент:&nbsp;&nbsp;
             case result.actualQuality
               when 1
-                span.quality-low ОЧЕНЬ НИЗКОЕ
-              when 2
                 span.quality-low НИЗКОЕ
+              when 2
+                span.quality-low НИЖЕ СРЕДНЕГО
               when 3
                 span.quality-medium СРЕДНЕЕ
               when 4
@@ -215,9 +215,9 @@ block content
             | Качество доработки по общему числу заведенных дефектов:&nbsp;&nbsp;
             case result.createdQuality
               when 1
-                span.quality-low ОЧЕНЬ НИЗКОЕ
-              when 2
                 span.quality-low НИЗКОЕ
+              when 2
+                span.quality-low НИЖЕ СРЕДНЕГО
               when 3
                 span.quality-medium СРЕДНЕЕ
               when 4
