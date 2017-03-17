@@ -1,0 +1,75 @@
+body {
+  display: block;
+  margin: 8px;
+  line-height: 1.2em;
+}
+
+table.report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr.dense-information {
+  height: 15px;
+  color: black;
+  font-size: 14px;
+  font-family: "Times New Roman", serif;
+  vertical-align: top;
+}
+
+td.section-header-cell {
+  display: table-cell;
+  text-align: start;
+  vertical-align: middle;  
+  background: #00B0F0;
+  height: 29px !important;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0px 6px;
+  font-family: "Arial", sans-serif;
+}
+
+.dense-header {
+  width: 305px;
+  font-weight: bold; 
+}
+
+a {
+  font-family: "Arial", sans-serif;
+}
+
+.quality-low {
+  background-color:red;
+}
+
+.quality-medium {
+  background-color: yellow;
+}
+
+.quality-high {
+  background-color: lime;
+}
+
+.table-data {
+  border: 1px solid black;
+}
+
+.table-data td, th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table.table-data .table-highlighted {
+  background-color: rgb(242,242,242);
+  font-weight: bold;
+}
+
+table.table-data th {
+  text-align: center;
+  vertical-align: top;
+}
+
+.centered-text {
+  text-align: center;
+}
