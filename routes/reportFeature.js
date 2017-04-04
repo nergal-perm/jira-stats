@@ -72,7 +72,7 @@ function performRequest(endpoint, method, data, success) {
 }
 
 function getSomeData(res, cb) {
-    var queries = conf.get('queries');
+    var queries = conf.get('queriesFeature');
     var temp = {}
     async.each(queries, function(item, callback) {
     	var q = {
@@ -181,7 +181,7 @@ function createChart(err, chartTemplate) {
             console.log(stderr.toString());
             throw(err);
         }
-        response.render('report', {result: result});
+        response.render('reportFeature', {result: result});
     });
 }
 

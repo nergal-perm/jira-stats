@@ -4,7 +4,7 @@
 	      "password" : "some_pass"
     },
     "jiraUrl" : "some_url",
-    "queries" : [
+    "queriesFeature" : [
         {
 	        "type" : "total_defects",
 	        "query" : "project ='ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) ORDER BY priority"
@@ -73,5 +73,7 @@
             "type" : "detailed_main",
             "query" : "project = 'ГИС ЖКХ' AND issue = %issues%"
         }
+    ],
+    "queriesVersion" : [
     ]
 }
