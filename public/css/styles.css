@@ -21,13 +21,20 @@ td.section-header-cell {
   display: table-cell;
   text-align: start;
   vertical-align: middle;  
-  background: #00B0F0;
   height: 29px !important;
   color: white;
   font-size: 16px;
   font-weight: bold;
   padding: 0px 6px;
   font-family: "Arial", sans-serif;
+}
+
+td.section-header-cell.feature {
+  background: #00B0F0;
+}
+
+td.section-header-cell.version {
+  background: #70ad47;
 }
 
 .dense-header {

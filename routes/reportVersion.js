@@ -23,6 +23,12 @@ var counter = 0;
 var result = {};
 var response = {};
 
+var stubResult = {
+  
+}
+
+
+
 /* GET report. */
 router.post('/', function(req, res, next) {
   result.input = req.body;
@@ -62,6 +68,10 @@ function getTodaysDate() {
   return yyyy+'-'+mm+'-'+dd;
 }
 
+router.get('report', function(req, res, next) {
+  render('reportVersion', {result: stubResult});
+});
+
 function performRequest(endpoint, method, data, success) {
 
     if (method == 'GET') {
@@ -88,7 +98,7 @@ function performRequest(endpoint, method, data, success) {
 }
 
 function getSomeData(res, cb) {
-    var queries = conf.get('queriesFeature');
+    var queries = conf.get('queriesVersion');
     var temp = {}
     async.each(queries, function(item, callback) {
     	var q = {
@@ -197,7 +207,7 @@ function createChart(err, chartTemplate) {
             console.log(stderr.toString());
             throw(err);
         }
-        response.render('reportFeature', {result: result});
+        response.render('reportVersion', {result: result});
     });
 }
 
