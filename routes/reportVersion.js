@@ -24,7 +24,83 @@ var result = {};
 var response = {};
 
 var stubResult = {
-  
+  input: {
+    projectName: 'ГИС ЖКХ',
+    testDate: '24.03.2017',
+    portalLink: 'https://kpak.dom.test.gosuslugi.ru/#!/main',
+    revision: '11.0.11#rev135022',
+    browser: 'Chrome 56',
+    testCoverage: [
+      'Тестирование доработок',
+      'Валидация дефектов',
+      'Регрессионное тестирование по сценариям высокого приоритета'
+    ]
+  },
+  summary: {
+    existingDefectsQuality: 2,
+    newDefectsQuality: 3,
+    wholeSystemQuality: 1,
+    defectsCreated: 26,
+    defectsCreatedLink: '#',
+    indDefectsCreated: 12,
+    indDefectsCreatedLink: '#',
+    defectsFixed: 10,
+    defectsFixedLink: '#',
+    indDefectsFixed: 8,
+    indDefectsFixedLink: '#',
+    defectsPostponed: 16,
+    defectsPostponedLink: '#',
+    indDefectsPostponed: 4,
+    indDefectsPostponedLink: '#',
+    defectsActual: 0,
+    defectsActualLink: '#',
+    indDefectsActual: 0,
+    indDefectsActualLink: '#'
+  },
+  features: [
+    {
+      id: 'HCS-57670',
+      title: 'Сбор статистики с ППАК по ремонту',
+      quality: 5,
+      qualityDesc: 'Задача закрыта без тестирования',
+      defectsLink: '#',
+      defectsDesc: 'Актуальных дефектов для версии нет'
+    }, {
+      id: 'HCS-57616',
+      title: 'ЛС.ПД. Оптимизация размещения элементов печатной формы платежного поручения',
+      quality: 5,
+      qualityDesc: 'Доработка реализована в полном объеме',
+      defectsLink: '#',
+      defectsDesc: 'Актуальных дефектов для версии нет'
+    }
+  ],
+  actualDefects: {
+    blocker: 29,
+    blockerLink: '#',
+    critical: 566,
+    criticalLink: '#',
+    major: 716,
+    majorLink: '#',
+    minor: 0,
+    minorLink: '#',
+    trivial: 0,
+    trivialLink: '#'
+  },
+  fixedDefects: [
+    {
+      id: 'HCS-52656',
+      title: 'Интеграция с ЛС',
+      status: 'Закрыт',
+      priority: 'Blocker',
+      affectedVersion: '11.0.0'
+    }, {
+      id: 'HCS-57472',
+      title: 'Поле "Дата ввода в эксплуатацию" является обязательным',
+      status: 'Закрыт',
+      priority: 'Critical',
+      affectedVersion: '11.0.10'
+    }
+  ]
 }
 
 
@@ -68,8 +144,8 @@ function getTodaysDate() {
   return yyyy+'-'+mm+'-'+dd;
 }
 
-router.get('report', function(req, res, next) {
-  render('reportVersion', {result: stubResult});
+router.get('/report', function(req, res, next) {
+  res.render('reportVersion', {result: stubResult});
 });
 
 function performRequest(endpoint, method, data, success) {
