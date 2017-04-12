@@ -18,45 +18,12 @@ conf.argv()
 var host = conf.get('jiraUrl');
 var auth = conf.get('auth');
 
-var issueId;
+var version;
 var counter = 0;
 var result = {};
 var response = {};
 
 var stubResult = {
-  input: {
-    projectName: 'ГИС ЖКХ',
-    testDate: '24.03.2017',
-    portalLink: 'https://kpak.dom.test.gosuslugi.ru/#!/main',
-    revision: '11.0.11#rev135022',
-    browser: 'Chrome 56',
-    testCoverage: [
-      'Тестирование доработок',
-      'Валидация дефектов',
-      'Регрессионное тестирование по сценариям высокого приоритета'
-    ]
-  },
-  summary: {
-    existingDefectsQuality: 2,
-    newDefectsQuality: 3,
-    wholeSystemQuality: 1,
-    defectsCreated: 26,
-    defectsCreatedLink: '#',
-    indDefectsCreated: 12,
-    indDefectsCreatedLink: '#',
-    defectsFixed: 10,
-    defectsFixedLink: '#',
-    indDefectsFixed: 8,
-    indDefectsFixedLink: '#',
-    defectsPostponed: 16,
-    defectsPostponedLink: '#',
-    indDefectsPostponed: 4,
-    indDefectsPostponedLink: '#',
-    defectsActual: 0,
-    defectsActualLink: '#',
-    indDefectsActual: 0,
-    indDefectsActualLink: '#'
-  },
   features: [
     {
       id: 'HCS-57670',
@@ -74,18 +41,6 @@ var stubResult = {
       defectsDesc: 'Актуальных дефектов для версии нет'
     }
   ],
-  actualDefects: {
-    blocker: 29,
-    blockerLink: '#',
-    critical: 566,
-    criticalLink: '#',
-    major: 716,
-    majorLink: '#',
-    minor: 0,
-    minorLink: '#',
-    trivial: 0,
-    trivialLink: '#'
-  },
   fixedDefects: [
     {
       id: 'HCS-52656',
@@ -107,26 +62,15 @@ var stubResult = {
 
 /* GET report. */
 router.post('/', function(req, res, next) {
-  result.input = req.body;
-  result.input.testCoverage = req.body.testCoverage.split('\n').map(function(item) {
-    return item;
-  });
-  result.input.additionalInfo = req.body.additionalInfo.split('\n').map(function(item) {
-    return item;
-  });
-  issueId = req.body.featureID;
+  version = "11.0.11";
   var dateArr = req.body.dateTestEnd.split('-');
   result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
   getSomeData(res, generateResponse);
 });
 
-router.get('/data', function(req, res, next) {
-  res.render('input', { defaults: {
-    projectName: 'ГИС ЖКХ',
-    date: getTodaysDate(),
-    testCoverage: 'Тестирование доработки включало в себя следующие активности:\r\n1. Тестирование доработки;\r\n2. Валидация заведенных дефектов.',
-    additionalInfo: 'Доработка переведена на валидацию. Продолжаем валидировать дефекты после их исправления. Так же дополнительное тестирование будет произведено в рамках регрессионного тестирования всех подсистем.'
-  } });
+router.get('/report', function(req, res, next) {
+  version = "11.0.11";
+  getSomeData(res, generateResponse);
 });
 
 function getTodaysDate() {
@@ -178,7 +122,7 @@ function getSomeData(res, cb) {
     var temp = {}
     async.each(queries, function(item, callback) {
     	var q = {
-    		jql: item.query.replace('%issues%', issueId)
+    		jql: item.query.replace(new RegExp('%version%', 'g'), version)
     	};
 
     	if (item.type.substring(0,6) === 'detail') {
@@ -213,49 +157,54 @@ function getSomeData(res, cb) {
 }
 
 function generateResponse(res, incoming_data) {
-    result.input.featureLink = 'https://jira.lanit.ru/browse/' + result.input.featureID;
-    result.input.featureName = incoming_data.detailed_main[0].fields.summary;
+    result.input = {
+      projectName: 'ГИС ЖКХ',
+      testDate: '24.03.2017',
+      portalLink: 'https://kpak.dom.test.gosuslugi.ru/#!/main',
+      revision: '11.0.11#rev135022',
+      browser: 'Chrome 56',
+      testCoverage: [
+        'Тестирование доработок',
+        'Валидация дефектов',
+        'Регрессионное тестирование по сценариям высокого приоритета'
+      ],
+      version: version
+    };
     result.summary = {
-        defectsCreated: incoming_data.total_defects.count || 0,
-        defectsCreatedLink: incoming_data.total_defects.url,
-        defectsActual: incoming_data.actual_defects.count || 0,
-        defectsActualLink: incoming_data.actual_defects.url,
-        questionsCreated: incoming_data.total_questions.count || 0,
-        questionsCreatedLink: incoming_data.total_questions.url,
-        questionsActual: incoming_data.actual_questions.count || 0,
-        questionsActualLink: incoming_data.actual_questions.url
+      existingDefectsQuality: 2,
+      newDefectsQuality: 3,
+      wholeSystemQuality: 1,
+      defectsCreated: incoming_data.new_defects.count || 0,
+      defectsCreatedLink: incoming_data.new_defects.url,
+      indDefectsCreated: incoming_data.new_defects_induced.count || 0,
+      indDefectsCreatedLink: incoming_data.new_defects_induced.url,
+      defectsFixed: incoming_data.fixed_new_defects.count || 0,
+      defectsFixedLink: incoming_data.fixed_new_defects.url,
+      indDefectsFixed: incoming_data.fixed_new_defects_induced.count || 0,
+      indDefectsFixedLink: incoming_data.fixed_new_defects_induced.url,
+      defectsPostponed: incoming_data.postponed_new_defects.count || 0,
+      defectsPostponedLink: incoming_data.postponed_new_defects.url,
+      indDefectsPostponed: incoming_data.postponed_new_defects_induced.count || 0,
+      indDefectsPostponedLink: incoming_data.postponed_new_defects_induced.url,
+      defectsActual: incoming_data.actual_new_defects.count || 0,
+      defectsActualLink: incoming_data.actual_new_defects.url,
+      indDefectsActual: incoming_data.actual_new_defects_induced.count || 0,
+      indDefectsActualLink: incoming_data.actual_new_defects_induced.url
     };
     result.actualDefects = {
-        blocker: incoming_data.actual_blocker.count || 0,
-        blockerLink: incoming_data.actual_blocker.url,
-        critical: incoming_data.actual_critical.count || 0,
-        criticalLink: incoming_data.actual_critical.url,
-        major: incoming_data.actual_major.count || 0,
-        majorLink: incoming_data.actual_major.url,
-        minor: incoming_data.actual_minor.count || 0,
-        minorLink: incoming_data.actual_minor.url,
-        trivial: incoming_data.actual_trivial.count || 0,
-        trivialLink: incoming_data.actual_trivial.url,
-        total: (incoming_data.actual_blocker.count || 0) + (incoming_data.actual_critical.count || 0) +
-               (incoming_data.actual_major.count || 0) + (incoming_data.actual_minor.count || 0) + 
-               (incoming_data.actual_trivial.count || 0)
+      blocker: 29,
+      blockerLink: '#',
+      critical: 566,
+      criticalLink: '#',
+      major: 716,
+      majorLink: '#',
+      minor: 0,
+      minorLink: '#',
+      trivial: 0,
+      trivialLink: '#',
+      total: 1312
     };
-    result.createdDefects = {
-        blocker: incoming_data.total_blocker.count,
-        blockerLink: incoming_data.total_blocker.url,
-        critical: incoming_data.total_critical.count,
-        criticalLink: incoming_data.total_critical.url,
-        major: incoming_data.total_major.count,
-        majorLink: incoming_data.total_major.url,
-        minor: incoming_data.total_minor.count,
-        minorLink: incoming_data.total_minor.url,
-        trivial: incoming_data.total_trivial.count,
-        trivialLink: incoming_data.total_trivial.url,
-        total: (incoming_data.total_blocker.count || 0) + (incoming_data.total_critical.count || 0) +
-               (incoming_data.total_major.count || 0) + (incoming_data.total_minor.count || 0) + 
-               (incoming_data.total_trivial.count || 0)
-    };
-
+/*    
     result.chartData = [
       {label: "Blocker", value: result.createdDefects.blocker },
       {label: "Critical", value: result.createdDefects.critical },
@@ -268,9 +217,10 @@ function generateResponse(res, incoming_data) {
     result.createdQuality = getQuality(result.createdDefects);
     result.detailedBC = incoming_data.detailed_critical_and_blocker || [];
     result.detailedBlocked = incoming_data.detailed_blocked || [];
-
+*/
     response = res;
-    pug.renderFile('./views/chart.pug', result, createChart);
+    response.render('reportVersion', {result: result});
+    //pug.renderFile('./views/chart.pug', result, createChart);
 }
 
 function createChart(err, chartTemplate) {

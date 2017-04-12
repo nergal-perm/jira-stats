@@ -79,3 +79,34 @@ block content
                     span.quality-high ВЫШЕ СРЕДНЕГО
                   when 5
                     span.quality-high ВЫСОКОЕ
+            div
+              p: b Заведенные в версии дефекты
+              table.table-data
+                thead
+                  tr
+                    th 
+                    th.table-highlighted Заведено новых дефектов в версии #{result.input.version}
+                    th.table-highlighted Исправлено дефектов, заведенных в версии #{result.input.version}
+                    th.table-highlighted Снесено дефектов, заведенных в версии #{result.input.version}, на другие версии
+                    th.table-highlighted Актуальных дефектов, заведенных в версии #{result.input.version}
+                tbody
+                  tr
+                    td.table-highlighted Всего
+                    td.centered-text
+                      a(href=result.summary.defectsCreatedLink)= result.summary.defectsCreated
+                    td.centered-text
+                      a(href=result.summary.defectsFixedLink)= result.summary.defectsFixed
+                    td.centered-text
+                      a(href=result.summary.defectsPostponedLink)= result.summary.defectsPostponed
+                    td.centered-text
+                      a(href=result.summary.defectsActualLink)= result.summary.defectsActual
+                  tr
+                    td.table-highlighted В том числе наведенных
+                    td.centered-text
+                      a(href=result.summary.indDefectsCreatedLink)= result.summary.indDefectsCreated
+                    td.centered-text
+                      a(href=result.summary.indDefectsFixedLink)= result.summary.indDefectsFixed
+                    td.centered-text
+                      a(href=result.summary.indDefectsPostponedLink)= result.summary.indDefectsPostponed
+                    td.centered-text
+                      a(href=result.summary.indDefectsActualLink)= result.summary.indDefectsActual

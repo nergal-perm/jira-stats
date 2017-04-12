@@ -75,5 +75,41 @@
         }
     ],
     "queriesVersion" : [
+        {
+            "type": "features",
+            "query": "project = HCS AND type = Task AND status not in (Отменен, Отменена) AND fixVersion = '%version%' AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Bug_Task, Test_Task) ORDER BY status ASC"
+        },
+        {
+            "type": "new_defects",
+            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%version%' AND status !=Отменен ORDER BY affectedVersion ASC, priority DESC"
+        },
+        {
+            "type": "new_defects_induced",
+            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%version%' AND status !=Отменен AND Наведенный=Наведен ORDER BY affectedVersion ASC, priority DESC"
+        },
+        {
+            "type": "fixed_new_defects",
+            "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт, Отменен) AND affectedVersion = '%version%' AND fixversion = '%version%' AND status!=Отменен ORDER BY priority DESC"
+        },
+        {
+            "type": "fixed_new_defects_induced",
+            "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND affectedVersion = '%version%' AND fixversion = '%version%' AND Наведенный=Наведен ORDER BY priority DESC"
+        },
+        {
+            "type": "postponed_new_defects",
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Отменен) AND affectedVersion = '%version%' AND fixversion > '%version%'  AND status!=Отменен ORDER BY priority DESC"
+        },
+        {
+            "type": "postponed_new_defects_induced",
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Отменен) AND Наведенный=Наведен AND affectedVersion = '%version%' AND fixversion > '%version%' ORDER BY priority DESC"
+        },
+        {
+            "type": "actual_new_defects",
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND fixversion = '%version' ORDER BY priority DESC"
+        },
+        {
+            "type": "actual_new_defects_induced",
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND Наведенный=Наведен AND fixversion = '%version%' ORDER BY priority DESC"
+        }
     ]
 }
