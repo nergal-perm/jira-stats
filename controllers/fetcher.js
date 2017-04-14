@@ -45,6 +45,7 @@ module.exports.getData = function(options, res, callback) {
             throw(err);
       } else {
           console.log('Выполнено ' + queries.length + ' запросов');
+          temp.options = options;
           callback(res, temp);
       }
   });	

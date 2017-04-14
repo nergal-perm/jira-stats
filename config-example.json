@@ -110,6 +110,14 @@
         {
             "type": "actual_new_defects_induced",
             "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND Наведенный=Наведен AND fixversion = '%Version%' ORDER BY priority DESC"
+        },
+        {
+            "type": "quality_induced_defects",
+            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND fixVersion >= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND Наведенный = Наведен ORDER BY affectedVersion ASC, priority DESC"
+        }, 
+        {
+            "type": "quality_old_defects",
+            "query": "project = HCS AND issuetype in (Bug) AND fixVersion = '%Version%' AND status not in (Closed, Закрыт, Отменен)  and (affectedVersion < '%Version%' Or (affectedVersion = '%Version%'  And Наведенный = 'Не наведен')) ORDER BY affectedVersion ASC, priority DESC"
         }
     ]
 }

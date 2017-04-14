@@ -1,4 +1,3 @@
-var conf = require('nconf');
 var express = require('express');
 var router = express.Router();
 var pug = require('pug');
@@ -9,7 +8,6 @@ var phantomjs = require('phantomjs-prebuilt');
 var binPath = phantomjs.path;
 var fetcher = require('../controllers/fetcher');
     
-var version;
 var result = {};
 var response = {};
 
@@ -57,7 +55,7 @@ function generateResponse(res, incoming_data) {
         'Валидация дефектов',
         'Регрессионное тестирование по сценариям высокого приоритета'
       ],
-      version: version
+      version: incoming_data.options.dataValue
     };
     result.summary = {
       existingDefectsQuality: 2,
