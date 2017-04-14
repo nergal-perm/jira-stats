@@ -1,6 +1,3 @@
-var async = require('async');
-var querystring = require('querystring');
-var request = require('request');
 var conf = require('nconf');
 var express = require('express');
 var router = express.Router();
@@ -10,55 +7,11 @@ var childProcess = require('child_process');
 var path = require('path');
 var phantomjs = require('phantomjs-prebuilt');
 var binPath = phantomjs.path;
+var fetcher = require('../controllers/fetcher');
     
-conf.argv()
-    .env()
-    .file({ file: 'config.json' });
-
-var host = conf.get('jiraUrl');
-var auth = conf.get('auth');
-
 var version;
-var counter = 0;
 var result = {};
 var response = {};
-
-var stubResult = {
-  features: [
-    {
-      id: 'HCS-57670',
-      title: 'Сбор статистики с ППАК по ремонту',
-      quality: 5,
-      qualityDesc: 'Задача закрыта без тестирования',
-      defectsLink: '#',
-      defectsDesc: 'Актуальных дефектов для версии нет'
-    }, {
-      id: 'HCS-57616',
-      title: 'ЛС.ПД. Оптимизация размещения элементов печатной формы платежного поручения',
-      quality: 5,
-      qualityDesc: 'Доработка реализована в полном объеме',
-      defectsLink: '#',
-      defectsDesc: 'Актуальных дефектов для версии нет'
-    }
-  ],
-  fixedDefects: [
-    {
-      id: 'HCS-52656',
-      title: 'Интеграция с ЛС',
-      status: 'Закрыт',
-      priority: 'Blocker',
-      affectedVersion: '11.0.0'
-    }, {
-      id: 'HCS-57472',
-      title: 'Поле "Дата ввода в эксплуатацию" является обязательным',
-      status: 'Закрыт',
-      priority: 'Critical',
-      affectedVersion: '11.0.10'
-    }
-  ]
-}
-
-
 
 /* GET report. */
 router.post('/', function(req, res, next) {
@@ -69,8 +22,12 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/report', function(req, res, next) {
+  var options = {
+    dataType: "Version",
+    dataValue: "11.0.11"
+  }
   version = "11.0.11";
-  getSomeData(res, generateResponse);
+  fetcher.getData(options, res, generateResponse);
 });
 
 function getTodaysDate() {
@@ -86,74 +43,6 @@ function getTodaysDate() {
       mm='0'+mm;
   } 
   return yyyy+'-'+mm+'-'+dd;
-}
-
-router.get('/report', function(req, res, next) {
-  res.render('reportVersion', {result: stubResult});
-});
-
-function performRequest(endpoint, method, data, success) {
-
-    if (method == 'GET') {
-        endpoint += '?' + querystring.stringify(data);
-    };
-
-    var options = {
-	      url: host + endpoint,
-	      auth: auth,
-	      method: method
-    };
-
-    request(options, function(err, res, body) {
-    	var result = {};
-    	try {
-    		result = JSON.parse(body);
-    	} catch (e) {
-    		console.log(options.url + '\n' + body);
-    		throw(e);
-    	}
-    	success(result);
-    });
-
-}
-
-function getSomeData(res, cb) {
-    var queries = conf.get('queriesVersion');
-    var temp = {}
-    async.each(queries, function(item, callback) {
-    	var q = {
-    		jql: item.query.replace(new RegExp('%version%', 'g'), version)
-    	};
-
-    	if (item.type.substring(0,6) === 'detail') {
-    		q.fields = 'id,key,summary,priority,status,customfield_10131'
-	        performRequest('/rest/api/latest/search/', 'GET', q, function(data) {
-	                temp[item.type] = data.issues;
-	                counter++;
-	                callback();
-		      });    		
-    	} else {
-	        q.maxResults = 0;
-	            
-	        performRequest('/rest/api/latest/search/', 'GET', q, function(data) {
-	                item.count = data.total;                
-	                item.url = host + '/issues/?' + querystring.stringify(q);
-	                temp[item.type] = item;
-	                counter++;
-	                callback();
-		      });    		
-    	}
-
-
-    }, function(err) {
-	      if (err) {
-	          console.log('Something went wrong');
-              throw(err);
-	      } else {
-            console.log('Выполнено ' + queries.length + ' запросов');
-            cb(res, temp);
-	      }
-    });
 }
 
 function generateResponse(res, incoming_data) {

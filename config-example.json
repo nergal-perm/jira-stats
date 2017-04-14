@@ -6,110 +6,110 @@
     "jiraUrl" : "some_url",
     "queriesFeature" : [
         {
-	        "type" : "total_defects",
-	        "query" : "project ='ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) ORDER BY priority"
-	    },
-	    {
-	        "type" : "actual_defects",
-	        "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
-	    },
+            "type" : "total_defects",
+            "query" : "project ='ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) ORDER BY priority"
+        },
+        {
+            "type" : "actual_defects",
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
+        },
         {
             "type" : "total_questions",
-            "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%, 'содержит уточнения')  AND issuetype in (Question) ORDER BY priority"
+            "query" : "project = 'HCSINT' AND issue in linkedIssues(%Feature%, 'содержит уточнения')  AND issuetype in (Question) ORDER BY priority"
         },
         {
             "type" : "actual_questions",
-            "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%, 'содержит уточнения')  AND issuetype in (Question) AND status not in (Закрыт, Отменена, Closed) ORDER BY priority"
+            "query" : "project = 'HCSINT' AND issue in linkedIssues(%Feature%, 'содержит уточнения')  AND issuetype in (Question) AND status not in (Закрыт, Отменена, Closed) ORDER BY priority"
         },
         {
             "type" : "actual_blocker",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Blocker ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Blocker ORDER BY priority"
         },
         {
             "type" : "actual_critical",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Critical ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Critical ORDER BY priority"
         },
         {
             "type" : "actual_major",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Major ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Major ORDER BY priority"
         },
         {
             "type" : "actual_minor",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Minor ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Minor ORDER BY priority"
         },
         {
             "type" : "actual_trivial",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
         },
         {
             "type" : "total_blocker",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Blocker ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Blocker ORDER BY priority"
         },
         {
             "type" : "total_major",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Major ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Major ORDER BY priority"
         },
         {
             "type" : "total_critical",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Critical ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Critical ORDER BY priority"
         },
         {
             "type" : "total_minor",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Minor ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Minor ORDER BY priority"
         },
         {
             "type" : "total_trivial",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
         },
         {
             "type" : "detailed_critical_and_blocker",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority in (Critical, Blocker) ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority in (Critical, Blocker) ORDER BY priority"
         },
         {
             "type" : "detailed_blocked",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status = Заблокирован AND issuetype in (Bug) ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%Feature%, 'содержит дефекты')  AND status = Заблокирован AND issuetype in (Bug) ORDER BY priority"
         },
         {
             "type" : "detailed_main",
-            "query" : "project = 'ГИС ЖКХ' AND issue = %issues%"
+            "query" : "project = 'ГИС ЖКХ' AND issue = %Feature%"
         }
     ],
     "queriesVersion" : [
         {
             "type": "features",
-            "query": "project = HCS AND type = Task AND status not in (Отменен, Отменена) AND fixVersion = '%version%' AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Bug_Task, Test_Task) ORDER BY status ASC"
+            "query": "project = HCS AND type = Task AND status not in (Отменен, Отменена) AND fixVersion = '%Version%' AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Bug_Task, Test_Task) ORDER BY status ASC"
         },
         {
             "type": "new_defects",
-            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%version%' AND status !=Отменен ORDER BY affectedVersion ASC, priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND status !=Отменен ORDER BY affectedVersion ASC, priority DESC"
         },
         {
             "type": "new_defects_induced",
-            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%version%' AND status !=Отменен AND Наведенный=Наведен ORDER BY affectedVersion ASC, priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND status !=Отменен AND Наведенный=Наведен ORDER BY affectedVersion ASC, priority DESC"
         },
         {
             "type": "fixed_new_defects",
-            "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт, Отменен) AND affectedVersion = '%version%' AND fixversion = '%version%' AND status!=Отменен ORDER BY priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт, Отменен) AND affectedVersion = '%Version%' AND fixversion = '%Version%' AND status!=Отменен ORDER BY priority DESC"
         },
         {
             "type": "fixed_new_defects_induced",
-            "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND affectedVersion = '%version%' AND fixversion = '%version%' AND Наведенный=Наведен ORDER BY priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND affectedVersion = '%Version%' AND fixversion = '%Version%' AND Наведенный=Наведен ORDER BY priority DESC"
         },
         {
             "type": "postponed_new_defects",
-            "query": "project = HCS AND issuetype in (Bug) AND status not in (Отменен) AND affectedVersion = '%version%' AND fixversion > '%version%'  AND status!=Отменен ORDER BY priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Отменен) AND affectedVersion = '%Version%' AND fixversion > '%Version%'  AND status!=Отменен ORDER BY priority DESC"
         },
         {
             "type": "postponed_new_defects_induced",
-            "query": "project = HCS AND issuetype in (Bug) AND status not in (Отменен) AND Наведенный=Наведен AND affectedVersion = '%version%' AND fixversion > '%version%' ORDER BY priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Отменен) AND Наведенный=Наведен AND affectedVersion = '%Version%' AND fixversion > '%Version%' ORDER BY priority DESC"
         },
         {
             "type": "actual_new_defects",
-            "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND fixversion = '%version' ORDER BY priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND fixversion = '%Version%' ORDER BY priority DESC"
         },
         {
             "type": "actual_new_defects_induced",
-            "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND Наведенный=Наведен AND fixversion = '%version%' ORDER BY priority DESC"
+            "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND Наведенный=Наведен AND fixversion = '%Version%' ORDER BY priority DESC"
         }
     ]
 }
