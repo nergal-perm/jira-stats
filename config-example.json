@@ -11,7 +11,7 @@
 	    },
 	    {
 	        "type" : "actual_defects",
-	        "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND status not in ('На тестировании', Закрыт, Отменена) ORDER BY priority"
+	        "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND issuetype in (Bug) AND status not in ('На тестировании', Закрыт, Отменен) ORDER BY priority"
 	    },
         {
             "type" : "total_questions",
@@ -19,27 +19,27 @@
         },
         {
             "type" : "actual_questions",
-            "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%, 'содержит уточнения')  AND issuetype in (Question) AND status not in (Закрыт, Отменена, Closed) ORDER BY priority"
+            "query" : "project = 'HCSINT' AND issue in linkedIssues(%issues%, 'содержит уточнения')  AND issuetype in (Question) AND status not in (Закрыт, Отменен, Closed) ORDER BY priority"
         },
         {
             "type" : "actual_blocker",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Blocker ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменен) AND issuetype in (Bug) AND priority = Blocker ORDER BY priority"
         },
         {
             "type" : "actual_critical",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Critical ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменен) AND issuetype in (Bug) AND priority = Critical ORDER BY priority"
         },
         {
             "type" : "actual_major",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Major ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменен) AND issuetype in (Bug) AND priority = Major ORDER BY priority"
         },
         {
             "type" : "actual_minor",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Minor ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменен) AND issuetype in (Bug) AND priority = Minor ORDER BY priority"
         },
         {
             "type" : "actual_trivial",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменен) AND issuetype in (Bug) AND priority = Trivial ORDER BY priority"
         },
         {
             "type" : "total_blocker",
@@ -63,7 +63,7 @@
         },
         {
             "type" : "detailed_critical_and_blocker",
-            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменена) AND issuetype in (Bug) AND priority in (Critical, Blocker) ORDER BY priority"
+            "query" : "project = 'ГИС ЖКХ' AND issue in linkedIssues(%issues%, 'содержит дефекты')  AND status not in ('На тестировании', Закрыт, Отменен) AND issuetype in (Bug) AND priority in (Critical, Blocker) ORDER BY priority"
         },
         {
             "type" : "detailed_blocked",
