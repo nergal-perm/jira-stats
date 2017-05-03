@@ -67,8 +67,8 @@ block content
             a(href='https://wiki.lanit.ru/pages/viewpage.action?pageId=75140512') Критерии определения качества
           td
             div
-              p: b Качество версии по наведенным дефектам&nbsp;&nbsp;
-                case result.summary.newDefectsQuality
+              p: b Качество версии по наведенным дефектам, оставшимся к выпуску:&nbsp;&nbsp;
+                case result.inducedActualForVersionQuality
                   when 1
                     span.quality-low НИЗКОЕ
                   when 2
@@ -79,6 +79,30 @@ block content
                     span.quality-high ВЫШЕ СРЕДНЕГО
                   when 5
                     span.quality-high ВЫСОКОЕ
+              p: b Качество версии по наведенным дефектам, оставшимся в системе:&nbsp;&nbsp;
+                case result.inducedActualForSystemQuality
+                  when 1
+                    span.quality-low НИЗКОЕ
+                  when 2
+                    span.quality-low НИЖЕ СРЕДНЕГО
+                  when 3
+                    span.quality-medium СРЕДНЕЕ
+                  when 4
+                    span.quality-high ВЫШЕ СРЕДНЕГО
+                  when 5
+                    span.quality-high ВЫСОКОЕ                    
+              p: b Качество версии по наведенным дефектам в целом:&nbsp;&nbsp;
+                case result.inducedAsAWholeQuality
+                  when 1
+                    span.quality-low НИЗКОЕ
+                  when 2
+                    span.quality-low НИЖЕ СРЕДНЕГО
+                  when 3
+                    span.quality-medium СРЕДНЕЕ
+                  when 4
+                    span.quality-high ВЫШЕ СРЕДНЕГО
+                  when 5
+                    span.quality-high ВЫСОКОЕ                                        
             div
               p: b Заведенные в версии дефекты
               table.table-data

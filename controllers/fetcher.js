@@ -14,24 +14,29 @@ var proxy = conf.get('HTTP_PROXY');
 var counter = 0;  //Счетчик запросов
 
 module.exports.getData = function(options, res, callback) {
-	var queries = conf.get('queries'+options.dataType);
+	var queries = conf.get('queries'+options.dataType[0]);
 	var temp = {};
+  var restUrl = '/rest/api/latest/search/';
 
   async.each(queries, function(item, callback) {
-  	var q = {
-  		jql: item.query.replace(new RegExp('%'+options.dataType + '%', 'g'), options.dataValue)
+  	var processedQuery = item.query;
+    for(i = 0; i < options.dataType.length; i++) {
+      processedQuery = processedQuery.replace(new RegExp('%'+options.dataType[i]+'%', 'g'), options.dataValue[i]);
+    }
+    var q = {
+  		jql: processedQuery
   	};
 
   	if (item.type.substring(0,6) === 'detail') {
-  		q.fields = 'id,key,summary,priority,status,customfield_10131'
-        performRequest('/rest/api/latest/search/', 'GET', q, function(data) {
-                temp[item.type] = data.issues;
-                counter++;
-                callback();
-	      });    		
+  		q.fields = 'id,key,summary,priority,status,customfield_10131';
+      performRequest(restUrl, 'GET', q, function(data) {
+        temp[item.type] = data.issues;
+        counter++;
+        callback();
+      });    		
   	} else {
         q.maxResults = 0;
-        performRequest('/rest/api/latest/search/', 'GET', q, function(data) {
+        performRequest(restUrl, 'GET', q, function(data) {
                 item.count = data.total;                
                 item.url = host + '/issues/?' + querystring.stringify(q);
                 temp[item.type] = item;

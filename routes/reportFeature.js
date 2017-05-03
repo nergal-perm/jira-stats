@@ -21,8 +21,8 @@ router.post('/', function(req, res, next) {
     return item;
   });
   var options = {
-    dataType: "Feature",
-    dataValue: req.body.featureID
+    dataType: ["Feature"],
+    dataValue: [req.body.featureID]
   }
   var dateArr = req.body.dateTestEnd.split('-');
   result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];

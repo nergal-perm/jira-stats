@@ -21,10 +21,10 @@ router.post('/', function(req, res, next) {
 
 router.get('/report', function(req, res, next) {
   var options = {
-    dataType: "Version",
-    dataValue: "11.0.11"
+    dataType: ["Version", "prevVersion"],
+    dataValue: ["11.1.1", "11.1.0"]
   }
-  version = "11.0.11";
+  version = "11.1.1";
   fetcher.getData(options, res, generateResponse);
 });
 
@@ -55,7 +55,7 @@ function generateResponse(res, incoming_data) {
         'Валидация дефектов',
         'Регрессионное тестирование по сценариям высокого приоритета'
       ],
-      version: incoming_data.options.dataValue
+      version: incoming_data.options.dataValue[0]
     };
     result.summary = {
       existingDefectsQuality: 2,
@@ -91,6 +91,27 @@ function generateResponse(res, incoming_data) {
       trivialLink: '#',
       total: 1312
     };
+    result.inducedActualForVersionQuality = getQuality({
+      trivial: incoming_data.наведенные_оставшиеся_к_выпуску_trivial.count,
+      minor: incoming_data.наведенные_оставшиеся_к_выпуску_minor.count,
+      major: incoming_data.наведенные_оставшиеся_к_выпуску_major.count,
+      critical: incoming_data.наведенные_оставшиеся_к_выпуску_critical.count,
+      blocker: incoming_data.наведенные_оставшиеся_к_выпуску_blocker.count
+    });
+    result.inducedActualForSystemQuality = getQuality({
+      trivial: incoming_data.наведенные_оставшиеся_в_системе_trivial.count,
+      minor: incoming_data.наведенные_оставшиеся_в_системе_minor.count,
+      major: incoming_data.наведенные_оставшиеся_в_системе_major.count,
+      critical: incoming_data.наведенные_оставшиеся_в_системе_critical.count,
+      blocker: incoming_data.наведенные_оставшиеся_в_системе_blocker.count
+    });
+    result.inducedAsAWholeQuality = getQuality({
+      trivial: incoming_data.наведенные_в_целом_trivial.count,
+      minor: incoming_data.наведенные_в_целом_minor.count,
+      major: incoming_data.наведенные_в_целом_major.count,
+      critical: incoming_data.наведенные_в_целом_critical.count,
+      blocker: incoming_data.наведенные_в_целом_blocker.count
+    });    
 /*    
     result.chartData = [
       {label: "Blocker", value: result.createdDefects.blocker },
