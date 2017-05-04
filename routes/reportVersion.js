@@ -58,15 +58,14 @@ function generateResponse(res, incoming_data) {
       version: incoming_data.options.dataValue[0]
     };
     result.summary = {
-      existingDefectsQuality: 2,
       newDefectsQuality: 3,
       wholeSystemQuality: 1,
-      defectsCreated: incoming_data.new_defects.count || 0,
-      defectsCreatedLink: incoming_data.new_defects.url,
-      indDefectsCreated: incoming_data.new_defects_induced.count || 0,
-      indDefectsCreatedLink: incoming_data.new_defects_induced.url,
-      defectsFixed: incoming_data.fixed_new_defects.count || 0,
-      defectsFixedLink: incoming_data.fixed_new_defects.url,
+      defectsCreated: incoming_data.МММ_заведено_новых_дефектов.count || 0,
+      defectsCreatedLink: incoming_data.МММ_заведено_новых_дефектов.url,
+      indDefectsCreated: incoming_data.РРР_заведено_новых_дефектов_наведенные.count || 0,
+      indDefectsCreatedLink: incoming_data.РРР_заведено_новых_дефектов_наведенные.url,
+      defectsFixed: incoming_data.ЖЖЖ_исправлено_дефектов_заведенных_в_версии.count || 0,
+      defectsFixedLink: incoming_data.ЖЖЖ_исправлено_дефектов_заведенных_в_версии.url,
       indDefectsFixed: incoming_data.fixed_new_defects_induced.count || 0,
       indDefectsFixedLink: incoming_data.fixed_new_defects_induced.url,
       defectsPostponed: incoming_data.postponed_new_defects.count || 0,
@@ -111,7 +110,14 @@ function generateResponse(res, incoming_data) {
       major: incoming_data.наведенные_в_целом_major.count,
       critical: incoming_data.наведенные_в_целом_critical.count,
       blocker: incoming_data.наведенные_в_целом_blocker.count
-    });    
+    });
+    result.existingDefectsQuality = getQuality({
+        trivial: incoming_data.существующие_ранее_trivial.count,
+        minor: incoming_data.существующие_ранее_minor.count,
+        major: incoming_data.существующие_ранее_major.count,
+        critical: incoming_data.существующие_ранее_critical.count,
+        blocker: incoming_data.существующие_ранее_blocker.count        
+    });
 /*    
     result.chartData = [
       {label: "Blocker", value: result.createdDefects.blocker },

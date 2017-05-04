@@ -6,3 +6,6 @@ config.json
 public/chart.html
 public/images/chart.png
 report.html
+
+# IDEA & WebStorm
+.idea

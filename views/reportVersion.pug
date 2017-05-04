@@ -102,7 +102,19 @@ block content
                   when 4
                     span.quality-high ВЫШЕ СРЕДНЕГО
                   when 5
-                    span.quality-high ВЫСОКОЕ                                        
+                    span.quality-high ВЫСОКОЕ
+              p: b Качество версии по существующим ранее дефектам:&nbsp;&nbsp;
+                case result.existingDefectsQuality
+                  when 1
+                    span.quality-low НИЗКОЕ
+                  when 2
+                    span.quality-low НИЖЕ СРЕДНЕГО
+                  when 3
+                    span.quality-medium СРЕДНЕЕ
+                  when 4
+                    span.quality-high ВЫШЕ СРЕДНЕГО
+                  when 5
+                    span.quality-high ВЫСОКОЕ
             div
               p: b Заведенные в версии дефекты
               table.table-data
