@@ -11,20 +11,20 @@ var fetcher = require('../controllers/fetcher');
 var result = {};
 var response = {};
 
-/* GET report. */
+/* GET report.
 router.post('/', function(req, res, next) {
   version = "11.0.11";
   var dateArr = req.body.dateTestEnd.split('-');
   result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
   getSomeData(res, generateResponse);
 });
+*/
 
-router.get('/report', function(req, res, next) {
+router.get('/report', function(req, res) {
   var options = {
     dataType: ["Version", "prevVersion"],
     dataValue: ["11.1.1", "11.1.0"]
-  }
-  version = "11.1.1";
+  };
   fetcher.getData(options, res, generateResponse);
 });
 
@@ -60,22 +60,22 @@ function generateResponse(res, incoming_data) {
     result.summary = {
       newDefectsQuality: 3,
       wholeSystemQuality: 1,
-      defectsCreated: incoming_data.МММ_заведено_новых_дефектов.count || 0,
-      defectsCreatedLink: incoming_data.МММ_заведено_новых_дефектов.url,
-      indDefectsCreated: incoming_data.РРР_заведено_новых_дефектов_наведенные.count || 0,
-      indDefectsCreatedLink: incoming_data.РРР_заведено_новых_дефектов_наведенные.url,
-      defectsFixed: incoming_data.ЖЖЖ_исправлено_дефектов_заведенных_в_версии.count || 0,
-      defectsFixedLink: incoming_data.ЖЖЖ_исправлено_дефектов_заведенных_в_версии.url,
-      indDefectsFixed: incoming_data.fixed_new_defects_induced.count || 0,
-      indDefectsFixedLink: incoming_data.fixed_new_defects_induced.url,
-      defectsPostponed: incoming_data.postponed_new_defects.count || 0,
-      defectsPostponedLink: incoming_data.postponed_new_defects.url,
-      indDefectsPostponed: incoming_data.postponed_new_defects_induced.count || 0,
-      indDefectsPostponedLink: incoming_data.postponed_new_defects_induced.url,
-      defectsActual: incoming_data.actual_new_defects.count || 0,
-      defectsActualLink: incoming_data.actual_new_defects.url,
-      indDefectsActual: incoming_data.actual_new_defects_induced.count || 0,
-      indDefectsActualLink: incoming_data.actual_new_defects_induced.url
+      defectsCreated: incoming_data['МММ_заведено_новых_дефектов'].count || 0,
+      defectsCreatedLink: incoming_data['МММ_заведено_новых_дефектов'].url,
+      indDefectsCreated: incoming_data['РРР_заведено_новых_дефектов_наведенные'].count || 0,
+      indDefectsCreatedLink: incoming_data['РРР_заведено_новых_дефектов_наведенные'].url,
+      defectsFixed: incoming_data['ЖЖЖ_исправлено_дефектов_заведенных_в_версии'].count || 0,
+      defectsFixedLink: incoming_data['ЖЖЖ_исправлено_дефектов_заведенных_в_версии'].url,
+      indDefectsFixed: incoming_data['ППП_исправлено_дефектов_заведенных_в_версии_наведенные'].count || 0,
+      indDefectsFixedLink: incoming_data['ППП_исправлено_дефектов_заведенных_в_версии_наведенные'].url,
+      defectsPostponed: incoming_data['ЦЦЦ_снесено_дефектов'].count || 0,
+      defectsPostponedLink: incoming_data['ЦЦЦ_снесено_дефектов'].url,
+      indDefectsPostponed: incoming_data['ССС_снесено_дефектов_наведенные'].count || 0,
+      indDefectsPostponedLink: incoming_data['ССС_снесено_дефектов_наведенные'].url,
+      defectsActual: incoming_data['ЛЛЛ_актуально_дефектов'].count || 0,
+      defectsActualLink: incoming_data['ЛЛЛ_актуально_дефектов'].url,
+      indDefectsActual: incoming_data['ЙЙЙ_актуально_дефектов_наведенные'].count || 0,
+      indDefectsActualLink: incoming_data['ЙЙЙ_актуально_дефектов_наведенные'].url
     };
     result.actualDefects = {
       blocker: 29,
@@ -91,42 +91,42 @@ function generateResponse(res, incoming_data) {
       total: 1312
     };
     result.inducedActualForVersionQuality = getQuality({
-      trivial: incoming_data.наведенные_оставшиеся_к_выпуску_trivial.count,
-      minor: incoming_data.наведенные_оставшиеся_к_выпуску_minor.count,
-      major: incoming_data.наведенные_оставшиеся_к_выпуску_major.count,
-      critical: incoming_data.наведенные_оставшиеся_к_выпуску_critical.count,
-      blocker: incoming_data.наведенные_оставшиеся_к_выпуску_blocker.count
+      trivial: incoming_data['наведенные_оставшиеся_к_выпуску_trivial'].count,
+      minor: incoming_data['наведенные_оставшиеся_к_выпуску_minor'].count,
+      major: incoming_data['наведенные_оставшиеся_к_выпуску_major'].count,
+      critical: incoming_data['наведенные_оставшиеся_к_выпуску_critical'].count,
+      blocker: incoming_data['наведенные_оставшиеся_к_выпуску_blocker'].count
     });
     result.inducedActualForSystemQuality = getQuality({
-      trivial: incoming_data.наведенные_оставшиеся_в_системе_trivial.count,
-      minor: incoming_data.наведенные_оставшиеся_в_системе_minor.count,
-      major: incoming_data.наведенные_оставшиеся_в_системе_major.count,
-      critical: incoming_data.наведенные_оставшиеся_в_системе_critical.count,
-      blocker: incoming_data.наведенные_оставшиеся_в_системе_blocker.count
+      trivial: incoming_data['наведенные_оставшиеся_в_системе_trivial'].count,
+      minor: incoming_data['наведенные_оставшиеся_в_системе_minor'].count,
+      major: incoming_data['наведенные_оставшиеся_в_системе_major'].count,
+      critical: incoming_data['наведенные_оставшиеся_в_системе_critical'].count,
+      blocker: incoming_data['наведенные_оставшиеся_в_системе_blocker'].count
     });
     result.inducedAsAWholeQuality = getQuality({
-      trivial: incoming_data.наведенные_в_целом_trivial.count,
-      minor: incoming_data.наведенные_в_целом_minor.count,
-      major: incoming_data.наведенные_в_целом_major.count,
-      critical: incoming_data.наведенные_в_целом_critical.count,
-      blocker: incoming_data.наведенные_в_целом_blocker.count
+      trivial: incoming_data['наведенные_в_целом_trivial'].count,
+      minor: incoming_data['наведенные_в_целом_minor'].count,
+      major: incoming_data['наведенные_в_целом_major'].count,
+      critical: incoming_data['наведенные_в_целом_critical'].count,
+      blocker: incoming_data['наведенные_в_целом_blocker'].count
     });
     result.existingDefectsQuality = getQuality({
-        trivial: incoming_data.существующие_ранее_trivial.count,
-        minor: incoming_data.существующие_ранее_minor.count,
-        major: incoming_data.существующие_ранее_major.count,
-        critical: incoming_data.существующие_ранее_critical.count,
-        blocker: incoming_data.существующие_ранее_blocker.count        
+        trivial: incoming_data['существующие_ранее_trivial'].count,
+        minor: incoming_data['существующие_ранее_minor'].count,
+        major: incoming_data['существующие_ранее_major'].count,
+        critical: incoming_data['существующие_ранее_critical'].count,
+        blocker: incoming_data['существующие_ранее_blocker'].count        
     });
-/*    
-    result.chartData = [
+    result.defects_need_to_fix = incoming_data['detailed_требующие_исправления_дефекты'];
+    result.newdefectsChartData = [
       {label: "Blocker", value: result.createdDefects.blocker },
       {label: "Critical", value: result.createdDefects.critical },
       {label: "Major", value: result.createdDefects.major },
       {label: "Minor", value: result.createdDefects.minor },
       {label: "Trivial", value: result.createdDefects.trivial }
     ];
-
+/*
     result.actualQuality = getQuality(result.actualDefects);
     result.createdQuality = getQuality(result.createdDefects);
     result.detailedBC = incoming_data.detailed_critical_and_blocker || [];

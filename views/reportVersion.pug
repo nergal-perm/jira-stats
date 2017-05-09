@@ -134,7 +134,7 @@ block content
                       a(href=result.summary.defectsFixedLink)= result.summary.defectsFixed
                     td.centered-text
                       a(href=result.summary.defectsPostponedLink)= result.summary.defectsPostponed
-                    td.centered-text
+                    td.centered-text.table-highlighted
                       a(href=result.summary.defectsActualLink)= result.summary.defectsActual
                   tr
                     td.table-highlighted В том числе наведенных
@@ -144,5 +144,37 @@ block content
                       a(href=result.summary.indDefectsFixedLink)= result.summary.indDefectsFixed
                     td.centered-text
                       a(href=result.summary.indDefectsPostponedLink)= result.summary.indDefectsPostponed
-                    td.centered-text
+                    td.centered-text.table-highlighted
                       a(href=result.summary.indDefectsActualLink)= result.summary.indDefectsActual
+            br
+            div
+              case result.defects_need_to_fix.length
+                when 0
+                  p: b Актуальных (требующих исправления) наведенных дефектов для версии нет
+                default
+                  p: b Актуальные (требующие исправления) наведенные дефекты для версии
+                  table.table-data
+                    thead
+                      tr
+                        th.table-highlighted Код
+                        th.table-highlighted Тема
+                        th.table-highlighted Проявляется в версиях
+                        th.table-highlighted Наведенность
+                        th.table-highlighted Приоритет
+                        th.table-highlighted Статус
+                    tbody
+                      each issue in result.defects_need_to_fix
+                        tr
+                          td.centered-text
+                            a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                          td= issue.fields.summary
+                          td
+                            each version in issue.fields.versions
+                              = version.name
+                          td= issue.fields.customfield_16424.value
+                          td
+                            img(src=issue.fields.priority.iconUrl)
+                            | &nbsp;#{issue.fields.priority.name}
+                          td
+                            img(src=issue.fields.status.iconUrl)
+                            | &nbsp;#{issue.fields.status.name}

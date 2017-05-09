@@ -28,7 +28,7 @@ module.exports.getData = function(options, res, callback) {
   	};
 
   	if (item.type.substring(0,6) === 'detail') {
-  		q.fields = 'id,key,summary,priority,status,customfield_10131';
+  		q.fields = 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
       performRequest(restUrl, 'GET', q, function(data) {
         temp[item.type] = data.issues;
         counter++;
