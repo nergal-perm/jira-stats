@@ -13,7 +13,7 @@ router.get('/featureData', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
   res.render('home', {title: "Домашняя страница"});
-})
+});
 
 function getTodaysDate() {
   var today = new Date();

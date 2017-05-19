@@ -3,7 +3,7 @@ function Report(reportType) {
 }
 
 Report.prototype.getType = function() {
-	return this._reportType.toString();
-}
+	return this._reportType;
+};
 
 module.exports = Report;
