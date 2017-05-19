@@ -18,7 +18,9 @@ KeyValueComponent.prototype.getChildren = function() {
 
 KeyValueComponent.prototype.renderComponent = function() {
     if (this._children && this._children.length > 0) {
-
+        this._children.each(function(item, index, array) {
+            array[index] = item.renderComponent();
+        });
     }
     return this.render();
 };
