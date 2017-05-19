@@ -12,7 +12,7 @@ var result = {};
 var response = {};
 
 /* GET report. */
-router.post('/', function(req, res, next) {
+router.post('/', function(req, res) {
   result.input = req.body;
   result.input.testCoverage = req.body.testCoverage.split('\n').map(function(item) {
     return item;
@@ -23,13 +23,13 @@ router.post('/', function(req, res, next) {
   var options = {
     dataType: ["Feature"],
     dataValue: [req.body.featureID]
-  }
+  };
   var dateArr = req.body.dateTestEnd.split('-');
   result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
   fetcher.getData(options, res, generateResponse);
 });
 
-router.get('/data', function(req, res, next) {
+router.get('/data', function(req, res) {
   res.render('input', { defaults: {
     projectName: 'ГИС ЖКХ',
     date: getTodaysDate(),
@@ -115,6 +115,7 @@ function generateResponse(res, incoming_data) {
 }
 
 function createChart(err, chartTemplate) {
+    if (err) { throw err; }
     fs.writeFileSync('./public/chart.html', chartTemplate);
     var childArgs = [
         path.join(process.cwd(), 'chart.js')

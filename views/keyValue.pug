@@ -1,0 +1,6 @@
+td.dense-header= kvp.key
+td.dense-data
+  if kvp.type == 'link'
+    a(href=kvp.href)= kvp.value
+  else if kvp.type == 'string'
+    = kvp.value
