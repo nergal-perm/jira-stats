@@ -1,20 +1,20 @@
 /**
  * Created by ETerekhov on 19.05.2017.
  */
-var AbstractComponent = function() {
-
+let AbstractComponent = function() {
+    this.children = [];
 };
 
 AbstractComponent.prototype.renderComponent = function() {
-    var renderedChildren = this.children.map(function(item) {
+    let renderedChildren = this.children.map(function(item) {
        return item.renderComponent();
     });
     return [].concat(this.render()).concat(renderedChildren).join('\n').trim();
 };
 
-AbstractComponent.prototype.render = function() {
-    // Пока это фейковая реализация
-    return this.placeholder;
+AbstractComponent.prototype.addChild = function(child) {
+    "use strict";
+    this.children.push(child);
 };
 
 module.exports = AbstractComponent;
