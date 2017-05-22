@@ -30,12 +30,25 @@ ComponentFactory.prototype.getLinkComponent = function(link) {
 };
 
 ComponentFactory.prototype.getTableRowComponent = function() {
-    return {
-        compiledFunction: pug.compileFile('./views/tableRow.pug'),
-        render: function() {
-            return this.compiledFunction();
-        }
+    let newComp = new AbstractComponent();
+    newComp.render = function() {
+        return pug.compileFile('./views/tableRow.pug')();
     };
+    return newComp;
+};
+
+ComponentFactory.prototype.getSectionComponent = function(order, title, style) {
+    let newComp = new AbstractComponent();
+    newComp.render = function() {
+        let compiledFunction = pug.compileFile('./views/section.pug');
+        return compiledFunction({
+            renderedChildren: this.renderedChildren,
+            order: order,
+            title: title,
+            style: style
+        });
+    };
+    return newComp;
 };
 
 module.exports = ComponentFactory;

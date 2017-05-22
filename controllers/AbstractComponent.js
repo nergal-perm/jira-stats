@@ -6,10 +6,11 @@ let AbstractComponent = function() {
 };
 
 AbstractComponent.prototype.renderComponent = function() {
-    let renderedChildren = this.children.map(function(item) {
+    this.renderedChildren = this.children.map(function(item) {
        return item.renderComponent();
     });
-    return [].concat(this.render()).concat(renderedChildren).join('\n').trim();
+    // Фейковая реализация
+    return this.render();
 };
 
 AbstractComponent.prototype.addChild = function(child) {

@@ -39,7 +39,7 @@ describe('ComponentFactory', function() {
     it('should return TableRowComponent tree', function() {
         "use strict";
         let trc = cf.getTableRowComponent();
-        expect(trc.render()).to.equal('<tr class="dense-information"><td class="dense-header"></td><td class="dense-data"></td></tr>');
+        expect(trc.renderComponent()).to.equal('<tr class="dense-information"><td class="dense-header"></td><td class="dense-data"></td></tr>');
     });
 
     it('should create components with independent children', function() {
@@ -68,5 +68,12 @@ describe('ComponentFactory', function() {
         kvpParent.addChild(cf.getKvpComponent('child_component_3'));
         expect(kvpParent.children.length).to.equal(3);
         expect(kvpParent.renderComponent()).to.equal('parent_component\nchild_component_1\nchild_component_2\nchild_component_3');
+    });
+
+    it('should create SectionComponent tree', function() {
+        "use strict";
+        let sectionComponent = cf.getSectionComponent(1, 'Общая информация о тестировании доработки');
+        sectionComponent.addChild(cf.getTableRowComponent());
+        expect(sectionComponent.renderComponent()).to.equals('');
     });
 });

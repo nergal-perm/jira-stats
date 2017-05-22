@@ -1,0 +1,12 @@
+table.report-table
+  tbody
+    tr.section-header-row
+      td.section-header-cell.version(colSpan='2')
+        - var k = 0;
+        while k < order
+          span
+            img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+          - k++;
+        | &nbsp;#{title}
+    each tableRow in renderedChildren
+      != tableRow
