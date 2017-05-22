@@ -54,14 +54,13 @@ module.exports.getData = function (options, res, callback) {
             callback(res, temp);
         }
     });
-}
+};
 
 function performRequest(endpoint, method, data, success) {
 
-    if (method == 'GET') {
+    if (method === 'GET') {
         endpoint += '?' + querystring.stringify(data);
     }
-    ;
 
     let options = {
         url: host + endpoint,

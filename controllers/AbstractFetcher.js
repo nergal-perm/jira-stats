@@ -12,10 +12,6 @@ conf.argv()
     .env()
     .file({file: 'config.json'});
 
-let host = conf.get('jiraUrl');
-let auth = conf.get('auth');
-let proxy = conf.get('HTTP_PROXY');
-
 let AbstractFetcher = function(name) {
     this.host = conf.get('jiraUrl');
     this.auth = conf.get('auth');
