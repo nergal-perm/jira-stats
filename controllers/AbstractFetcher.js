@@ -17,6 +17,11 @@ let AbstractFetcher = function(name) {
     this.auth = conf.get('auth');
     this.proxy = conf.get('HTTP_PROXY');
     this.name = name;
+    this.queries = conf.get(name);
+};
+
+AbstractFetcher.prototype.fetchData = function(renderCallback) {
+    // some magic here
 };
 
 module.exports = AbstractFetcher;

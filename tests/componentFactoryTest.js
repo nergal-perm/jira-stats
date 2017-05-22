@@ -5,6 +5,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const ComponentFactory = require('../controllers/ComponentFactory.js');
 const AbstractComponent = require('../controllers/AbstractComponent.js');
+const AbstractFetcher = require('../controllers/AbstractFetcher.js');
 
 const cf = new ComponentFactory();
 describe('ReportComponents and generic components', function() {

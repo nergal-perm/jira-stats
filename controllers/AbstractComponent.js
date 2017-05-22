@@ -7,13 +7,14 @@ let AbstractComponent = function(type) {
     this.order = 1;
     this.type = type;
     this.children = [];
+    this.fetcher = undefined;
 };
 
 AbstractComponent.prototype.renderComponent = function() {
     this.renderedChildren = this.children.map(function(item) {
        return item.renderComponent();
     });
-    return this.render();
+    return this.fetcher ? this.fetchAndRender(this.render) : this.render();
 };
 
 AbstractComponent.prototype.addChild = function(child) {
@@ -41,6 +42,14 @@ AbstractComponent.prototype.addChild = function(child) {
         }
     }
     return this;
+};
+
+AbstractComponent.prototype.addFetcher = function(fetcher) {
+    this.fetcher = fetcher;
+};
+
+AbstractComponent.prototype.fetchAndRender = function(renderCallback) {
+    this.fetcher.fetchData(renderCallback);
 };
 
 function pushNewChild(parent, child) {

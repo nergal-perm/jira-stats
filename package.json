@@ -22,7 +22,8 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "json-server": "^0.10.1"
   },
   "jshintConfig": {
     "esversion": 6,
