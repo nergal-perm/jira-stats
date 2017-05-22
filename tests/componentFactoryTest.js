@@ -101,13 +101,12 @@ describe('SectionRowComponents', function() {
         trc.addChild(cf.getIndicatorValueComponent());
         expect(trc.children.length).to.equal(2);
         trc.addChild(cf.getIndicatorNameComponent());
-        expect(trc.children.length).to.equal(3);
+        expect(trc.children.length).to.equal(2);
         trc.addChild(cf.getIndicatorNameComponent());
-        expect(trc.children.length).to.equal(3);
+        expect(trc.children.length).to.equal(2);
         trc.addChild(cf.getIndicatorValueComponent());
 
         expect(trc.renderComponent()).to.equal('<tr class="dense-information">' +
-            '<td class="dense-header"></td><td class="dense-data"></td>' +
             '<td class="dense-header"></td><td class="dense-data"></td>' +
             '</tr>');
     });
@@ -118,9 +117,11 @@ describe('DataComponents', function() {
     "use strict";
     it('should create and render simple text component with different styles', function() {
         let textComponent = cf.getTextComponent({style: 'plain', text: "Hello, world"});
-        expect(textComponent.renderComponent()).to.equal('<p>Hello, world</p>');
+        expect(textComponent.renderComponent()).to.equal('Hello, world<br/>');
         let boldComponent = cf.getTextComponent({style: 'bold', text: "This is bold"});
-        expect(boldComponent.renderComponent()).to.equal('<p><b>This is bold</b></p>');
+        expect(boldComponent.renderComponent()).to.equal('<b>This is bold</b>');
+        let headingComponent = cf.getTextComponent({style: 'heading', text: "This is heading"});
+        expect(headingComponent.renderComponent()).to.equal('<p><b>This is heading</b></p>');
         let multiLineComponent = cf.getTextComponent({style: 'multi', text: ['Первая строка многострочного текста', 'Вторая строка многострочного текста']});
         expect(multiLineComponent.renderComponent()).to.equal('<p>Первая строка многострочного текста<br/>Вторая строка многострочного текста</p>');
     });

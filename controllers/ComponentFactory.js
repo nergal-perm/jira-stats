@@ -44,17 +44,6 @@ ComponentFactory.prototype.getSectionRowComponent = function() {
     return newComp;
 };
 
-
-ComponentFactory.prototype.getLinkComponent = function(link) {
-    let newComp = new AbstractComponent('link');
-    newComp.compiledFunction = pug.compile('a(href=url)= text');
-    newComp.render = function() {
-        return this.compiledFunction(link);
-    };
-    return newComp;
-};
-
-
 ComponentFactory.prototype.getIndicatorNameComponent = function() {
     let newComp = new AbstractComponent('indicatorName');
     newComp.render = function() {
@@ -80,9 +69,12 @@ ComponentFactory.prototype.getTextComponent = function(options) {
     newComp.render = function() {
         switch (options.style) {
             case 'plain': {
-                return pug.compile('p= text')(options);
+                return pug.compile('| #{text}\nbr')(options);
             }
             case 'bold': {
+                return pug.compile('b= text')(options);
+            }
+            case 'heading': {
                 return pug.compile('p: b= text')(options);
             }
             case 'multi': {
@@ -93,6 +85,14 @@ ComponentFactory.prototype.getTextComponent = function(options) {
     };
     return newComp;
 
+};
+
+ComponentFactory.prototype.getLinkComponent = function(link) {
+    let newComp = new AbstractComponent('link');
+    newComp.render = function() {
+        return pug.compile('a(href=url)= text')(link);
+    };
+    return newComp;
 };
 
 module.exports = ComponentFactory;

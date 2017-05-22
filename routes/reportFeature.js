@@ -1,15 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var pug = require('pug');
-var fs = require('fs');
-var childProcess = require('child_process');
-var path = require('path');
-var phantomjs = require('phantomjs-prebuilt');
-var binPath = phantomjs.path;
-var fetcher = require('../controllers/fetcher');
+let express = require('express');
+let router = express.Router();
+let pug = require('pug');
+let fs = require('fs');
+let childProcess = require('child_process');
+let path = require('path');
+let phantomjs = require('phantomjs-prebuilt');
+let binPath = phantomjs.path;
+let fetcher = require('../controllers/fetcher');
     
-var result = {};
-var response = {};
+let result = {};
+let response = {};
 
 /* GET report. */
 router.post('/', function(req, res) {
@@ -20,11 +20,11 @@ router.post('/', function(req, res) {
   result.input.additionalInfo = req.body.additionalInfo.split('\n').map(function(item) {
     return item;
   });
-  var options = {
+  let options = {
     dataType: ["Feature"],
     dataValue: [req.body.featureID]
   };
-  var dateArr = req.body.dateTestEnd.split('-');
+  let dateArr = req.body.dateTestEnd.split('-');
   result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
   fetcher.getData(options, res, generateResponse);
 });
@@ -35,15 +35,16 @@ router.get('/data', function(req, res) {
     date: getTodaysDate(),
     testCoverage: 'Тестирование доработки включало в себя следующие активности:\r\n1. Тестирование доработки;\r\n2. Валидация заведенных дефектов.',
     additionalInfo: 'Доработка переведена на валидацию. Продолжаем валидировать дефекты после их исправления. Так же дополнительное тестирование будет произведено в рамках регрессионного тестирования всех подсистем.'
-  } });
+  },
+  submitAddress: 'report-feature'});
 });
 
 function getTodaysDate() {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth()+1; //January is 0!
 
-  var yyyy = today.getFullYear();
+  let yyyy = today.getFullYear();
   if(dd<10){
       dd='0'+dd;
   } 
@@ -117,7 +118,7 @@ function generateResponse(res, incoming_data) {
 function createChart(err, chartTemplate) {
     if (err) { throw err; }
     fs.writeFileSync('./public/chart.html', chartTemplate);
-    var childArgs = [
+    let childArgs = [
         path.join(process.cwd(), 'chart.js')
     ];
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {

@@ -1,6 +1,8 @@
 /**
  * Created by ETerekhov on 19.05.2017.
  */
+'use strict';
+
 let AbstractComponent = function(type) {
     this.order = 1;
     this.type = type;
@@ -15,7 +17,6 @@ AbstractComponent.prototype.renderComponent = function() {
 };
 
 AbstractComponent.prototype.addChild = function(child) {
-    "use strict";
     switch(this.type) {
         case 'report': {
             if(child.type === 'section') { pushNewChild(this, child); }
@@ -26,10 +27,10 @@ AbstractComponent.prototype.addChild = function(child) {
             break;
         }
         case 'sectionRow': {
-            let childCountIsEven = (this.children.length % 2 === 0);
-            if(childCountIsEven && child.type === 'indicatorName') {
+            let childCount = this.children.length;
+            if(childCount === 0 && child.type === 'indicatorName') {
                 pushNewChild(this, child);
-            } else if (!childCountIsEven && child.type === 'indicatorValue') {
+            } else if (childCount === 1 && child.type === 'indicatorValue') {
                 pushNewChild(this, child);
             }
             break;
@@ -43,7 +44,6 @@ AbstractComponent.prototype.addChild = function(child) {
 };
 
 function pushNewChild(parent, child) {
-    "use strict";
     child.order = parent.children.length + 1;
     parent.children.push(child);
 }
