@@ -58,7 +58,9 @@ ComponentFactory.prototype.getLinkComponent = function(link) {
 ComponentFactory.prototype.getIndicatorNameComponent = function() {
     let newComp = new AbstractComponent('indicatorName');
     newComp.render = function() {
-        return '<td class="dense-header"></td>';
+        return pug.compileFile('./views/indicatorName.pug')({
+            values: this.renderedChildren
+        });
     };
     return newComp;
 };
@@ -66,9 +68,31 @@ ComponentFactory.prototype.getIndicatorNameComponent = function() {
 ComponentFactory.prototype.getIndicatorValueComponent = function() {
     let newComp = new AbstractComponent('indicatorValue');
     newComp.render = function() {
-        return '<td class="dense-data"></td>';
+        return pug.compileFile('./views/indicatorValue.pug')({
+            values: this.renderedChildren
+        });
     };
     return newComp;
+};
+
+ComponentFactory.prototype.getTextComponent = function(options) {
+    let newComp = new AbstractComponent('text');
+    newComp.render = function() {
+        switch (options.style) {
+            case 'plain': {
+                return pug.compile('p= text')(options);
+            }
+            case 'bold': {
+                return pug.compile('p: b= text')(options);
+            }
+            case 'multi': {
+                return pug.compile('- var k = text.length-1;\np\n  each t, index in text\n    = t\n    if index<k\n      br')(options);
+            }
+        }
+        return '';
+    };
+    return newComp;
+
 };
 
 module.exports = ComponentFactory;

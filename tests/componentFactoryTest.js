@@ -114,6 +114,18 @@ describe('SectionRowComponents', function() {
 
 });
 
+describe('DataComponents', function() {
+    "use strict";
+    it('should create and render simple text component with different styles', function() {
+        let textComponent = cf.getTextComponent({style: 'plain', text: "Hello, world"});
+        expect(textComponent.renderComponent()).to.equal('<p>Hello, world</p>');
+        let boldComponent = cf.getTextComponent({style: 'bold', text: "This is bold"});
+        expect(boldComponent.renderComponent()).to.equal('<p><b>This is bold</b></p>');
+        let multiLineComponent = cf.getTextComponent({style: 'multi', text: ['Первая строка многострочного текста', 'Вторая строка многострочного текста']});
+        expect(multiLineComponent.renderComponent()).to.equal('<p>Первая строка многострочного текста<br/>Вторая строка многострочного текста</p>');
+    });
+});
+
 describe('LinkComponents', function() {
     "use strict";
     it('should return LinkComponent with correct properties', function() {

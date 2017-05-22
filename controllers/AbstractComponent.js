@@ -11,7 +11,6 @@ AbstractComponent.prototype.renderComponent = function() {
     this.renderedChildren = this.children.map(function(item) {
        return item.renderComponent();
     });
-    // Фейковая реализация
     return this.render();
 };
 
@@ -36,9 +35,11 @@ AbstractComponent.prototype.addChild = function(child) {
             break;
         }
         default: {
-            return;
+            pushNewChild(this, child);
+            return this;
         }
     }
+    return this;
 };
 
 function pushNewChild(parent, child) {
