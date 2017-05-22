@@ -2,6 +2,7 @@
  * Created by ETerekhov on 19.05.2017.
  */
 'use strict';
+const async = require('async');
 
 let AbstractComponent = function(type) {
     this.order = 1;
@@ -10,11 +11,29 @@ let AbstractComponent = function(type) {
     this.fetcher = undefined;
 };
 
-AbstractComponent.prototype.renderComponent = function() {
-    this.renderedChildren = this.children.map(function(item) {
-       return item.renderComponent();
+AbstractComponent.prototype.render = function() {
+    let _this = this;
+    let result = undefined;
+    async.parallel([
+        function(callback) {
+            if (_this.fetcher) {
+                _this.fetcher.fetchData(callback);
+            } else {
+                callback(null, {});
+            }
+        },
+        function(callback) {
+            let renderedChildren = _this.children.map(function(item) {
+                return item.render();
+            });
+            callback(null, renderedChildren);
+        }
+    ],
+    function(err, results) {
+        if(err) throw err;
+        result = _this.renderComponent(results);
     });
-    return this.fetcher ? this.fetchAndRender(this.render) : this.render();
+    return result;
 };
 
 AbstractComponent.prototype.addChild = function(child) {
@@ -46,10 +65,6 @@ AbstractComponent.prototype.addChild = function(child) {
 
 AbstractComponent.prototype.addFetcher = function(fetcher) {
     this.fetcher = fetcher;
-};
-
-AbstractComponent.prototype.fetchAndRender = function(renderCallback) {
-    this.fetcher.fetchData(renderCallback);
 };
 
 function pushNewChild(parent, child) {

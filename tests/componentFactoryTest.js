@@ -16,9 +16,9 @@ describe('ReportComponents and generic components', function() {
         expect(genericComponent instanceof AbstractComponent).to.true;
 
         // Проверяем наличие свойств абстрактного класса
-        expect("renderComponent" in genericComponent && !genericComponent.hasOwnProperty("renderComponent")).to.true;
-        // Метод render() у каждого компонента должен быть объявлен у прототипа
-        expect("render" in genericComponent && genericComponent.hasOwnProperty("render")).to.true;
+        expect("render" in genericComponent && !genericComponent.hasOwnProperty("render")).to.true;
+        // Метод renderComponent() у каждого компонента должен быть объявлен у прототипа
+        expect("renderComponent" in genericComponent && genericComponent.hasOwnProperty("renderComponent")).to.true;
 
         // Проверяем корректное создание свойства children
         expect(genericComponent.hasOwnProperty("children")).to.true;
@@ -47,7 +47,7 @@ describe('SectionComponents', function() {
         sectionRowComponent.addChild(cf.getIndicatorNameComponent());
         sectionRowComponent.addChild(cf.getIndicatorValueComponent());
         sectionComponent.addChild(sectionRowComponent);
-        expect(sectionComponent.renderComponent()).to.equals(
+        expect(sectionComponent.render()).to.equals(
             '<table class="report-table"><tbody><tr class="section-header-row">' +
             '<td class="section-header-cell version" colSpan="2">' +
             '<span><img src="/images/headerBullet.png" alt="bullet" style="height:12px; width:16px;"/></span>' +

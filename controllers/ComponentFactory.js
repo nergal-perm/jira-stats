@@ -13,9 +13,9 @@ let ComponentFactory = function() {
 
 ComponentFactory.prototype.getReportComponent = function() {
     let newComp = new AbstractComponent('report');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         return pug.compileFile('./views/report.pug')({
-            sections: this.renderedChildren
+            sections: results[1]
         });
     };
     return newComp;
@@ -23,10 +23,10 @@ ComponentFactory.prototype.getReportComponent = function() {
 
 ComponentFactory.prototype.getSectionComponent = function(title) {
     let newComp = new AbstractComponent('section');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         let compiledFunction = pug.compileFile('./views/section.pug');
         return compiledFunction({
-            renderedChildren: this.renderedChildren,
+            renderedChildren: results[1],
             order: this.order,
             title: title
         });
@@ -36,9 +36,9 @@ ComponentFactory.prototype.getSectionComponent = function(title) {
 
 ComponentFactory.prototype.getSectionRowComponent = function() {
     let newComp = new AbstractComponent('sectionRow');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         return pug.compileFile('./views/sectionRow.pug')({
-            indicators: this.renderedChildren
+            indicators: results[1]
         });
     };
     return newComp;
@@ -46,9 +46,9 @@ ComponentFactory.prototype.getSectionRowComponent = function() {
 
 ComponentFactory.prototype.getIndicatorNameComponent = function() {
     let newComp = new AbstractComponent('indicatorName');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         return pug.compileFile('./views/indicatorName.pug')({
-            values: this.renderedChildren
+            values: results[1]
         });
     };
     return newComp;
@@ -56,9 +56,9 @@ ComponentFactory.prototype.getIndicatorNameComponent = function() {
 
 ComponentFactory.prototype.getIndicatorValueComponent = function() {
     let newComp = new AbstractComponent('indicatorValue');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         return pug.compileFile('./views/indicatorValue.pug')({
-            values: this.renderedChildren
+            values: results[1]
         });
     };
     return newComp;
@@ -66,7 +66,7 @@ ComponentFactory.prototype.getIndicatorValueComponent = function() {
 
 ComponentFactory.prototype.getTextComponent = function(options) {
     let newComp = new AbstractComponent('text');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         switch (options.style) {
             case 'plain': {
                 return pug.compile('| #{text}\nbr')(options);
@@ -89,7 +89,7 @@ ComponentFactory.prototype.getTextComponent = function(options) {
 
 ComponentFactory.prototype.getLinkComponent = function(link) {
     let newComp = new AbstractComponent('link');
-    newComp.render = function() {
+    newComp.renderComponent = function(results) {
         return pug.compile('a(href=url)= text')(link);
     };
     return newComp;
