@@ -5,7 +5,6 @@ const chai = require('chai');
 const expect = chai.expect;
 const ComponentFactory = require('../controllers/ComponentFactory.js');
 const AbstractComponent = require('../controllers/AbstractComponent.js');
-const AbstractFetcher = require('../controllers/AbstractFetcher.js');
 
 const cf = new ComponentFactory();
 describe('ReportComponents and generic components', function() {
@@ -27,7 +26,6 @@ describe('ReportComponents and generic components', function() {
     });
 
     it('should create ReportComponent which accepts only SectionComponents as its children', function() {
-        "use strict";
         let reportComponent = cf.getReportComponent();
         reportComponent.addChild(cf.getSectionComponent('Some title'));
         expect(reportComponent.children.length).to.equal(1);
@@ -41,7 +39,6 @@ describe('ReportComponents and generic components', function() {
 describe('SectionComponents', function() {
     "use strict";
     it('should create SectionComponent tree', function() {
-        "use strict";
         let sectionComponent = cf.getSectionComponent('Общая информация о тестировании доработки');
         let sectionRowComponent = cf.getSectionRowComponent();
         sectionRowComponent.addChild(cf.getIndicatorNameComponent());
@@ -57,7 +54,6 @@ describe('SectionComponents', function() {
     });
 
     it('SectionComponent should add only TableRowComponents as its children', function() {
-        "use strict";
         let sectionComponent = cf.getSectionComponent('Some title');
         expect(sectionComponent.children.length).to.equal(0);
         sectionComponent.addChild(cf.getSectionRowComponent());
@@ -69,7 +65,6 @@ describe('SectionComponents', function() {
     });
 
     it('should create components with independent children', function() {
-        "use strict";
         let compA = cf.getSectionComponent('Some text');
         let compB = cf.getSectionComponent('Another text');
         let childA = cf.getSectionRowComponent();
@@ -91,7 +86,6 @@ describe('SectionComponents', function() {
 describe('SectionRowComponents', function() {
     "use strict";
     it('should return SectionRowComponent tree which accepts only Name/Value components as its children', function() {
-        "use strict";
         let trc = cf.getSectionRowComponent();
         trc.addChild(cf.getIndicatorNameComponent());
         expect(trc.children.length).to.equal(1);
@@ -107,7 +101,7 @@ describe('SectionRowComponents', function() {
         expect(trc.children.length).to.equal(2);
         trc.addChild(cf.getIndicatorValueComponent());
 
-        expect(trc.renderComponent()).to.equal('<tr class="dense-information">' +
+        expect(trc.render()).to.equal('<tr class="dense-information">' +
             '<td class="dense-header"></td><td class="dense-data"></td>' +
             '</tr>');
     });
@@ -131,7 +125,6 @@ describe('DataComponents', function() {
 describe('LinkComponents', function() {
     "use strict";
     it('should return LinkComponent with correct properties', function() {
-        "use strict";
         let link = {
             url: 'http://yandex.ru',
             text: 'Yandex.ru'

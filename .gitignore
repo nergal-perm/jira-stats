@@ -10,3 +10,5 @@ report.html
 # IDEA & WebStorm
 .idea
 *.iml
+
+npm-debug.log
