@@ -4,7 +4,6 @@
 "use strict";
 const pug = require('pug');
 
-
 const AbstractComponent = require('./AbstractComponent');
 
 let ComponentFactory = function() {

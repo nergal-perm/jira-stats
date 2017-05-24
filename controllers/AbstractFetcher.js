@@ -22,6 +22,7 @@ let AbstractFetcher = function(name) {
 
 AbstractFetcher.prototype.fetchData = function(renderCallback) {
     let _this = this;
+    let temp = [];
     function performRequest(endpoint, method, data, success) {
 
         if (method === 'GET' && data !== null) {
@@ -52,10 +53,9 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
 
     }
 
-    let temp = [];
     async.each(this.queries, function (item, callback) {
         performRequest(item.query, 'GET', null, function (data) {
-            temp.push(data);
+            _this.process(data, temp);
             callback();
         });
     }, function(err) {

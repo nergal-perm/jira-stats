@@ -4,6 +4,10 @@
     "password": "some_pass"
   },
   "jiraUrl": "some_url",
+  "sampleFetcher": [{
+    "type" : "total_defects",
+    "query" : "/features"        
+  }],  
   "queriesFeature": [
     {
       "type": "total_defects",
