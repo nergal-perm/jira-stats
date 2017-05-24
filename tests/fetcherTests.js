@@ -13,4 +13,13 @@ describe('AbstractFetcher', function() {
         expect(f.host).to.equal('http://localhost:3000');
         expect(f.queries.length).to.equal(1);
     });
+
+    it('should return some data after calling its fetchData method', function(done) {
+        let f = new AbstractFetcher('sampleFetcher');
+        f.fetchData(function(err, data) {
+            if(err) {done(err);}
+            expect(data[0].name).to.equal('Название большой доработки');
+            done();
+        });
+    });
 });
