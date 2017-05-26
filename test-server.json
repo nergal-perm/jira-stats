@@ -2658,5 +2658,39 @@
         "customfield_15563": null
       }
     }
+  ],
+  "issuesCount": [
+    {
+      "priority": "Critical",
+      "projectName": "ГИС ЖКХ",
+      "startAt": 0,
+      "maxResults": 0,
+      "total": 4,
+      "issues": []
+    },
+    {
+      "priority": "Blocker",
+      "projectName": "ГИС ЖКХ",
+      "startAt": 0,
+      "maxResults": 0,
+      "total": 1,
+      "issues": []
+    },
+    {
+      "priority": "Major",
+      "projectName": "ГИС ЖКХ",
+      "startAt": 0,
+      "maxResults": 0,
+      "total": 3,
+      "issues": []
+    },
+    {
+      "priority": "Minor",
+      "projectName": "ГИС ЖКХ",
+      "startAt": 0,
+      "maxResults": 0,
+      "total": 4,
+      "issues": []
+    }    
   ]
 }

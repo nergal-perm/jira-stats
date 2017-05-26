@@ -7,33 +7,54 @@
   "oneIssueFetcher": [
     {
       "type": "First feature",
-      "query": "/issues?key=%Issue%"
+      "resource": "/issues",
+      "qs": {
+        "key": "%Issue%"
+      }
     }
   ],
   "manyIssuesFetcher": [
     {
       "type": "Some random type",
-      "query": "/issues?fields.priority.name=%Priority%"
+      "resource": "/issues",
+      "qs": {
+        "fields.priority.name": "%Priority%"
+      }
     }
   ],
   "oneQueryFetcher": [
     {
       "type": "Some random type",
-      "query": "/issues?fields.priority.name=%Priority%"
+      "resource": "/issuesCount",
+      "qs": {
+        "projectName": "%Project%"
+      }
     }
   ],
   "manyQueriesFetcher": [
     {
       "type": "Some random type",
-      "query": "/issues?fields.priority.name=%Priority%"
+      "resource": "/issuesCount",
+      "qs": {
+        "projectName": "%Project%",
+        "priority": "Critical"
+      }
     },
     {
       "type": "Some random type",
-      "query": "/issues?fields.priority.name=%Priority%"
+      "resource": "/issuesCount",
+      "qs": {
+        "projectName": "%Project%",
+        "priority": "Critical"
+      }
     },
     {
       "type": "Some random type",
-      "query": "/issues?fields.priority.name=%Priority%"
+      "resource": "/issuesCount",
+      "qs": {
+        "projectName": "%Project%",
+        "priority": "Critical"
+      }
     }
   ]
 }

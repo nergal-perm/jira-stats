@@ -17,7 +17,7 @@ describe('Fetchers', function() {
         });
 
         it('should preprocess query, fetch & return full data for one issue with one query', function(done) {
-            let f = ff.getIssueDataFetcher('oneIssueFetcher', [{key: '%Issue%', value: 'HCSINT-30889'}]);
+            let f = ff.getIssueDataFetcher('oneIssueFetcher', [{key: 'Issue', value: 'HCSINT-30889'}]);
             f.fetchData(function(err, issues) {
                 if(err) {done(err);}
                 expect(issues.length).to.equals(1);
@@ -28,7 +28,7 @@ describe('Fetchers', function() {
         });
 
         it('should preprocess query, fetch & return full data for several issues with one query', function(done) {
-            let f = ff.getIssueDataFetcher('manyIssuesFetcher', [{key: '%Priority%', value: 'Major'}]);
+            let f = ff.getIssueDataFetcher('manyIssuesFetcher', [{key: 'Priority', value: 'Major'}]);
             f.fetchData(function(err, issues) {
                 if (err) { done(err); }
                 expect(issues.length).to.equal(3);
@@ -52,7 +52,7 @@ describe('Fetchers', function() {
         });
 
         it('should preprocess query, fetch & return issues count using any number of queries', function(done) {
-            let f = ff.getIssueCountFetcher('manyQueriesFetcher', [{key: '%Priority%', value: 'Major'}]);
+            let f = ff.getIssueCountFetcher('manyQueriesFetcher', [{key: 'Project', value: 'ГИС ЖКХ'}]);
             f.fetchData(function(err, issues) {
                let count = issues.reduce(function(cur,prev) {
                    return cur + prev;

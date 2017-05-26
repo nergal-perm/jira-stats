@@ -28,14 +28,10 @@ let AbstractFetcher = function(name, replacementMap) {
 AbstractFetcher.prototype.fetchData = function(renderCallback) {
     let _this = this;
     let temp = [];
-    function performRequest(endpoint, method, data, success) {
-
-        if (method === 'GET' && data !== null) {
-            endpoint += '?' + querystring.stringify(data);
-        }
+    function performRequest(query, method, success) {
 
         let options = {
-            url: _this.host + endpoint,
+            url: _this.host + query,
             auth: _this.auth,
             method: method
         };
@@ -47,6 +43,7 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
 
         request(options, function (err, res, body) {
             let result = {};
+            console.log(JSON.stringify(res));
             try {
                 result = JSON.parse(body);
             } catch (e) {
@@ -59,12 +56,11 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
     }
 
     async.each(this.queries, function (item, callback) {
-        let query = item.query;
+        let query = item.resource + (item.qs ? '?' + querystring.stringify(item.qs) : '');
         _this.replacement.forEach(function(replacement) {
-            query = query.replace(replacement.key, replacement.value);
+            query = query.replace('%25' + replacement.key + '%25', replacement.value);
         });
-
-        performRequest(query, 'GET', null, function (data) {
+        performRequest(query, 'GET', function (data) {
             _this.process(data, temp);
             callback();
         });
