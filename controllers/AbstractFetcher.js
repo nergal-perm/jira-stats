@@ -12,12 +12,15 @@ conf.argv()
     .env()
     .file({file: 'config.json'});
 
-let AbstractFetcher = function(name) {
-    this.host = conf.get('jiraUrl');
-    this.auth = conf.get('auth');
+let AbstractFetcher = function(name, type, replacementMap) {
+    let configObj = conf.get(type);
+
+    this.host = configObj.jiraUrl;
+    this.auth = configObj.auth;
     this.proxy = conf.get('HTTP_PROXY');
     this.name = name;
     this.queries = conf.get(name);
+    this.replacement = replacementMap;
 };
 
 AbstractFetcher.prototype.fetchData = function(renderCallback) {
@@ -54,7 +57,12 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
     }
 
     async.each(this.queries, function (item, callback) {
-        performRequest(item.query, 'GET', null, function (data) {
+        let query = item.query;
+        _this.replacement.forEach(function(replacement) {
+            query = query.replace(replacement.key, replacement.value);
+        });
+
+        performRequest(query, 'GET', null, function (data) {
             _this.process(data, temp);
             callback();
         });

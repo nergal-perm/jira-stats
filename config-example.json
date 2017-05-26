@@ -1,9 +1,18 @@
 {
-  "auth": {
-    "username": "some_user",
-    "password": "some_pass"
+  "test": {
+    "auth": {
+      "username": "some_user",
+      "password": "some_pass"
+    },
+    "jiraUrl": "some_url"
   },
-  "jiraUrl": "some_url",
+  "prod": {
+    "auth": {
+      "username": "some_user",
+      "password": "some_pass"
+    },
+    "jiraUrl": "some_url"
+  },
   "sampleFetcher": [{
     "type" : "total_defects",
     "query" : "/features"        

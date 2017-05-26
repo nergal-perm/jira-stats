@@ -9,19 +9,18 @@ const ff = new FetcherFactory();
 describe('AbstractFetcher', function() {
     "use strict";
     it('should be properly initialized', function() {
-        let f = ff.getSimpleFetcher('sampleFetcher');
+        let f = ff.getSimpleIssueFetcher('sampleFetcher', 'test', []);
         expect(f.name).to.equal('sampleFetcher');
         expect(f.host).to.equal('http://localhost:3000');
         expect(f.queries.length).to.equal(1);
     });
 
-    it('should fetch, process & return some data', function(done) {
-        let f = ff.getSimpleFetcher('sampleFetcher');
-        f.fetchData(function(err, data) {
+    it('should preprocess query, fetch & return some data', function(done) {
+        let f = ff.getSimpleIssueFetcher('sampleFetcher', 'test', [{key: '%Issue%', value: '649122'}]);
+        f.fetchData(function(err, issue) {
             if(err) {done(err);}
-            expect(data[0].name).to.equal('Название большой доработки');
-            expect(data[0].customField).to.equal('Добавили при обработке');
-            expect(data[1].name).to.equal('Название новой версии');
+            expect(issue[0].id).to.equal('649122');
+            expect(issue[0].key).to.equal('HCSINT-30889');
             done();
         });
     });

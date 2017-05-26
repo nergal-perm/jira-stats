@@ -4,16 +4,11 @@ const AbstractFetcher = require('./AbstractFetcher.js');
 
 let FetcherFactory = function() { };
 
-FetcherFactory.prototype.getSimpleFetcher = function(fetcherName) {
-	let newFetcher = new AbstractFetcher(fetcherName);
+FetcherFactory.prototype.getSimpleIssueFetcher = function(fetcherName, type, replacementMap) {
+	let newFetcher = new AbstractFetcher(fetcherName, type, replacementMap);
 
 	newFetcher.process = function(data, tempResult) {
-		data.forEach(function(item) {
-			if (item.id == 1) {
-				item.customField = 'Добавили при обработке';
-			}
-			tempResult.push(item);
-		});
+		tempResult.push(data);
 	};
 
 	return newFetcher;
