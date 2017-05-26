@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "tests": "mocha tests --recursive"
+    "tests": "cross-env NODE_ENV=tests mocha tests --recursive"
   },
   "dependencies": {
     "async": "^2.1.5",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "cross-env": "^5.0.0",
     "json-server": "^0.10.1"
   },
   "jshintConfig": {

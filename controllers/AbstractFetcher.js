@@ -6,20 +6,22 @@
 let async = require('async');
 let querystring = require('querystring');
 let request = require('request');
-let conf = require('nconf');
+let nconf = require('nconf');
 
-conf.argv()
-    .env()
-    .file({file: 'config.json'});
+// Инициализация конфигурации
+nconf.argv().env();
+if (nconf.get('NODE_ENV') === 'tests') {
+    nconf.add('config', {type: 'file', file: 'test-config.json'});
+} else {
+    nconf.add('config', {type: 'file', file: 'config.json'});
+}
 
-let AbstractFetcher = function(name, type, replacementMap) {
-    let configObj = conf.get(type);
-
-    this.host = configObj.jiraUrl;
-    this.auth = configObj.auth;
-    this.proxy = conf.get('HTTP_PROXY');
+let AbstractFetcher = function(name, replacementMap) {
+    this.host = nconf.get('jiraUrl');
+    this.auth = nconf.get('auth');
+    this.proxy = nconf.get('HTTP_PROXY');
     this.name = name;
-    this.queries = conf.get(name);
+    this.queries = nconf.get(name);
     this.replacement = replacementMap;
 };
 

@@ -16,7 +16,7 @@ describe('AbstractFetcher', function() {
     });
 
     it('should preprocess query, fetch & return some data', function(done) {
-        let f = ff.getSimpleIssueFetcher('sampleFetcher', 'test', [{key: '%Issue%', value: '649122'}]);
+        let f = ff.getSimpleIssueFetcher('sampleFetcher', [{key: '%Issue%', value: '649122'}]);
         f.fetchData(function(err, issue) {
             if(err) {done(err);}
             expect(issue[0].id).to.equal('649122');

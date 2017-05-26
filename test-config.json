@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "username": "some_user",
+    "password": "some_pass"
+  },
+  "jiraUrl": "http://localhost:3000",
+  "sampleFetcher": [
+    {
+      "type": "First feature",
+      "query": "/issues/%Issue%"
+    }
+  ]
+}
