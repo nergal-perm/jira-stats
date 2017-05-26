@@ -8,7 +8,7 @@ FetcherFactory.prototype.getIssueDataFetcher = function(fetcherName, replacement
 	let newFetcher = new AbstractFetcher(fetcherName, replacementMap);
 
 	newFetcher.process = function(data, temp) {
-		if (Array.isArray(data)) {
+	    if (Array.isArray(data)) {
 		    data.forEach(function(item) {
 		        temp.push(item);
             })
@@ -18,6 +18,16 @@ FetcherFactory.prototype.getIssueDataFetcher = function(fetcherName, replacement
 	};
 
 	return newFetcher;
+};
+
+FetcherFactory.prototype.getIssueCountFetcher = function(fetcherName, replacementMap) {
+    let newFetcher = new AbstractFetcher(fetcherName, replacementMap);
+
+    newFetcher.process = function(data, temp) {
+        temp.push(data.length);
+    };
+
+    return newFetcher;
 };
 
 module.exports = FetcherFactory;

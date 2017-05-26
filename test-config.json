@@ -4,10 +4,36 @@
     "password": "some_pass"
   },
   "jiraUrl": "http://localhost:3000",
-  "sampleFetcher": [
+  "oneIssueFetcher": [
     {
       "type": "First feature",
       "query": "/issues?key=%Issue%"
+    }
+  ],
+  "manyIssuesFetcher": [
+    {
+      "type": "Some random type",
+      "query": "/issues?fields.priority.name=%Priority%"
+    }
+  ],
+  "oneQueryFetcher": [
+    {
+      "type": "Some random type",
+      "query": "/issues?fields.priority.name=%Priority%"
+    }
+  ],
+  "manyQueriesFetcher": [
+    {
+      "type": "Some random type",
+      "query": "/issues?fields.priority.name=%Priority%"
+    },
+    {
+      "type": "Some random type",
+      "query": "/issues?fields.priority.name=%Priority%"
+    },
+    {
+      "type": "Some random type",
+      "query": "/issues?fields.priority.name=%Priority%"
     }
   ]
 }
