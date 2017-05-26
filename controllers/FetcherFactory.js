@@ -7,8 +7,14 @@ let FetcherFactory = function() { };
 FetcherFactory.prototype.getSimpleIssueFetcher = function(fetcherName, replacementMap) {
 	let newFetcher = new AbstractFetcher(fetcherName, replacementMap);
 
-	newFetcher.process = function(data, tempResult) {
-		tempResult.push(data);
+	newFetcher.process = function(data, temp) {
+		if (Array.isArray(data)) {
+		    data.forEach(function(item) {
+		        temp.push(item);
+            })
+		} else {
+            temp.push(data);
+		}
 	};
 
 	return newFetcher;

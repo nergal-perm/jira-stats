@@ -16,11 +16,11 @@ describe('AbstractFetcher', function() {
     });
 
     it('should preprocess query, fetch & return some data', function(done) {
-        let f = ff.getSimpleIssueFetcher('sampleFetcher', [{key: '%Issue%', value: '649122'}]);
-        f.fetchData(function(err, issue) {
+        let f = ff.getSimpleIssueFetcher('sampleFetcher', [{key: '%Issue%', value: 'HCSINT-30889'}]);
+        f.fetchData(function(err, issues) {
             if(err) {done(err);}
-            expect(issue[0].id).to.equal('649122');
-            expect(issue[0].key).to.equal('HCSINT-30889');
+            expect(issues[0].id).to.equal('649122');
+            expect(issues[0].key).to.equal('HCSINT-30889');
             done();
         });
     });

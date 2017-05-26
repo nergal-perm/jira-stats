@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "dev": "cross-env NODE_ENV=tests node ./bin/www",
     "tests": "cross-env NODE_ENV=tests mocha tests --recursive"
   },
   "dependencies": {

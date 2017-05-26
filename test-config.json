@@ -7,7 +7,7 @@
   "sampleFetcher": [
     {
       "type": "First feature",
-      "query": "/issues/%Issue%"
+      "query": "/issues?key=%Issue%"
     }
   ]
 }
