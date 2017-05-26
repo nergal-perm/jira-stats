@@ -4,7 +4,7 @@ const AbstractFetcher = require('./AbstractFetcher.js');
 
 let FetcherFactory = function() { };
 
-FetcherFactory.prototype.getSimpleIssueFetcher = function(fetcherName, replacementMap) {
+FetcherFactory.prototype.getIssueDataFetcher = function(fetcherName, replacementMap) {
 	let newFetcher = new AbstractFetcher(fetcherName, replacementMap);
 
 	newFetcher.process = function(data, temp) {
