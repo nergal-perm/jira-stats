@@ -1,8 +1,4 @@
 {
-  "auth": {
-    "username": "some_user",
-    "password": "some_pass"
-  },
   "jiraUrl": "http://localhost:3000",
   "oneIssueFetcher": [
     {
@@ -36,7 +32,15 @@
       "type": "Some random type",
       "resource": "/issuesCount",
       "qs": {
-        "projectName": "%Project%",
+        "projectName":"%Project%",
+        "priority":"Blocker"
+      }
+    },
+    {
+      "type": "Some random type",
+      "resource": "/issuesCount",
+      "qs": {
+        "projectName":"%Project%",
         "priority": "Critical"
       }
     },
@@ -44,16 +48,8 @@
       "type": "Some random type",
       "resource": "/issuesCount",
       "qs": {
-        "projectName": "%Project%",
-        "priority": "Critical"
-      }
-    },
-    {
-      "type": "Some random type",
-      "resource": "/issuesCount",
-      "qs": {
-        "projectName": "%Project%",
-        "priority": "Critical"
+        "projectName":"%Project%",
+        "priority": "Major"
       }
     }
   ]

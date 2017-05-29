@@ -49,17 +49,21 @@ describe('Fetchers', function() {
             expect(f1.name).to.equal('manyQueriesFetcher');
             expect(f1.host).to.equal('http://localhost:3000');
             expect(f1.queries.length).to.equal(3);
+
         });
 
         it('should preprocess query, fetch & return issues count using any number of queries', function(done) {
             let f = ff.getIssueCountFetcher('manyQueriesFetcher', [{key: 'Project', value: 'ГИС ЖКХ'}]);
+            let issuesCount = 0;
             f.fetchData(function(err, issues) {
-               let count = issues.reduce(function(cur,prev) {
-                   return cur + prev;
-               });
-               expect(count).to.equal(9);
-               done();
+                console.log(JSON.stringify(issues));
+                issuesCount = issues.reduce(function(cur, prev, issue) {
+
+                    return prev + issue.total;
+                });
             });
-        })
+            expect(issuesCount).to.equal(8);
+            done();
+        });
     });
 });

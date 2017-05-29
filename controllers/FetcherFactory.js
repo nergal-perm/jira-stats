@@ -24,7 +24,7 @@ FetcherFactory.prototype.getIssueCountFetcher = function(fetcherName, replacemen
     let newFetcher = new AbstractFetcher(fetcherName, replacementMap);
 
     newFetcher.process = function(data, temp) {
-        temp.push(data.length);
+    	temp.push(data[0]);
     };
 
     return newFetcher;

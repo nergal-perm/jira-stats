@@ -29,7 +29,6 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
     let _this = this;
     let temp = [];
     function performRequest(query, method, success) {
-
         let options = {
             url: _this.host + query,
             auth: _this.auth,
@@ -40,14 +39,11 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
         if (_this.proxy) {
             options.proxy = proxy;
         }
-
-        request(options, function (err, res, body) {
+        return request(options, function (err, res, body) {
             let result = {};
-            console.log(JSON.stringify(res));
             try {
                 result = JSON.parse(body);
             } catch (e) {
-                console.log(options.url + '\n' + body);
                 throw(e);
             }
             success(result);
@@ -55,16 +51,26 @@ AbstractFetcher.prototype.fetchData = function(renderCallback) {
 
     }
 
-    async.each(this.queries, function (item, callback) {
+    let requestsCount = 0;
+    async.eachSeries(this.queries, function (item, callback) {
+        for(let queryStringItem in item.qs) {
+            if (item.qs.hasOwnProperty(queryStringItem)) {
+                let value = item.qs[queryStringItem];
+                _this.replacement.forEach(function(replacement) {
+                    value = value.replace('%' + replacement.key + '%', replacement.value);
+                });
+                item.qs[queryStringItem] = value;
+            }
+        }
         let query = item.resource + (item.qs ? '?' + querystring.stringify(item.qs) : '');
-        _this.replacement.forEach(function(replacement) {
-            query = query.replace('%25' + replacement.key + '%25', replacement.value);
-        });
+        console.log('Performing request number ' + (requestsCount + 1));
         performRequest(query, 'GET', function (data) {
+            requestsCount++;
             _this.process(data, temp);
             callback();
         });
     }, function(err) {
+        console.log('Made ' + requestsCount + ' requests');
         renderCallback(err, temp);
     });
 
