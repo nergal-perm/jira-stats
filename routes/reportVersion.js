@@ -6,10 +6,7 @@ const express = require('express');
 const router = express.Router();
 const pug = require('pug');
 const fs = require('fs');
-const childProcess = require('child_process');
 const path = require('path');
-const phantomjs = require('phantomjs-prebuilt');
-const binPath = phantomjs.path;
 const fetcher = require('../controllers/fetcher');
 
 let result = {};
@@ -17,28 +14,145 @@ let response = {};
 
 router.get('/report', function(req, res, next) {
     // На время тестирования
-    result.input = {
-
-    };
-    result.input.testCoverage = req.body.testCoverage ? req.body.testCoverage.split('\n').map(function(item) {
-        return item;
-    }) : "";
-    result.input.additionalInfo = req.body.additionalInfo ? req.body.additionalInfo.split('\n').map(function(item) {
-        return item;
-    }) : "";
+    result.summary = getSummary(req);
+    result.testCoverage = getInitialTestCoverage(req);
     let options = {
         dataType: ["Version", "prevVersion"],
-        dataValue: ["11.1.1", "11.1.0"]
+        dataValue: ["11.1.6", "11.1.0"]
     };
     //let dateArr = req.body.dateTestEnd.split('-');
     //result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
     fetcher.getData(options, res, generateResponse);
 });
 
-function generateResponse(res, incoming_data) {
+function getSummary(request) {
+    let summary = request.body;
+    summary.additionalInfo = request.body.additionalInfo ? request.body.additionalInfo.split('\n').map(function(item) {
+        return item;
+    }) : "";
+    return summary;
+}
+
+function getInitialTestCoverage(request) {
+    return request.body.testCoverage ? request.body.testCoverage.split('\n').map(function(item) {
+        return item;
+    }) : "";
+}
+
+function getQualityAsessment(incomingData) {
+    let versionDefects = {
+        blocker: incomingData['наведенные_оставшиеся_к_выпуску_blocker'].count,
+        critical: incomingData['наведенные_оставшиеся_к_выпуску_critical'].count,
+        major: incomingData['наведенные_оставшиеся_к_выпуску_major'].count,
+        minor: incomingData['наведенные_оставшиеся_к_выпуску_minor'].count,
+        trivial: incomingData['наведенные_оставшиеся_к_выпуску_trivial'].count
+    };
+    let systemDefects = {
+        blocker: incomingData['наведенные_оставшиеся_в_системе_blocker'].count,
+        critical: incomingData['наведенные_оставшиеся_в_системе_critical'].count,
+        major: incomingData['наведенные_оставшиеся_в_системе_major'].count,
+        minor: incomingData['наведенные_оставшиеся_в_системе_minor'].count,
+        trivial: incomingData['наведенные_оставшиеся_в_системе_trivial'].count
+    };
+    return {
+        versionQuality: getQuality(versionDefects),
+        versionDefects: versionDefects,
+        versionDefectsUrl: incomingData['наведенные_оставшиеся_к_выпуску'].url,
+        systemQuality: getQuality(systemDefects),
+        systemDefects: systemDefects,
+        systemDefectsUrl: incomingData['наведенные_оставшиеся_в_системе'].url,
+    }
+}
+
+function getActualAndFixed(incomingData) {
+    return {
+        "ААА": incomingData['ААА_актуальных_дефектов_в_системе'],
+        "ААА-1": incomingData['ААА-1_актуальных_дефектов_в_системе_blocker'],
+        "ААА-2": incomingData['ААА-2_актуальных_дефектов_в_системе_critical'],
+        "ААА-3": incomingData['ААА-3_актуальных_дефектов_в_системе_major'],
+        "БББ": incomingData['БББ_наведенных_дефектов_в_системе'],
+        "БББ-1": incomingData['БББ-1_наведенных_дефектов_в_системе_blocker'],
+        "БББ-2": incomingData['БББ-2_наведенных_дефектов_в_системе_critical'],
+        "БББ-3": incomingData['БББ-3_наведенных_дефектов_в_системе_major'],
+        "ВВВ": incomingData['ВВВ_актуальных_дефектов_для_версии'],
+        "ВВВ-1": incomingData['ВВВ-1_актуальных_дефектов_для_версии_blocker'],
+        "ВВВ-2": incomingData['ВВВ-2_актуальных_дефектов_для_версии_critical'],
+        "ВВВ-3": incomingData['ВВВ-3_актуальных_дефектов_для_версии_major'],
+        "ГГГ": incomingData['ГГГ_наведенных_дефектов_для_версии'],
+        "ГГГ-1": incomingData['ГГГ-1_наведенных_дефектов_для_версии_blocker'],
+        "ГГГ-2": incomingData['ГГГ-2_наведенных_дефектов_для_версии_critical'],
+        "ГГГ-3": incomingData['ГГГ-3_наведенных_дефектов_для_версии_major'],
+        "ДДД": incomingData['ДДД_исправлено_ненаведенных_дефектов'],
+        "ДДД-1": incomingData['ДДД-1_исправлено_ненаведенных_дефектов_blocker'],
+        "ДДД-2": incomingData['ДДД-2_исправлено_ненаведенных_дефектов_critical'],
+        "ДДД-3": incomingData['ДДД-3_исправлено_ненаведенных_дефектов_major']
+    }
+}
+
+function getNeedToFix(incomingData) {
+    return {
+        url: incomingData['detailed_актуальные_дефекты_для_версии'].url,
+        issues: incomingData['detailed_актуальные_дефекты_для_версии'].issues.map(function(issue) {
+            return {
+                key: issue.key,
+                url: issue.self,
+                subject: issue.fields.summary,
+                priority: {
+                    iconUrl: issue.fields.priority.iconUrl,
+                    name: issue.fields.priority.name
+                },
+                affectedVersions: issue.fields.versions,
+                status: {
+                    iconUrl: issue.fields.status.iconUrl,
+                    name: issue.fields.status.name
+                },
+                inductivity: issue.fields.customfield_16424 ? issue.fields.customfield_16424.value : ""
+            }
+        })
+    };
+}
+
+function getFeatures(incomingData) {
+    return incomingData['Тестовое покрытие'].issues.map(function(issue) {
+        let issueDefects = {
+            blocker: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].count,
+            critical: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].count,
+            major: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].count,
+            minor: 0,
+            trivial: 0
+        };
+        return {
+            key: issue.key,
+            subject: issue.fields.subject,
+            quality: getQuality(issueDefects),
+            'ИИИ': {
+                count: incomingData[issue.key + '_ИИИ_уточнения'].count,
+                issues: incomingData[issue.key + '_ИИИ_уточнения'].issues
+            },
+            'ЕЕЕ': {
+                count: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].count,
+                issues: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].issues,
+            },
+            'ЖЖЖ': {
+                count: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].count,
+                issues: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].issues
+            },
+            'ЗЗЗ': {
+                count: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].count,
+                issues: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].issues
+            }
+        }
+    });
+}
+
+function generateResponse(res, incomingData) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(incoming_data));
-    return;
+    //result.testCoverage = getAdditionalTestCoverage(incomingData);
+    result.qualityAsessment = getQualityAsessment(incomingData);
+    result.actualAndFixedDefects = getActualAndFixed(incomingData);
+    result.needToFix = getNeedToFix(incomingData);
+    result.features = getFeatures(incomingData);
+    res.send(JSON.stringify(result));
     /*
     result.input = {
         projectName: 'ГИС ЖКХ',
@@ -133,20 +247,6 @@ function generateResponse(res, incoming_data) {
     //pug.renderFile('./views/chart.pug', result, createChart);
 
     */
-}
-
-function createChart(err, chartTemplate) {
-    fs.writeFileSync('./public/chart.html', chartTemplate);
-    const childArgs = [
-        path.join(process.cwd(), 'chart.js')
-    ];
-    childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-        if (err) {
-            console.log(stderr.toString());
-            throw(err);
-        }
-        response.render('reportVersion', {result: result});
-    });
 }
 
 function getQuality(defects) {

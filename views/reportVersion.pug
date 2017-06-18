@@ -163,7 +163,7 @@ block content
                         th.table-highlighted Приоритет
                         th.table-highlighted Статус
                     tbody
-                      each issue in result.defects_need_to_fix
+                      each issue in result.defects_need_to_fix.issues
                         tr
                           td.centered-text
                             a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key

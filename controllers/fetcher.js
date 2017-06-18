@@ -55,11 +55,17 @@ module.exports.getData = function (options, res, renderCallback) {
                         };
                         let iq = {
                             jql: preprocessQuery(subQuery.query, innerOptions),
-                            maxResults: 0
                         };
+                        if (item.limit) {
+                            iq.maxResults = subIssue.limit;
+                        }
+                        if (item.fields) {
+                            iq.fields = subIssue.fields;
+                        }
                         performRequest(restUrl, 'GET', iq, function (subQueryData) {
                             issueQuery.count = subQueryData.total;
                             issueQuery.url = host + '/issues/?' + querystring.stringify(iq);
+                            issueQuery.issues = subQueryData.issues;
                             temp[issueQuery.type] = issueQuery;
                             reqCounter++;
                             issuesCallback();
@@ -79,7 +85,10 @@ module.exports.getData = function (options, res, renderCallback) {
                 q.maxResults = item.limit;
             }
             performRequest(restUrl, 'GET', q, function (data) {
-                temp[item.type] = data.issues;
+                temp[item.type] = {
+                    issues: data.issues,
+                    url: data.url
+                };
                 reqCounter++;
                 outerEachCallback();
             });
