@@ -1,0 +1,303 @@
+extends layout
+
+block content
+  div
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Общая информация о тестировании доработки
+        tr.dense-information
+          td.dense-header Название проекта
+          td.dense-data= result.input.projectName
+        tr.dense-information
+          td.dense-header Название доработки
+          td.dense-data= result.input.featureName
+        tr.dense-information
+          td.dense-header Ссылка на доработку
+          td.dense-data 
+            a(href=result.input.featureLink)= result.input.featureLink
+        tr.dense-information
+          td.dense-header Дата завершения теста
+          td.dense-data= result.input.dateTestEnd
+        tr.dense-information
+          td.dense-header Ссылка на портал
+          td.dense-data
+            a(href=result.input.portalLink)= result.input.portalLink
+        tr.dense-information
+          td.dense-header Ревизия
+          td.dense-data= result.input.revision
+        tr.dense-information
+          td.dense-header Браузер
+          td.dense-data= result.input.browser
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Тестовое покрытие
+        tr.dense-information
+          td.dense-header Тестовое покрытие
+          td.dense-data
+            for row in result.input.testCoverage
+              | #{row}
+              br
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Оценка качества доработки на текущий момент
+        tr.dense-information
+          td.dense-header Качество доработки
+          td.dense-data
+            | Качество доработки на текущий момент:&nbsp;&nbsp;
+            case result.actualQuality
+              when 1
+                span.quality-low НИЗКОЕ
+              when 2
+                span.quality-low НИЖЕ СРЕДНЕГО
+              when 3
+                span.quality-medium СРЕДНЕЕ
+              when 4
+                span.quality-high ВЫШЕ СРЕДНЕГО
+              when 5
+                span.quality-high ВЫСОКОЕ
+            br
+            br
+        tr.dense-information
+          td
+            div
+              case result.actualQuality
+                when 1
+                when 2
+                  img(src='/images/houseLowQuality.jpg', alt='Low quality', style='width:108px; height: 75px;')
+                when 3
+                  img(src='/images/houseMediumQuality.jpg', alt='Medium quality', style='width:108px; height: 75px;')
+                when 4
+                when 5
+                  img(src='/images/houseHighQuality.jpg', alt='High quality', style='width:108px; height: 75px;')
+            a(href='https://wiki.lanit.ru/pages/viewpage.action?pageId=75140508') Критерии определения качества
+          td
+            p: b Заведенные во время тестирования доработки дефекты и уточнения:
+            table.table-data
+              thead
+                tr
+                  th(width='236px;') 
+                  th.table-highlighted(style='width:236px;') Заведено всего
+                  th.table-highlighted(style='width:236px;') Актуально на момент выпуска отчета
+              tbody
+                tr
+                  td.table-highlighted Дефектов
+                  td.centered-text
+                    a(href=result.summary.defectsCreatedLink)= result.summary.defectsCreated
+                  td.centered-text
+                    a(href=result.summary.defectsActualLink)= result.summary.defectsActual
+                tr
+                  td.table-highlighted Уточнений
+                  td.centered-text
+                    a(href=result.summary.questionsCreatedLink)= result.summary.questionsCreated
+                  td.centered-text
+                    a(href=result.summary.questionsActualLink)= result.summary.questionsActual
+            br
+            p: b Актуальные на момент выпуска отчёта дефекты в разрезе приоритетов:
+            table.table-data
+              thead
+                tr
+                  th.table-highlighted(style='width:119px;') Приоритет
+                  th.table-highlighted(style='width:590px;') Количество дефектов
+              tbody
+                tr
+                  td
+                    img(src='/images/defect-blocker.png', role='presentation') 
+                    | &nbsp;Blocker
+                  td.centered-text
+                    a(href=result.actualDefects.blockerLink)= result.actualDefects.blocker
+                tr
+                  td
+                    img(src='/images/defect-critical.png', role='presentation') 
+                    | &nbsp;Critical
+                  td.centered-text
+                    a(href=result.actualDefects.criticalLink)= result.actualDefects.critical
+                tr
+                  td
+                    img(src='/images/defect-major.png', role='presentation') 
+                    | &nbsp;Major
+                  td.centered-text
+                    a(href=result.actualDefects.majorLink)= result.actualDefects.major
+                tr
+                  td
+                    img(src='/images/defect-minor.png', role='presentation') 
+                    | &nbsp;Minor
+                  td.centered-text
+                    a(href=result.actualDefects.minorLink)= result.actualDefects.minor
+                tr
+                  td
+                    img(src='/images/defect-trivial.png', role='presentation') 
+                    | &nbsp;Trivial
+                  td.centered-text
+                    a(href=result.actualDefects.trivialLink)= result.actualDefects.trivial
+                tr
+                  td ВСЕГО
+                  td.centered-text= result.actualDefects.total
+            if result.detailedBC.length > 0
+              br
+              p: b Актуальные на момент выпуска отчёта дефекты уровня Blocker и Critical, подробно:
+              table.table-data(style='width:709px;')
+                thead
+                  tr
+                    th.table-highlighted(style='width:100px;') Номер
+                    th.table-highlighted Название
+                    th.table-highlighted(style='width:100px;') Приоритет
+                    th.table-highlighted(style='width:130px;') Статус
+                tbody
+                  each issue, index in result.detailedBC
+                    tr
+                      td= (index + 1) + '. '
+                        a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                      td= issue.fields.summary
+                      td
+                        img(src=issue.fields.priority.iconUrl)
+                        | &nbsp;#{issue.fields.priority.name}
+                      td
+                        img(src=issue.fields.status.iconUrl)
+                        | &nbsp;#{issue.fields.status.name}
+            if result.detailedBlocked.length > 0
+              br
+              p: b Заблокированные на момент выпуска отчёта дефекты, подробно:
+              table.table-data(style='width:709px;')
+                thead
+                  tr
+                    th.table-highlighted(style='width:100px;') Номер
+                    th.table-highlighted Название
+                    th.table-highlighted(style='width:100px;') Приоритет
+                    th.table-highlighted(style='width:130px;') Причина блокировки
+                tbody
+                  each issue, index in result.detailedBlocked
+                    tr
+                      td= (index + 1) + '. '
+                        a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                      td= issue.fields.summary
+                      td
+                        img(src=issue.fields.priority.iconUrl)
+                        | &nbsp;#{issue.fields.priority.name}
+                      td
+                        a(href='https://jira.lanit.ru/browse/' + issue.fields.customfield_10131)= issue.fields.customfield_10131
+        tr.dense-information
+          td
+          td
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Информация о качестве доработки в целом
+        tr.dense-information
+          td.dense-header Качество доработки
+          td.dense-data
+            | Качество доработки по общему числу заведенных дефектов:&nbsp;&nbsp;
+            case result.createdQuality
+              when 1
+                span.quality-low НИЗКОЕ
+              when 2
+                span.quality-low НИЖЕ СРЕДНЕГО
+              when 3
+                span.quality-medium СРЕДНЕЕ
+              when 4
+                span.quality-high ВЫШЕ СРЕДНЕГО
+              when 5
+                span.quality-high ВЫСОКОЕ
+            br
+            br
+        tr.dense-information
+          td
+          td
+            p: b Всего обнаружено и заведено во время тестирования доработки:
+            table.table-data
+              thead
+                tr
+                  th.table-highlighted(style='width:119px;') Приоритет
+                  th.table-highlighted(style='width:590px;') Количество дефектов
+              tbody
+                tr
+                  td
+                    img(src='/images/defect-blocker.png', role='presentation') 
+                    | &nbsp;Blocker
+                  td.centered-text
+                    a(href=result.createdDefects.blocker)= result.createdDefects.blocker
+                tr
+                  td
+                    img(src='/images/defect-critical.png', role='presentation') 
+                    | &nbsp;Critical
+                  td.centered-text
+                    a(href=result.createdDefects.criticalLink)= result.createdDefects.critical
+                tr
+                  td
+                    img(src='/images/defect-major.png', role='presentation') 
+                    | &nbsp;Major
+                  td.centered-text
+                    a(href=result.createdDefects.majorLink)= result.createdDefects.major
+                tr
+                  td
+                    img(src='/images/defect-minor.png', role='presentation') 
+                    | &nbsp;Minor
+                  td.centered-text
+                    a(href=result.createdDefects.minorLink)= result.createdDefects.minor
+                tr
+                  td
+                    img(src='/images/defect-trivial.png', role='presentation') 
+                    | &nbsp;Trivial
+                  td.centered-text
+                    a(href=result.createdDefects.trivialLink)= result.createdDefects.trivial
+                tr
+                  td ВСЕГО
+                  td.centered-text= result.createdDefects.total
+        tr.dense-information
+          td
+          td
+        tr.dense-information
+          td
+          td 
+            p: b Графическое отображение представленной информации
+            img(src='/images/chart.png', alt='График количества созданных дефектов')
+        tr.dense-information
+          td
+          td              
+    table.report-table
+      tbody
+        tr.section-header-row
+          td.section-header-cell(colSpan='2')
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            span
+              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            | &nbsp;Дополнительная информация 
+        tr.dense-information
+          td.dense-header Дополнительная информация
+          td.dense-data
+            for row in result.input.additionalInfo
+              | #{row}
+              br
