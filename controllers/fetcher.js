@@ -75,6 +75,9 @@ module.exports.getData = function (options, res, renderCallback) {
             });
         } else if (item.type.substring(0, 6) === 'detail') {
             q.fields = 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
+            if (item.limit) {
+                q.maxResults = item.limit;
+            }
             performRequest(restUrl, 'GET', q, function (data) {
                 temp[item.type] = data.issues;
                 reqCounter++;
