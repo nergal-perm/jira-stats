@@ -6,3 +6,5 @@ config.json
 public/chart.html
 public/images/chart.png
 report.html
+.idea/
+npm-debug.log
