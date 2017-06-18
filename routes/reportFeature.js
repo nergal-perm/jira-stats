@@ -30,7 +30,7 @@ router.post('/', function(req, res) {
 });
 
 router.get('/data', function(req, res) {
-    res.render('input', { defaults: {
+    res.render('inputFeature', { defaults: {
         projectName: 'ГИС ЖКХ',
         date: getTodaysDate(),
         testCoverage: 'Тестирование доработки включало в себя следующие активности:\r\n1. Тестирование доработки;\r\n2. Валидация заведенных дефектов.',
