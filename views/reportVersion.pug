@@ -1,4 +1,4 @@
-  extends layout
+extends layout
 
 block content
   div
@@ -55,7 +55,7 @@ block content
         tr.dense-information
           td.dense-header
             div
-              case result.summary.newDefectsQuality
+              case result.qualityAsessment.versionQuality
                 when 1
                 when 2
                   img(src='/images/houseLowQuality.jpg', alt='Low quality', style='width:108px; height: 75px;')
@@ -67,114 +67,125 @@ block content
             a(href='https://wiki.lanit.ru/pages/viewpage.action?pageId=75140512') Критерии определения качества
           td
             div
-              p: b Качество версии по наведенным дефектам, оставшимся к выпуску:&nbsp;&nbsp;
-                case result.inducedActualForVersionQuality
-                  when 1
-                    span.quality-low НИЗКОЕ
-                  when 2
-                    span.quality-low НИЖЕ СРЕДНЕГО
-                  when 3
-                    span.quality-medium СРЕДНЕЕ
-                  when 4
-                    span.quality-high ВЫШЕ СРЕДНЕГО
-                  when 5
-                    span.quality-high ВЫСОКОЕ
-              p: b Качество версии по наведенным дефектам, оставшимся в системе:&nbsp;&nbsp;
-                case result.inducedActualForSystemQuality
-                  when 1
-                    span.quality-low НИЗКОЕ
-                  when 2
-                    span.quality-low НИЖЕ СРЕДНЕГО
-                  when 3
-                    span.quality-medium СРЕДНЕЕ
-                  when 4
-                    span.quality-high ВЫШЕ СРЕДНЕГО
-                  when 5
-                    span.quality-high ВЫСОКОЕ
-              p: b Качество версии по наведенным дефектам в целом:&nbsp;&nbsp;
-                case result.inducedAsAWholeQuality
-                  when 1
-                    span.quality-low НИЗКОЕ
-                  when 2
-                    span.quality-low НИЖЕ СРЕДНЕГО
-                  when 3
-                    span.quality-medium СРЕДНЕЕ
-                  when 4
-                    span.quality-high ВЫШЕ СРЕДНЕГО
-                  when 5
-                    span.quality-high ВЫСОКОЕ
-              p: b Качество версии по существующим ранее дефектам:&nbsp;&nbsp;
-                case result.existingDefectsQuality
-                  when 1
-                    span.quality-low НИЗКОЕ
-                  when 2
-                    span.quality-low НИЖЕ СРЕДНЕГО
-                  when 3
-                    span.quality-medium СРЕДНЕЕ
-                  when 4
-                    span.quality-high ВЫШЕ СРЕДНЕГО
-                  when 5
-                    span.quality-high ВЫСОКОЕ
+              p: b Качество версии/ХФ по наведенным дефектам:&nbsp;&nbsp;
+                a(href=result.qualityAsessment.versionDefectsUrl)
+                  case result.qualityAsessment.versionQuality
+                    when 1
+                      span.quality-low НИЗКОЕ
+                    when 2
+                      span.quality-low НИЖЕ СРЕДНЕГО
+                    when 3
+                      span.quality-medium СРЕДНЕЕ
+                    when 4
+                      span.quality-high ВЫШЕ СРЕДНЕГО
+                    when 5
+                      span.quality-high ВЫСОКОЕ
+              p: b Качество ПО в целом:&nbsp;&nbsp;
+                a(href=result.qualityAsessment.systemDefectsUrl)
+                  case result.qualityAsessment.systemQuality
+                    when 1
+                      span.quality-low НИЗКОЕ
+                    when 2
+                      span.quality-low НИЖЕ СРЕДНЕГО
+                    when 3
+                      span.quality-medium СРЕДНЕЕ
+                    when 4
+                      span.quality-high ВЫШЕ СРЕДНЕГО
+                    when 5
+                      span.quality-high ВЫСОКОЕ
             div
-              p: b Заведенные в версии дефекты
+              p: b Актуальные и исправленные в версии дефекты
               table.table-data
                 thead
                   tr
-                    th
-                    th.table-highlighted Заведено новых дефектов в версии #{result.input.version}
-                    th.table-highlighted Исправлено дефектов, заведенных в версии #{result.input.version}
-                    th.table-highlighted Снесено дефектов, заведенных в версии #{result.input.version}, на другие версии
-                    th.table-highlighted Актуальных дефектов, заведенных в версии #{result.input.version}
+                    th(rowspan=2)
+                    th.table-highlighted(colspan=2) Актуальных дефектов в системе
+                    th.table-highlighted(colspan=2) Актуальных дефектов в системе для версии #{result.input.version}
+                    th.table-highlighted(rowspan=2) Исправлено ненаведенных дефектов в версии #{result.input.version}
+                  tr
+                    th.table-highlighted Всего
+                    th.table-highlighted в т.ч. наведенных
+                    th.table-highlighted Всего
+                    th.table-highlighted в т.ч. наведенных
                 tbody
                   tr
                     td.table-highlighted Всего
                     td.centered-text
-                      a(href=result.summary.defectsCreatedLink)= result.summary.defectsCreated
+                      a(href=result.actualAndFixedDefects['ААА'].url)= result.actualAndFixedDefects['ААА'].count
                     td.centered-text
-                      a(href=result.summary.defectsFixedLink)= result.summary.defectsFixed
+                      a(href=result.actualAndFixedDefects['БББ'].url)= result.actualAndFixedDefects['БББ'].count
                     td.centered-text
-                      a(href=result.summary.defectsPostponedLink)= result.summary.defectsPostponed
-                    td.centered-text.table-highlighted
-                      a(href=result.summary.defectsActualLink)= result.summary.defectsActual
+                      a(href=result.actualAndFixedDefects['ВВВ'].url)= result.actualAndFixedDefects['ВВВ'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ГГГ'].url)= result.actualAndFixedDefects['ГГГ'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ДДД'].url)= result.actualAndFixedDefects['ДДД'].count
                   tr
-                    td.table-highlighted В том числе наведенных
+                    td.table-highlighted в т.ч. Blocker
                     td.centered-text
-                      a(href=result.summary.indDefectsCreatedLink)= result.summary.indDefectsCreated
+                      a(href=result.actualAndFixedDefects['ААА-1'].url)= result.actualAndFixedDefects['ААА-1'].count
                     td.centered-text
-                      a(href=result.summary.indDefectsFixedLink)= result.summary.indDefectsFixed
+                      a(href=result.actualAndFixedDefects['БББ-1'].url)= result.actualAndFixedDefects['БББ-1'].count
                     td.centered-text
-                      a(href=result.summary.indDefectsPostponedLink)= result.summary.indDefectsPostponed
-                    td.centered-text.table-highlighted
-                      a(href=result.summary.indDefectsActualLink)= result.summary.indDefectsActual
+                      a(href=result.actualAndFixedDefects['ВВВ-1'].url)= result.actualAndFixedDefects['ВВВ-1'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ГГГ-1'].url)= result.actualAndFixedDefects['ГГГ-1'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ДДД-1'].url)= result.actualAndFixedDefects['ДДД-1'].count
+                  tr
+                    td.table-highlighted в т.ч. Critical
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ААА-2'].url)= result.actualAndFixedDefects['ААА-2'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['БББ-2'].url)= result.actualAndFixedDefects['БББ-2'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ВВВ-2'].url)= result.actualAndFixedDefects['ВВВ-2'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ГГГ-2'].url)= result.actualAndFixedDefects['ГГГ-2'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ДДД-2'].url)= result.actualAndFixedDefects['ДДД-2'].count
+                  tr
+                    td.table-highlighted в т.ч Major
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ААА-3'].url)= result.actualAndFixedDefects['ААА-3'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['БББ-3'].url)= result.actualAndFixedDefects['БББ-3'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ВВВ-3'].url)= result.actualAndFixedDefects['ВВВ-3'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ГГГ-3'].url)= result.actualAndFixedDefects['ГГГ-3'].count
+                    td.centered-text
+                      a(href=result.actualAndFixedDefects['ДДД-3'].url)= result.actualAndFixedDefects['ДДД-3'].count
             br
             div
-              case result.defects_need_to_fix.length
+              case result.needToFix.issues.length
                 when 0
                   p: b Актуальных (требующих исправления) наведенных дефектов для версии нет
                 default
-                  p: b Актуальные (требующие исправления) наведенные дефекты для версии
+                  p: b
+                    a(href=result.needToFix.url) Актуальные (требующие исправления) дефекты для версии #{result.input.version}
                   table.table-data
                     thead
                       tr
                         th.table-highlighted Код
                         th.table-highlighted Тема
-                        th.table-highlighted Проявляется в версиях
-                        th.table-highlighted Наведенность
                         th.table-highlighted Приоритет
+                        th.table-highlighted Проявляется в версиях
                         th.table-highlighted Статус
+                        th.table-highlighted Наведенность
                     tbody
-                      each issue in result.defects_need_to_fix.issues
+                      each issue in result.needToFix.issues
                         tr
                           td.centered-text
-                            a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
-                          td= issue.fields.summary
+                            a(href=issue.url)= issue.key
+                          td= issue.subject
                           td
-                            each version in issue.fields.versions
+                            img(src=issue.priority.iconUrl)
+                            | &nbsp;#{issue.priority.name}
+                          td
+                            each version in issue.affectedVersions
                               = version.name
-                          td= issue.fields.customfield_16424.value
                           td
-                            img(src=issue.fields.priority.iconUrl)
-                            | &nbsp;#{issue.fields.priority.name}
-                          td
-                            img(src=issue.fields.status.iconUrl)
-                            | &nbsp;#{issue.fields.status.name}
+                            img(src=issue.status.iconUrl)
+                            | &nbsp;#{issue.status.name}
+                          td= issue.inductivity

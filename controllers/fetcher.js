@@ -16,6 +16,8 @@ let host = conf.get('jiraUrl');
 let auth = conf.get('auth');
 let proxy = conf.get('HTTP_PROXY');
 
+console.log(JSON.stringify(proxy));
+
 let reqCounter = 0;  //Счетчик запросов
 
 module.exports.getData = function (options, res, renderCallback) {

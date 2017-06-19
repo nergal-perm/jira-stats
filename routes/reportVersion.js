@@ -146,14 +146,16 @@ function getFeatures(incomingData) {
 }
 
 function generateResponse(res, incomingData) {
-    res.setHeader('Content-Type', 'application/json');
+    //res.setHeader('Content-Type', 'application/json');
+    //res.send(JSON.stringify(result));
+
     //result.testCoverage = getAdditionalTestCoverage(incomingData);
     result.qualityAsessment = getQualityAsessment(incomingData);
     result.actualAndFixedDefects = getActualAndFixed(incomingData);
     result.needToFix = getNeedToFix(incomingData);
     result.features = getFeatures(incomingData);
-    res.send(JSON.stringify(result));
-    /*
+
+
     result.input = {
         projectName: 'ГИС ЖКХ',
         testDate: '24.03.2017',
@@ -165,8 +167,9 @@ function generateResponse(res, incomingData) {
             'Валидация дефектов',
             'Регрессионное тестирование по сценариям высокого приоритета'
         ],
-        version: incoming_data.options.dataValue[0]
+        version: '11.0.11'
     };
+    /*
     result.summary = {
         newDefectsQuality: 3,
         wholeSystemQuality: 1,
@@ -242,11 +245,11 @@ function generateResponse(res, incomingData) {
      result.detailedBC = incoming_data.detailed_critical_and_blocker || [];
      result.detailedBlocked = incoming_data.detailed_blocked || [];
 
-    response = res;
-    response.render('reportVersion', {result: result});
     //pug.renderFile('./views/chart.pug', result, createChart);
 
     */
+    response = res;
+    response.render('reportVersion', {result: result});
 }
 
 function getQuality(defects) {
