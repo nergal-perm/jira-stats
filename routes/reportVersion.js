@@ -123,6 +123,7 @@ function getFeatures(incomingData) {
         };
         return {
             key: issue.key,
+            url: issue.self,
             subject: issue.fields.subject,
             quality: getQuality(issueDefects),
             'ИИИ': {
@@ -145,6 +146,12 @@ function getFeatures(incomingData) {
     });
 }
 
+function getLowQualityFeatures () {
+    return result.features.filter(function(item) {
+        return item.quality <=2;
+    });
+}
+
 function generateResponse(res, incomingData) {
     //res.setHeader('Content-Type', 'application/json');
     //res.send(JSON.stringify(result));
@@ -154,6 +161,7 @@ function generateResponse(res, incomingData) {
     result.actualAndFixedDefects = getActualAndFixed(incomingData);
     result.needToFix = getNeedToFix(incomingData);
     result.features = getFeatures(incomingData);
+    result.lowQualityFeatures = getLowQualityFeatures();
 
 
     result.input = {

@@ -1,12 +1,12 @@
-let express = require('express');
-let router = express.Router();
-let pug = require('pug');
-let fs = require('fs');
-let childProcess = require('child_process');
-let path = require('path');
-let phantomjs = require('phantomjs-prebuilt');
-let binPath = phantomjs.path;
-let fetcher = require('../controllers/fetcher');
+const express = require('express');
+const router = express.Router();
+const pug = require('pug');
+const fs = require('fs');
+const childProcess = require('child_process');
+const path = require('path');
+const phantomjs = require('../node_modules/phantomjs-prebuilt');
+const binPath = phantomjs.path;
+const fetcher = require('../controllers/fetcher');
 
 let result = {};
 let response = {};
@@ -56,7 +56,7 @@ function getTodaysDate() {
 
 function generateResponse(res, incoming_data) {
     result.input.featureLink = 'https://jira.lanit.ru/browse/' + result.input.featureID;
-    result.input.featureName = incoming_data.detailed_main[0].fields.summary;
+    result.input.featureName = incoming_data.detailed_main.issues[0].fields.summary;
     result.summary = {
         defectsCreated: incoming_data.total_defects.count || 0,
         defectsCreatedLink: incoming_data.total_defects.url,
@@ -108,8 +108,8 @@ function generateResponse(res, incoming_data) {
 
     result.actualQuality = getQuality(result.actualDefects);
     result.createdQuality = getQuality(result.createdDefects);
-    result.detailedBC = incoming_data.detailed_critical_and_blocker || [];
-    result.detailedBlocked = incoming_data.detailed_blocked || [];
+    result.detailedBC = incoming_data.detailed_critical_and_blocker.issues || [];
+    result.detailedBlocked = incoming_data.detailed_blocked.issues || [];
 
     response = res;
     pug.renderFile('./views/chart.pug', result, createChart);

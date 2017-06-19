@@ -189,3 +189,30 @@ block content
                             img(src=issue.status.iconUrl)
                             | &nbsp;#{issue.status.name}
                           td= issue.inductivity
+            div
+              case result.lowQualityFeatures.length
+                when 0
+                  p: b Доработок в невысоком качестве нет
+                default
+                  p: b В невысоком качестве на текущий момент находятся следующие доработки:
+                  table.table-data
+                    thead
+                      tr
+                        td.table-highlighted Номер
+                        td.table-highlighted Название
+                        td.table-highlighted Актуальные дефекты, влияющие на качество доработки
+                    tbody
+                      each issue in result.lowQualityFeatures
+                        tr
+                          td.centered-text
+                            a(href=issue.url)= issue.key
+                          td= issue.subject
+                          td
+                            case issue['ЕЕЕ'].issues
+                              when 0
+                                | Дефекты Critical отсутствуют
+                              default
+                                ol
+                                each defect in issue['ЕЕЕ'].issues
+                                  li
+                                    a(href=defect.url) #{defect.key}. #{defect.fields.subject}
