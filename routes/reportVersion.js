@@ -11,6 +11,7 @@ const fetcher = require('../controllers/fetcher');
 
 let result = {};
 let response = {};
+let done = false;
 
 router.get('/report', function(req, res, next) {
     // На время тестирования
@@ -20,9 +21,21 @@ router.get('/report', function(req, res, next) {
         dataType: ["Version"],
         dataValue: ["11.2.0"]
     };
-    //let dateArr = req.body.dateTestEnd.split('-');
-    //result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
-    fetcher.getData(options, res, generateResponse);
+    response = res;
+    fetcher.getData(options, response, generateResponse);
+    res.redirect('../report-version/processing');
+});
+
+router.get('/processing', function(req, res, next) {
+    if (done) {
+        res.redirect('../report-version/done')
+    } else {
+        res.render('processing');
+    }
+});
+
+router.get('/done', function(req, res, next) {
+    res.render('reportVersion', {result: result});
 });
 
 function getSummary(request) {
@@ -95,7 +108,7 @@ function getNeedToFix(incomingData) {
         issues: incomingData['detailed_актуальные_дефекты_для_версии'].issues.map(function(issue) {
             return {
                 key: issue.key,
-                url: issue.self,
+                url: 'https://jira.lanit.ru/browse/' + issue.key,
                 subject: issue.fields.summary,
                 priority: {
                     iconUrl: issue.fields.priority.iconUrl,
@@ -123,7 +136,7 @@ function getFeatures(incomingData) {
         };
         return {
             key: issue.key,
-            url: issue.self,
+            url: 'https://jira.lanit.ru/browse/' + issue.key,
             subject: issue.fields.summary,
             quality: getQuality(issueDefects),
             'ИИИ': {
@@ -166,8 +179,9 @@ function getFixedDefects(incomingData) {
         issues: incomingData['detailed_исправленные_дефекты'].issues.map(function(issue) {
             return {
                 key: issue.key,
-                url: issue.url,
+                url: 'https://jira.lanit.ru/browse/' + issue.key,
                 subject: issue.fields.summary,
+                journal: issue.fields.customfield_14120,
                 priority: {
                     iconUrl: issue.fields.priority.iconUrl,
                     name: issue.fields.priority.name
@@ -203,8 +217,7 @@ function generateResponse(res, incomingData) {
         version: '11.0.11'
     };
 
-    response = res;
-    response.render('reportVersion', {result: result});
+    done = true;
 }
 
 function getQuality(defects) {

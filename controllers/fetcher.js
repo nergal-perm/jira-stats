@@ -16,8 +16,6 @@ let host = conf.get('jiraUrl');
 let auth = conf.get('auth');
 let proxy = conf.get('HTTP_PROXY');
 
-console.log(JSON.stringify(proxy));
-
 let reqCounter = 0;  //Счетчик запросов
 
 module.exports.getData = function (options, res, renderCallback) {
@@ -82,7 +80,7 @@ module.exports.getData = function (options, res, renderCallback) {
                 });
             });
         } else if (item.type.substring(0, 6) === 'detail') {
-            q.fields = 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
+            q.fields = item.fields || 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
             if (item.limit) {
                 q.maxResults = item.limit;
             }
@@ -91,11 +89,12 @@ module.exports.getData = function (options, res, renderCallback) {
                     issues: data.issues,
                     url: data.url
                 };
+                console.log(restUrl);
                 reqCounter++;
                 outerEachCallback();
             });
         } else {
-            q.maxResults = 0;
+            q.maxResults = item.limit || 0;
             performRequest(restUrl, 'GET', q, function (data) {
                 item.count = data.total;
                 item.url = host + '/issues/?' + querystring.stringify(q);

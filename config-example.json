@@ -1,9 +1,9 @@
 {
-    "auth": {
-	      "username" : "some_user",
-	      "password" : "some_pass"
-    },
-    "jiraUrl" : "some_url",
+  "auth": {
+      "username" : "some_user",
+      "password" : "some_pass"
+  },
+  "jiraUrl" : "some_url",
   "queriesFeature": [
     {
       "type": "total_defects",
@@ -242,9 +242,10 @@
       "query": "project = HCS AND type=Task AND status not in (Отменен, Отменена) AND fixVersion = '%Version%'  AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Bug_Task, Test_Task)"
     },
     {
-      "type": "detailed_исправленные_дефекты",
+      "type": "исправленные_дефекты",
       "query": "project = HCS AND issuetype in (Bug) AND affectedVersion < '%Version%' AND fixVersion = '%Version%' AND status in (Closed, Закрыт) and resolution not in ('Cannot Reproduce', 'Won\\'t Fix') order by priority",
-      "limit": 50
+      "limit": 50,
+      "fields": "id,key,summary,priority,status,customfield_10131,versions,customfield_16424,customfield_14120"
     }
   ]
 }
