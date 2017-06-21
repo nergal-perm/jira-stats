@@ -210,9 +210,114 @@ block content
                           td
                             case issue['ЕЕЕ'].issues
                               when 0
+                                | Дефекты Blocker отсутствуют
+                              default
+                                | Blocker:
+                                ol
+                                  each defect in issue['ЕЕЕ'].issues
+                                    li
+                                      a(href=defect.url) #{defect.key}. #{defect.fields.subject}
+                                br
+                            case issue['ЖЖЖ'].issues
+                              when 0
                                 | Дефекты Critical отсутствуют
                               default
+                                | Critical:
                                 ol
-                                each defect in issue['ЕЕЕ'].issues
-                                  li
-                                    a(href=defect.url) #{defect.key}. #{defect.fields.subject}
+                                  each defect in issue['ЖЖЖ'].issues
+                                    li
+                                      a(href=defect.url) #{defect.key} #{defect.subject}
+          table.report-table
+            tbody
+              tr.section-header-row
+                td.section-header-cell.version(colSpan='2')
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  | &nbsp;Информация о доработках, выставленных на тест
+              tr.dense-information
+                td.full-width
+                  table.table-data
+                    thead
+                      tr
+                        th.table-highlighted Номер доработки
+                        th.table-highlighted Наименование доработки
+                        th.table-highlighted Описание качества доработки
+                        th.table-highlighted Ссылки на актуальные дефекты по доработке
+                        th.table-highlighted Статус доработки
+                    tbody
+                      each feature in result.features
+                        tr
+                          td
+                            a(href=feature.url) #{feature.key}
+                          td= feature.subject
+                          td Качество версии:
+                            case feature.quality
+                              when 1
+                                span.quality-low НИЗКОЕ
+                              when 2
+                                span.quality-low НИЖЕ СРЕДНЕГО
+                              when 3
+                                span.quality-medium СРЕДНЕЕ
+                              when 4
+                                span.quality-high ВЫШЕ СРЕДНЕГО
+                              when 5
+                                span.quality-high ВЫСОКОЕ
+                            br
+                            | Доработка выполнена в полном объеме
+                            br
+                            case feature['ИИИ'].issues
+                              when 0
+                                | Во время тестирования уточнения не заводились
+                              default
+                                | Уточнения:
+                                a(href=feature['ИИИ'].url) #{feature['ИИИ'].count}
+                          td
+                            | Blocker:&nbsp;
+                            a(href=feature['ЕЕЕ'].url) #{feature['ЕЕЕ'].count}
+                            | Critical:&nbsp;
+                            a(href=feature['ЖЖЖ'].url) #{feature['ЖЖЖ'].count}
+                            | Major:&nbsp;
+                            a(href=feature['ЗЗЗ'].url) #{feature['ЗЗЗ'].count}
+                          td
+                            img(src=feature.status.iconUrl)
+                            | &nbsp;#{feature.status.name}
+          table.report-table
+            tbody
+              tr.section-header-row
+                td.section-header-cell.version(colSpan='2')
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  span
+                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  | &nbsp;Информация об исправленных дефектах из предыдущих версий
+              tr.dense-information
+                td.full-width
+                  table.table-data
+                    thead
+                      tr
+                        th.table-highlighted Номер
+                        th.table-highlighted Тема
+                        th.table-highlighted Описание для журнала
+                        th.table-highlighted Приоритет
+                    tbody
+                      each defect in result.fixedDefects.issues
+                        tr
+                          td
+                            a(href=defect.url) #{defect.key}
+                          td= defect.subject
+                          td
+                          td
+                            img(src=defect.priority.iconUrl)
+                            | &nbsp;#{defect.priority.name}

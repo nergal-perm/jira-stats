@@ -17,8 +17,8 @@ router.get('/report', function(req, res, next) {
     result.summary = getSummary(req);
     result.testCoverage = getInitialTestCoverage(req);
     let options = {
-        dataType: ["Version", "prevVersion"],
-        dataValue: ["11.1.6", "11.1.0"]
+        dataType: ["Version"],
+        dataValue: ["11.2.0"]
     };
     //let dateArr = req.body.dateTestEnd.split('-');
     //result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
@@ -124,23 +124,31 @@ function getFeatures(incomingData) {
         return {
             key: issue.key,
             url: issue.self,
-            subject: issue.fields.subject,
+            subject: issue.fields.summary,
             quality: getQuality(issueDefects),
             'ИИИ': {
                 count: incomingData[issue.key + '_ИИИ_уточнения'].count,
-                issues: incomingData[issue.key + '_ИИИ_уточнения'].issues
+                issues: incomingData[issue.key + '_ИИИ_уточнения'].issues,
+                url: incomingData[issue.key + '_ИИИ_уточнения'].url
             },
             'ЕЕЕ': {
                 count: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].count,
                 issues: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].issues,
+                url: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].url
             },
             'ЖЖЖ': {
                 count: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].count,
-                issues: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].issues
+                issues: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].issues,
+                url: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].url
             },
             'ЗЗЗ': {
                 count: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].count,
-                issues: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].issues
+                issues: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].issues,
+                url: incomingData[issue.key + '_ЗЗЗ_актуальные_дефекты_major'].url
+            },
+            status: {
+                iconUrl: issue.fields.status.iconUrl,
+                name: issue.fields.status.name
             }
         }
     });
@@ -150,6 +158,23 @@ function getLowQualityFeatures () {
     return result.features.filter(function(item) {
         return item.quality <=2;
     });
+}
+
+function getFixedDefects(incomingData) {
+    return {
+        url: incomingData['detailed_исправленные_дефекты'].url,
+        issues: incomingData['detailed_исправленные_дефекты'].issues.map(function(issue) {
+            return {
+                key: issue.key,
+                url: issue.url,
+                subject: issue.fields.summary,
+                priority: {
+                    iconUrl: issue.fields.priority.iconUrl,
+                    name: issue.fields.priority.name
+                }
+            };
+        })
+    }
 }
 
 function generateResponse(res, incomingData) {
@@ -162,7 +187,7 @@ function generateResponse(res, incomingData) {
     result.needToFix = getNeedToFix(incomingData);
     result.features = getFeatures(incomingData);
     result.lowQualityFeatures = getLowQualityFeatures();
-
+    result.fixedDefects = getFixedDefects(incomingData);
 
     result.input = {
         projectName: 'ГИС ЖКХ',
@@ -177,85 +202,7 @@ function generateResponse(res, incomingData) {
         ],
         version: '11.0.11'
     };
-    /*
-    result.summary = {
-        newDefectsQuality: 3,
-        wholeSystemQuality: 1,
-        defectsCreated: incoming_data['МММ_заведено_новых_дефектов'].count || 0,
-        defectsCreatedLink: incoming_data['МММ_заведено_новых_дефектов'].url,
-        indDefectsCreated: incoming_data['РРР_заведено_новых_дефектов_наведенные'].count || 0,
-        indDefectsCreatedLink: incoming_data['РРР_заведено_новых_дефектов_наведенные'].url,
-        defectsFixed: incoming_data['ЖЖЖ_исправлено_дефектов_заведенных_в_версии'].count || 0,
-        defectsFixedLink: incoming_data['ЖЖЖ_исправлено_дефектов_заведенных_в_версии'].url,
-        indDefectsFixed: incoming_data['ППП_исправлено_дефектов_заведенных_в_версии_наведенные'].count || 0,
-        indDefectsFixedLink: incoming_data['ППП_исправлено_дефектов_заведенных_в_версии_наведенные'].url,
-        defectsPostponed: incoming_data['ЦЦЦ_снесено_дефектов'].count || 0,
-        defectsPostponedLink: incoming_data['ЦЦЦ_снесено_дефектов'].url,
-        indDefectsPostponed: incoming_data['ССС_снесено_дефектов_наведенные'].count || 0,
-        indDefectsPostponedLink: incoming_data['ССС_снесено_дефектов_наведенные'].url,
-        defectsActual: incoming_data['ЛЛЛ_актуально_дефектов'].count || 0,
-        defectsActualLink: incoming_data['ЛЛЛ_актуально_дефектов'].url,
-        indDefectsActual: incoming_data['ЙЙЙ_актуально_дефектов_наведенные'].count || 0,
-        indDefectsActualLink: incoming_data['ЙЙЙ_актуально_дефектов_наведенные'].url
-    };
-    result.actualDefects = {
-        blocker: 29,
-        blockerLink: '#',
-        critical: 566,
-        criticalLink: '#',
-        major: 716,
-        majorLink: '#',
-        minor: 0,
-        minorLink: '#',
-        trivial: 0,
-        trivialLink: '#',
-        total: 1312
-    };
-    result.inducedActualForVersionQuality = getQuality({
-        trivial: incoming_data['наведенные_оставшиеся_к_выпуску_trivial'].count,
-        minor: incoming_data['наведенные_оставшиеся_к_выпуску_minor'].count,
-        major: incoming_data['наведенные_оставшиеся_к_выпуску_major'].count,
-        critical: incoming_data['наведенные_оставшиеся_к_выпуску_critical'].count,
-        blocker: incoming_data['наведенные_оставшиеся_к_выпуску_blocker'].count
-    });
-    result.inducedActualForSystemQuality = getQuality({
-        trivial: incoming_data['наведенные_оставшиеся_в_системе_trivial'].count,
-        minor: incoming_data['наведенные_оставшиеся_в_системе_minor'].count,
-        major: incoming_data['наведенные_оставшиеся_в_системе_major'].count,
-        critical: incoming_data['наведенные_оставшиеся_в_системе_critical'].count,
-        blocker: incoming_data['наведенные_оставшиеся_в_системе_blocker'].count
-    });
-    result.inducedAsAWholeQuality = getQuality({
-        trivial: incoming_data['наведенные_в_целом_trivial'].count,
-        minor: incoming_data['наведенные_в_целом_minor'].count,
-        major: incoming_data['наведенные_в_целом_major'].count,
-        critical: incoming_data['наведенные_в_целом_critical'].count,
-        blocker: incoming_data['наведенные_в_целом_blocker'].count
-    });
-    result.existingDefectsQuality = getQuality({
-        trivial: incoming_data['существующие_ранее_trivial'].count,
-        minor: incoming_data['существующие_ранее_minor'].count,
-        major: incoming_data['существующие_ранее_major'].count,
-        critical: incoming_data['существующие_ранее_critical'].count,
-        blocker: incoming_data['существующие_ранее_blocker'].count
-    });
-    result.defects_need_to_fix = incoming_data['detailed_требующие_исправления_дефекты'];
-    result.newdefectsChartData = [
-        {label: "Blocker", value: result.createdDefects.blocker },
-        {label: "Critical", value: result.createdDefects.critical },
-        {label: "Major", value: result.createdDefects.major },
-        {label: "Minor", value: result.createdDefects.minor },
-        {label: "Trivial", value: result.createdDefects.trivial }
-    ];
 
-     result.actualQuality = getQuality(result.actualDefects);
-     result.createdQuality = getQuality(result.createdDefects);
-     result.detailedBC = incoming_data.detailed_critical_and_blocker || [];
-     result.detailedBlocked = incoming_data.detailed_blocked || [];
-
-    //pug.renderFile('./views/chart.pug', result, createChart);
-
-    */
     response = res;
     response.render('reportVersion', {result: result});
 }

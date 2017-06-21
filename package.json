@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node %NODE_DEBUG_OPTION% ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "async": "^2.1.5",

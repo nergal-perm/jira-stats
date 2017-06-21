@@ -42,6 +42,10 @@ td.section-header-cell.feature {
   font-weight: bold; 
 }
 
+td.full-width {
+  width: 100%;
+}
+
 a {
   font-family: "Arial", sans-serif;
 }
