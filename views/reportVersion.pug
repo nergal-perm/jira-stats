@@ -14,7 +14,7 @@ block content
           td.dense-data= result.input.projectName
         tr.dense-information
           td.dense-header Дата завершения теста
-          td.dense-data= result.input.testDate
+          td.dense-data= result.input.dateTestEnd
         tr.dense-information
           td.dense-header Ссылка на портал
           td.dense-data
@@ -38,9 +38,11 @@ block content
           td.dense-header Тестовое покрытие
           td.dense-data
             p: b Тестирование версии включало в себя следующие активности:
-            for row in result.input.testCoverage
-              | #{row}
-              br
+            ol
+              li
+                a(href=result.input.featuresUrl) Тестирование доработок
+              for row in result.input.testCoverage
+                li #{row}
     table.report-table
       tbody
         tr.section-header-row

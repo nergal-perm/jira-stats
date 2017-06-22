@@ -13,14 +13,24 @@ let result = {};
 let response = {};
 let done = false;
 
-router.get('/report', function(req, res, next) {
-    // На время тестирования
-    result.summary = getSummary(req);
-    result.testCoverage = getInitialTestCoverage(req);
+router.get('/data', function(req, res) {
+    res.render('inputVersion', { defaults: {
+        projectName: 'ГИС ЖКХ',
+        date: getTodaysDate(),
+    },
+        submitAddress: 'report-version'});
+});
+
+router.post('/', function(req, res, next) {
+    result.input = req.body;
+    result.input.testCoverage = getInitialTestCoverage(req);
+    let dateArr = req.body.dateTestEnd.split('-');
+    result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
     let options = {
         dataType: ["Version"],
-        dataValue: ["11.2.0"]
+        dataValue: [req.body.version]
     };
+
     response = res;
     fetcher.getData(options, response, generateResponse);
     res.redirect('../report-version/processing');
@@ -37,14 +47,6 @@ router.get('/processing', function(req, res, next) {
 router.get('/done', function(req, res, next) {
     res.render('reportVersion', {result: result, title: "Отчет по версии/ХФ"});
 });
-
-function getSummary(request) {
-    let summary = request.body;
-    summary.additionalInfo = request.body.additionalInfo ? request.body.additionalInfo.split('\n').map(function(item) {
-        return item;
-    }) : "";
-    return summary;
-}
 
 function getInitialTestCoverage(request) {
     return request.body.testCoverage ? request.body.testCoverage.split('\n').map(function(item) {
@@ -211,20 +213,7 @@ function generateResponse(res, incomingData) {
     result.features = getFeatures(incomingData);
     result.lowQualityFeatures = getLowQualityFeatures();
     result.fixedDefects = getFixedDefects(incomingData);
-
-    result.input = {
-        projectName: 'ГИС ЖКХ',
-        testDate: '24.03.2017',
-        portalLink: 'https://kpak.dom.test.gosuslugi.ru/#!/main',
-        revision: '11.0.11#rev135022',
-        browser: 'Chrome 56',
-        testCoverage: [
-            'Тестирование доработок',
-            'Валидация дефектов',
-            'Регрессионное тестирование по сценариям высокого приоритета'
-        ],
-        version: incomingData.options.dataValue[0]
-    };
+    result.input.featuresUrl = incomingData['Тестовое покрытие'].url;
 
     done = true;
 }
@@ -241,6 +230,22 @@ function getQuality(defects) {
     } else {
         return 5;
     }
+}
+
+
+function getTodaysDate() {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; //January is 0!
+
+    let yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    }
+    if(mm<10){
+        mm='0'+mm;
+    }
+    return yyyy+'-'+mm+'-'+dd;
 }
 
 module.exports = router;
