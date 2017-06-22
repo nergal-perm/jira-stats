@@ -157,76 +157,41 @@ block content
                     td.centered-text
                       a(href=result.actualAndFixedDefects['ДДД-3'].url)= result.actualAndFixedDefects['ДДД-3'].count
             br
-            div
-              case result.needToFix.issues.length
-                when 0
-                  p: b Актуальных (требующих исправления) наведенных дефектов для версии нет
-                default
-                  p: b
-                    a(href=result.needToFix.url) Актуальные (требующие исправления) дефекты для версии #{result.input.version}
-                  table.table-data
-                    thead
+        tr.dense-information
+          td.full-width(colspan=2)
+            br
+            case result.needToFix.issues.length
+              when 0
+                p: b Актуальных (требующих исправления) наведенных дефектов для версии нет
+              default
+                p: b
+                  a(href=result.needToFix.url) Актуальные (требующие исправления) дефекты для версии #{result.input.version}
+                table.table-data
+                  thead
+                    tr
+                      th.table-highlighted.column-key Код
+                      th.table-highlighted Тема
+                      th.table-highlighted.column-priority Приоритет
+                      th.table-highlighted Проявляется в версиях
+                      th.table-highlighted.column-status Статус
+                      th.table-highlighted Наведенность
+                  tbody
+                    each issue in result.needToFix.issues
                       tr
-                        th.table-highlighted Код
-                        th.table-highlighted Тема
-                        th.table-highlighted Приоритет
-                        th.table-highlighted Проявляется в версиях
-                        th.table-highlighted Статус
-                        th.table-highlighted Наведенность
-                    tbody
-                      each issue in result.needToFix.issues
-                        tr
-                          td.centered-text
-                            a(href=issue.url)= issue.key
-                          td= issue.subject
-                          td
-                            img(src=issue.priority.iconUrl)
-                            | &nbsp;#{issue.priority.name}
-                          td
-                            each version in issue.affectedVersions
-                              = version.name
-                          td
-                            img(src=issue.status.iconUrl)
-                            | &nbsp;#{issue.status.name}
-                          td= issue.inductivity
-            div
-              case result.lowQualityFeatures.length
-                when 0
-                  p: b Доработок в невысоком качестве нет
-                default
-                  p: b В невысоком качестве на текущий момент находятся следующие доработки:
-                  table.table-data
-                    thead
-                      tr
-                        td.table-highlighted Номер
-                        td.table-highlighted Название
-                        td.table-highlighted Актуальные дефекты, влияющие на качество доработки
-                    tbody
-                      each issue in result.lowQualityFeatures
-                        tr
-                          td.centered-text
-                            a(href=issue.url)= issue.key
-                          td= issue.subject
-                          td
-                            case issue['ЕЕЕ'].issues
-                              when 0
-                                | Дефекты Blocker отсутствуют
-                              default
-                                | Blocker:
-                                ol
-                                  each defect in issue['ЕЕЕ'].issues
-                                    li
-                                      a(href=defect.url) #{defect.key}. #{defect.fields.subject}
-                                br
-                            case issue['ЖЖЖ'].issues
-                              when 0
-                                | Дефекты Critical отсутствуют
-                              default
-                                | Critical:
-                                ol
-                                  each defect in issue['ЖЖЖ'].issues
-                                    li
-                                      a(href=defect.url) #{defect.key} #{defect.subject}
+                        td.centered-text
+                          a(href=issue.url)= issue.key
+                        td= issue.subject
+                        td
+                          img(src=issue.priority.iconUrl)
+                          | &nbsp;#{issue.priority.name}
+                        td
+                          each version in issue.affectedVersions
+                            = version.name
+                        td
+                          img(src=issue.status.iconUrl)
+                          | &nbsp;#{issue.status.name}
+                        td= issue.inductivity
+            br
           table.report-table
             tbody
               tr.section-header-row
@@ -242,14 +207,15 @@ block content
                   | &nbsp;Информация о доработках, выставленных на тест
               tr.dense-information
                 td.full-width
+                  br
                   table.table-data
                     thead
                       tr
-                        th.table-highlighted Номер доработки
+                        th.table-highlighted.column-key Номер доработки
                         th.table-highlighted Наименование доработки
-                        th.table-highlighted Описание качества доработки
-                        th.table-highlighted Ссылки на актуальные дефекты по доработке
-                        th.table-highlighted Статус доработки
+                        th.table-highlighted.column-quality Описание качества доработки
+                        th.table-highlighted.column-status Ссылки на актуальные дефекты по доработке
+                        th.table-highlighted.column-status Статус доработки
                     tbody
                       each feature in result.features
                         tr
@@ -280,13 +246,17 @@ block content
                           td
                             | Blocker:&nbsp;
                             a(href=feature['ЕЕЕ'].url) #{feature['ЕЕЕ'].count}
+                            br
                             | Critical:&nbsp;
                             a(href=feature['ЖЖЖ'].url) #{feature['ЖЖЖ'].count}
+                            br
                             | Major:&nbsp;
                             a(href=feature['ЗЗЗ'].url) #{feature['ЗЗЗ'].count}
+                            br
                           td
                             img(src=feature.status.iconUrl)
                             | &nbsp;#{feature.status.name}
+                  br
           table.report-table
             tbody
               tr.section-header-row
@@ -304,13 +274,14 @@ block content
                   | &nbsp;Информация об исправленных дефектах из предыдущих версий
               tr.dense-information
                 td.full-width
+                  br
                   table.table-data
                     thead
                       tr
-                        th.table-highlighted Номер
+                        th.table-highlighted.column-key Номер
                         th.table-highlighted Тема
                         th.table-highlighted Описание для журнала
-                        th.table-highlighted Приоритет
+                        th.table-highlighted.column-priority Приоритет
                     tbody
                       each defect in result.fixedDefects.issues
                         tr
@@ -321,3 +292,4 @@ block content
                           td
                             img(src=defect.priority.iconUrl)
                             | &nbsp;#{defect.priority.name}
+                  br

@@ -23,11 +23,6 @@ module.exports.getData = function (options, res, renderCallback) {
     let temp = {};
     let restUrl = '/rest/api/latest/search/';
 
-    // получим список всех запросов со вложенными подзапросами
-    let outerQueries = queries.filter(function(item) {
-       return item.queries !== undefined;
-    });
-
     async.each(queries, function (item, outerEachCallback) {
         let q = {
             jql: preprocessQuery(item.query, options)
@@ -37,7 +32,7 @@ module.exports.getData = function (options, res, renderCallback) {
             q.fields = 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
             performRequest(restUrl, 'GET', q, function(mainQueryData) {
                 item.count = mainQueryData.total;
-                item.url = host + '/issues/?' + querystring.stringify(q);
+                item.url = getIssuesFilterUrl(q);
                 item.issues = mainQueryData.issues;
                 temp[item.type] = item;
                 // Для каждой возвращенной задачи нужно выполнять несколько запросов с подстановкой
@@ -64,7 +59,7 @@ module.exports.getData = function (options, res, renderCallback) {
                         }
                         performRequest(restUrl, 'GET', iq, function (subQueryData) {
                             issueQuery.count = subQueryData.total;
-                            issueQuery.url = host + '/issues/?' + querystring.stringify(iq);
+                            issueQuery.url = getIssuesFilterUrl(iq);
                             issueQuery.issues = subQueryData.issues;
                             temp[issueQuery.type] = issueQuery;
                             reqCounter++;
@@ -87,9 +82,8 @@ module.exports.getData = function (options, res, renderCallback) {
             performRequest(restUrl, 'GET', q, function (data) {
                 temp[item.type] = {
                     issues: data.issues,
-                    url: data.url
+                    url: getIssuesFilterUrl(q)
                 };
-                console.log(restUrl);
                 reqCounter++;
                 outerEachCallback();
             });
@@ -97,7 +91,7 @@ module.exports.getData = function (options, res, renderCallback) {
             q.maxResults = item.limit || 0;
             performRequest(restUrl, 'GET', q, function (data) {
                 item.count = data.total;
-                item.url = host + '/issues/?' + querystring.stringify(q);
+                item.url = getIssuesFilterUrl(q);
                 temp[item.type] = item;
                 reqCounter++;
                 outerEachCallback();
@@ -114,6 +108,10 @@ module.exports.getData = function (options, res, renderCallback) {
         }
     });
 };
+
+function getIssuesFilterUrl(q) {
+    return host + '/issues/?' + querystring.stringify(q);
+}
 
 /**
  * Заменяет все вхождения строк подстановки в запросе на конкретные значения

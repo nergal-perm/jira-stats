@@ -84,3 +84,19 @@ table.table-data th {
 .centered-text {
   text-align: center;
 }
+
+.column-key {
+  min-width: 90px;
+}
+
+.column-priority {
+  min-width: 75px;
+}
+
+.column-status {
+  min-width: 125px;
+}
+
+.column-quality {
+  min-width: 240px;
+}

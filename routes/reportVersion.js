@@ -35,7 +35,7 @@ router.get('/processing', function(req, res, next) {
 });
 
 router.get('/done', function(req, res, next) {
-    res.render('reportVersion', {result: result});
+    res.render('reportVersion', {result: result, title: "Отчет по версии/ХФ"});
 });
 
 function getSummary(request) {
@@ -126,7 +126,7 @@ function getNeedToFix(incomingData) {
 }
 
 function getFeatures(incomingData) {
-    return incomingData['Тестовое покрытие'].issues.map(function(issue) {
+    let tempResult = incomingData['Тестовое покрытие'].issues.map(function(issue) {
         let issueDefects = {
             blocker: incomingData[issue.key + '_ЕЕЕ_актуальные_дефекты_blocker'].count,
             critical: incomingData[issue.key + '_ЖЖЖ_актуальные_дефекты_critical'].count,
@@ -165,6 +165,7 @@ function getFeatures(incomingData) {
             }
         }
     });
+    return tempResult.sort(byQuality);
 }
 
 function getLowQualityFeatures () {
@@ -191,6 +192,14 @@ function getFixedDefects(incomingData) {
     }
 }
 
+function byQuality(a, b) {
+    if (a.quality && b.quality) {
+        return b.quality - a.quality;
+    } else {
+        return 0;
+    }
+}
+
 function generateResponse(res, incomingData) {
     //res.setHeader('Content-Type', 'application/json');
     //res.send(JSON.stringify(result));
@@ -214,7 +223,7 @@ function generateResponse(res, incomingData) {
             'Валидация дефектов',
             'Регрессионное тестирование по сценариям высокого приоритета'
         ],
-        version: '11.0.11'
+        version: incomingData.options.dataValue[0]
     };
 
     done = true;
