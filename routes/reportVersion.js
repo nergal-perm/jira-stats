@@ -40,7 +40,7 @@ router.get('/processing', function(req, res, next) {
     if (done) {
         res.redirect('../report-version/done')
     } else {
-        res.render('processing');
+        res.render('processing', {status: fetcher.getStatus()});
     }
 });
 

@@ -16,12 +16,43 @@ let host = conf.get('jiraUrl');
 let auth = conf.get('auth');
 let proxy = conf.get('HTTP_PROXY');
 
-let reqCounter = 0;  //Счетчик запросов
+let madeQueries = 0;  //Счетчик выполненных запросов
+let totalQueries = 0;
+
+module.exports.getStatus = function() {
+    return {
+        madeQueries: madeQueries,
+        totalQueries: totalQueries,
+        description: madeQueries < totalQueries ?
+            'Выполняем запросы...' :
+            'Обрабатываем данные...',
+        percent: parseInt((madeQueries / totalQueries) * 100),
+        style: 'width:' + parseInt((madeQueries / totalQueries) * 100) +'%;'
+    }
+};
 
 module.exports.getData = function (options, res, renderCallback) {
     let queries = conf.get('queries' + options.dataType[0]);
+    totalQueries += queries.length;
     let temp = {};
     let restUrl = '/rest/api/latest/search/';
+
+    totalQueries += queries.filter(function(item) {
+        return item.subQueries !== undefined;
+    }).length * 200;
+
+    queries.sort(function(a,b) {
+        if (a.subQueries && b.subQueries) {
+            return b.subQueries.length - a.subQueries.length;
+        }
+        if (a.subQueries) {
+            return -1;
+        }
+        if (b.subQueries) {
+            return 1;
+        }
+        return 0;
+    });
 
     async.each(queries, function (item, outerEachCallback) {
         let q = {
@@ -31,6 +62,8 @@ module.exports.getData = function (options, res, renderCallback) {
         if (item.subQueries !== undefined) {
             q.fields = 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
             performRequest(restUrl, 'GET', q, function(mainQueryData) {
+                madeQueries++;
+                totalQueries -= (200 - mainQueryData.total * item.subQueries.length);
                 item.count = mainQueryData.total;
                 item.url = getIssuesFilterUrl(q);
                 item.issues = mainQueryData.issues;
@@ -62,7 +95,7 @@ module.exports.getData = function (options, res, renderCallback) {
                             issueQuery.url = getIssuesFilterUrl(iq);
                             issueQuery.issues = subQueryData.issues;
                             temp[issueQuery.type] = issueQuery;
-                            reqCounter++;
+                            madeQueries++;
                             issuesCallback();
                         });
                     }, function (err) {
@@ -84,7 +117,7 @@ module.exports.getData = function (options, res, renderCallback) {
                     issues: data.issues,
                     url: getIssuesFilterUrl(q)
                 };
-                reqCounter++;
+                madeQueries++;
                 outerEachCallback();
             });
         } else {
@@ -93,7 +126,7 @@ module.exports.getData = function (options, res, renderCallback) {
                 item.count = data.total;
                 item.url = getIssuesFilterUrl(q);
                 temp[item.type] = item;
-                reqCounter++;
+                madeQueries++;
                 outerEachCallback();
             });
         }
@@ -102,7 +135,7 @@ module.exports.getData = function (options, res, renderCallback) {
             console.log('Something went wrong');
             throw(err);
         } else {
-            console.log('Выполнено ' + reqCounter + ' запросов');
+            console.log('Выполнено ' + madeQueries + ' запросов');
             temp.options = options;
             renderCallback(res, temp);
         }

@@ -3,10 +3,16 @@ html
   head
     title Работаем...
     meta(http-equiv='refresh', content='5')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/css/loader.css')
   body
     div.loading
-      h2 Работаем...
+      h2 #{status.description}
+      br
+      div.progress
+        div.progress-bar(role='progressbar', aria-valuemin='0', aria-valuenow=status.madeQueries, aria-valuemax=status.totalQueries, style=status.style)
+          span.sr-only #{status.percent + '%'}
       span
       span
       span
