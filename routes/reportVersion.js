@@ -195,8 +195,8 @@ function getFixedDefects(incomingData) {
 }
 
 function byQuality(a, b) {
-    if (a.quality && b.quality) {
-        return b.quality - a.quality;
+    if (a.quality.level && b.quality.level) {
+        return b.quality.level - a.quality.level;
     } else {
         return 0;
     }
@@ -219,19 +219,56 @@ function generateResponse(res, incomingData) {
 }
 
 function getQuality(defects) {
+    let blockerDescription = getInducedDefectsDescription(defects.blocker, 'Blocker');
+    let criticalDescription = getInducedDefectsDescription(defects.critical, 'Critical');
+    let majorDescription = getInducedDefectsDescription(defects.major, 'Major');
     if (defects.blocker > 0) {
-        return 1;
+        return {
+            level: 1,
+            text: 'НИЗКОЕ',
+            spanStyle: 'quality-low',
+            description: blockerDescription
+        };
     } else if (defects.critical > 2) {
-        return 2;
+        return {
+            level: 2,
+            text: 'НИЖЕ СРЕДНЕГО',
+            spanStyle: 'quality-low',
+            description: criticalDescription
+        };
     } else if (defects.critical <= 2 && defects.critical > 0) {
-        return 3;
+        return {
+            level: 3,
+            text: 'СРЕДНЕЕ',
+            spanStyle: 'quality-medium',
+            description: criticalDescription
+        };
     } else if (defects.major <= 2 && defects.major > 0) {
-        return 4;
+        return {
+            level: 4,
+            text: 'ВЫШЕ СРЕДНЕГО',
+            spanStyle: 'quality-high',
+            description: majorDescription
+        };
     } else {
-        return 5;
+        return {
+            level: 5,
+            text: 'ВЫСОКОЕ',
+            spanStyle: 'quality-high',
+            description: ''
+        };
     }
 }
 
+function getInducedDefectsDescription(number, defectLevel) {
+    return number + ' ' + declOfNumber(number, ['наведенный дефект', 'наведенных дефекта', 'наведенных дефектов']) + ' уровня ' + defectLevel;
+}
+
+
+// https://gist.github.com/realmyst/1262561
+function declOfNumber(n, titles) {
+    return titles[(n%10===1 && n%100!==11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)];
+}
 
 function getTodaysDate() {
     let today = new Date();

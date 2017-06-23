@@ -57,7 +57,7 @@ block content
         tr.dense-information
           td.dense-header
             div
-              case result.qualityAsessment.versionQuality
+              case result.qualityAsessment.versionQuality.level
                 when 1
                 when 2
                   img(src='/images/houseLowQuality.jpg', alt='Low quality', style='width:108px; height: 75px;')
@@ -71,30 +71,14 @@ block content
             div
               p: b Качество версии/ХФ по наведенным дефектам:&nbsp;&nbsp;
                 a(href=result.qualityAsessment.versionDefectsUrl)
-                  case result.qualityAsessment.versionQuality
-                    when 1
-                      span.quality-low НИЗКОЕ
-                    when 2
-                      span.quality-low НИЖЕ СРЕДНЕГО
-                    when 3
-                      span.quality-medium СРЕДНЕЕ
-                    when 4
-                      span.quality-high ВЫШЕ СРЕДНЕГО
-                    when 5
-                      span.quality-high ВЫСОКОЕ
+                  span(class=result.qualityAsessment.versionQuality.spanStyle) #{result.qualityAsessment.versionQuality.text}
+              if result.qualityAsessment.versionQuality.description
+                p Указанный уровень качества обусловлен тем, что в версии #{result.input.version} присутствует #{result.qualityAsessment.versionQuality.description}
               p: b Качество ПО в целом:&nbsp;&nbsp;
                 a(href=result.qualityAsessment.systemDefectsUrl)
-                  case result.qualityAsessment.systemQuality
-                    when 1
-                      span.quality-low НИЗКОЕ
-                    when 2
-                      span.quality-low НИЖЕ СРЕДНЕГО
-                    when 3
-                      span.quality-medium СРЕДНЕЕ
-                    when 4
-                      span.quality-high ВЫШЕ СРЕДНЕГО
-                    when 5
-                      span.quality-high ВЫСОКОЕ
+                  span(class=result.qualityAsessment.systemQuality.spanStyle) #{result.qualityAsessment.systemQuality.text}
+              if result.qualityAsessment.systemQuality.description
+                p Указанный уровень качества обусловлен тем, что в системе присутствует #{result.qualityAsessment.systemQuality.description}
             div
               p: b Актуальные и исправленные в версии дефекты
               table.table-data
@@ -225,17 +209,7 @@ block content
                             a(href=feature.url) #{feature.key}
                           td= feature.subject
                           td Качество версии:
-                            case feature.quality
-                              when 1
-                                span.quality-low НИЗКОЕ
-                              when 2
-                                span.quality-low НИЖЕ СРЕДНЕГО
-                              when 3
-                                span.quality-medium СРЕДНЕЕ
-                              when 4
-                                span.quality-high ВЫШЕ СРЕДНЕГО
-                              when 5
-                                span.quality-high ВЫСОКОЕ
+                            span(class=feature.quality.spanStyle) #{feature.quality.text}
                             br
                             | Доработка выполнена в полном объеме
                             br
