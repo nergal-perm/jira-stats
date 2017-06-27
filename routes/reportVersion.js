@@ -63,19 +63,19 @@ function getQualityAsessment(incomingData) {
         trivial: incomingData['наведенные_оставшиеся_к_выпуску_trivial'].count
     };
     let systemDefects = {
-        blocker: incomingData['наведенные_оставшиеся_в_системе_blocker'].count,
-        critical: incomingData['наведенные_оставшиеся_в_системе_critical'].count,
-        major: incomingData['наведенные_оставшиеся_в_системе_major'].count,
-        minor: incomingData['наведенные_оставшиеся_в_системе_minor'].count,
-        trivial: incomingData['наведенные_оставшиеся_в_системе_trivial'].count
+        blocker: incomingData['оставшиеся_в_системе_blocker'].count,
+        critical: incomingData['оставшиеся_в_системе_critical'].count,
+        major: incomingData['оставшиеся_в_системе_major'].count,
+        minor: incomingData['оставшиеся_в_системе_minor'].count,
+        trivial: incomingData['оставшиеся_в_системе_trivial'].count
     };
     return {
-        versionQuality: getQuality(versionDefects),
+        versionQuality: getQuality(versionDefects, true),
         versionDefects: versionDefects,
         versionDefectsUrl: incomingData['наведенные_оставшиеся_к_выпуску'].url,
-        systemQuality: getQuality(systemDefects),
+        systemQuality: getQuality(systemDefects, false),
         systemDefects: systemDefects,
-        systemDefectsUrl: incomingData['наведенные_оставшиеся_в_системе'].url,
+        systemDefectsUrl: incomingData['оставшиеся_в_системе'].url,
     }
 }
 
@@ -140,7 +140,7 @@ function getFeatures(incomingData) {
             key: issue.key,
             url: 'https://jira.lanit.ru/browse/' + issue.key,
             subject: issue.fields.summary,
-            quality: getQuality(issueDefects),
+            quality: getQuality(issueDefects, false),
             'ИИИ': {
                 count: incomingData[issue.key + '_ИИИ_уточнения'].count,
                 issues: incomingData[issue.key + '_ИИИ_уточнения'].issues,
@@ -218,10 +218,10 @@ function generateResponse(res, incomingData) {
     done = true;
 }
 
-function getQuality(defects) {
-    let blockerDescription = getInducedDefectsDescription(defects.blocker, 'Blocker');
-    let criticalDescription = getInducedDefectsDescription(defects.critical, 'Critical');
-    let majorDescription = getInducedDefectsDescription(defects.major, 'Major');
+function getQuality(defects, areInduced) {
+    let blockerDescription = getDefectsDescription(defects.blocker, 'Blocker', areInduced);
+    let criticalDescription = getDefectsDescription(defects.critical, 'Critical', areInduced);
+    let majorDescription = getDefectsDescription(defects.major, 'Major', areInduced);
     if (defects.blocker > 0) {
         return {
             level: 1,
@@ -260,10 +260,12 @@ function getQuality(defects) {
     }
 }
 
-function getInducedDefectsDescription(number, defectLevel) {
-    return number + ' ' + declOfNumber(number, ['наведенный дефект', 'наведенных дефекта', 'наведенных дефектов']) + ' уровня ' + defectLevel;
+function getDefectsDescription(number, defectLevel, areInduced) {
+    let defectHelperArray = areInduced ?
+        ['наведенный дефект', 'наведенных дефекта', 'наведенных дефектов'] :
+        ['дефект', 'дефекта', 'дефектов']
+    return number + ' ' + declOfNumber(number, defectHelperArray) + ' уровня ' + defectLevel;
 }
-
 
 // https://gist.github.com/realmyst/1262561
 function declOfNumber(n, titles) {

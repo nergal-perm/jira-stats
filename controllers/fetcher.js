@@ -10,7 +10,8 @@ let conf = require('nconf');
 
 conf.argv()
     .env()
-    .file({file: 'config.json'});
+    .file('config.json')
+    .file('queries', 'queries.json');
 
 let host = conf.get('jiraUrl');
 let auth = conf.get('auth');

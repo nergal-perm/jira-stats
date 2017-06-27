@@ -205,7 +205,7 @@ block content
                     tbody
                       each feature in result.features
                         tr
-                          td
+                          td.centered-text
                             a(href=feature.url) #{feature.key}
                           td= feature.subject
                           td Качество версии:
@@ -261,7 +261,7 @@ block content
                     tbody
                       each defect in result.fixedDefects.issues
                         tr
-                          td
+                          td.centered-text
                             a(href=defect.url) #{defect.key}
                           td= defect.subject
                           td= defect.journal

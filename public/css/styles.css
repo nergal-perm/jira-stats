@@ -52,14 +52,17 @@ a {
 
 .quality-low {
   background-color:red;
+  color: #0f0f0f;
 }
 
 .quality-medium {
   background-color: yellow;
+  color: #0f0f0f;
 }
 
 .quality-high {
   background-color: lime;
+  color: #0f0f0f;
 }
 
 .table-data {
