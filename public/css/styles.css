@@ -25,7 +25,7 @@ td.section-header-cell {
   color: white;
   font-size: 16px;
   font-weight: bold;
-  padding: 0px 6px;
+  padding: 0 6px;
   font-family: "Arial", sans-serif;
 }
 
@@ -72,6 +72,8 @@ a {
 .table-data td, th {
   border: 1px solid black;
   border-collapse: collapse;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 table.table-data .table-highlighted {
