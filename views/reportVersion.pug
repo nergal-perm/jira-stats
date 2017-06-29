@@ -208,10 +208,8 @@ block content
                           td.centered-text
                             a(href=feature.url) #{feature.key}
                           td= feature.subject
-                          td Качество версии:
+                          td Качество доработки:
                             span(class=feature.quality.spanStyle) #{feature.quality.text}
-                            br
-                            | Доработка выполнена в полном объеме
                             br
                             case feature['ИИИ'].issues
                               when 0
