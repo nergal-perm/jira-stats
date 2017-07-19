@@ -72,7 +72,7 @@
   "queriesVersion": [
     {
       "type": "Тестовое покрытие",
-      "query": "project in (HCS, HCSPAFO) AND type = Task AND status not in (Отменен, Отменена) AND fixVersion = '%Version%' AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Bug_Task, Test_Task) ORDER BY status ASC",
+      "query": "project in (HCS, HCSPAFO) AND type = Task AND status not in (Отменен, Отменена) AND fixVersion = '%Version%' AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Test_Task) ORDER BY status ASC",
       "subQueries": [
         {
           "type": "%IssueKey%_ИИИ_уточнения",
@@ -234,7 +234,7 @@
     },
     {
       "type": "detailed_список_доработок",
-      "query": "project = HCS AND type=Task AND status not in (Отменен, Отменена) AND fixVersion = '%Version%'  AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Bug_Task, Test_Task)"
+      "query": "project = HCS AND type=Task AND status not in (Отменен, Отменена) AND fixVersion = '%Version%'  AND fixVersion != 'Вне версии' AND component not in (Tech_Task, Test_Task)"
     },
     {
       "type": "detailed_исправленные_дефекты",
