@@ -230,7 +230,7 @@
     },
     {
       "type": "detailed_актуальные_дефекты_для_версии",
-      "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен)  AND fixversion = '%Version%' order by affectedVersion DESC, priority DESC"
+      "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND fixversion = '%Version%' order by priority DESC, affectedVersion DESC"
     },
     {
       "type": "detailed_список_доработок",

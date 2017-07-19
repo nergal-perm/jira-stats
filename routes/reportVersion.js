@@ -105,25 +105,42 @@ function getActualAndFixed(incomingData) {
 }
 
 function getNeedToFix(incomingData) {
+    let tempIssues = incomingData['detailed_актуальные_дефекты_для_версии'].issues.map(function(issue) {
+        return {
+            key: issue.key,
+            url: 'https://jira.lanit.ru/browse/' + issue.key,
+            subject: issue.fields.summary,
+            priority: {
+                iconUrl: issue.fields.priority.iconUrl,
+                name: issue.fields.priority.name
+            },
+            affectedVersions: issue.fields.versions,
+            status: {
+                iconUrl: issue.fields.status.iconUrl,
+                name: issue.fields.status.name
+            },
+            inductivity: issue.fields.customfield_16424 ? issue.fields.customfield_16424.value : ""
+        }
+    });
+
+    function byThisVersion(issue) {
+        return issue.affectedVersions.some(function(i) {
+            return i.name === result.input.version;
+        });
+    }
+
+    function byOtherVersion(issue) {
+        return issue.affectedVersions.every(function(i) {
+            return i.name !== result.input.version;
+        });
+    }
+
+    let thisVersionIssues = tempIssues.filter(byThisVersion);
+    let otherVersionIssues = tempIssues.filter(byOtherVersion);
+
     return {
         url: incomingData['detailed_актуальные_дефекты_для_версии'].url,
-        issues: incomingData['detailed_актуальные_дефекты_для_версии'].issues.map(function(issue) {
-            return {
-                key: issue.key,
-                url: 'https://jira.lanit.ru/browse/' + issue.key,
-                subject: issue.fields.summary,
-                priority: {
-                    iconUrl: issue.fields.priority.iconUrl,
-                    name: issue.fields.priority.name
-                },
-                affectedVersions: issue.fields.versions,
-                status: {
-                    iconUrl: issue.fields.status.iconUrl,
-                    name: issue.fields.status.name
-                },
-                inductivity: issue.fields.customfield_16424 ? issue.fields.customfield_16424.value : ""
-            }
-        })
+        issues: thisVersionIssues.concat(otherVersionIssues)
     };
 }
 
