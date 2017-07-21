@@ -29,10 +29,11 @@ block content
       tbody
         tr.section-header-row
           td.section-header-cell.version(colSpan='2')
-            span
-              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-            span
-              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            - var i = 0;
+            while i < 2
+              span
+                img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+              - i++;
             | &nbsp;Тестовое покрытие
         tr.dense-information
           td.dense-header Тестовое покрытие
@@ -47,12 +48,11 @@ block content
       tbody
         tr.section-header-row
           td.section-header-cell.version(colSpan='2')
-            span
-              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-            span
-              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-            span
-              img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+            - var i = 0;
+            while i < 3
+              span
+                img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+              - i++;
             | &nbsp;Оценка качества версии
         tr.dense-information
           td.dense-header
@@ -182,14 +182,11 @@ block content
             tbody
               tr.section-header-row
                 td.section-header-cell.version(colSpan='2')
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  - var i = 0;
+                  while i < 4
+                    span
+                      img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                    - i++;
                   | &nbsp;Информация о доработках, выставленных на тест
               tr.dense-information
                 td.full-width
@@ -235,16 +232,40 @@ block content
             tbody
               tr.section-header-row
                 td.section-header-cell.version(colSpan='2')
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-                  span
-                    img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                  - var i = 0;
+                  while i < 5
+                    span
+                      img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                    - i++;
+                  | &nbsp;Доработки, непроверенные в полном объеме
+              tr.dense-information
+                td.full-width
+                  br
+                  table.table-data
+                    thead
+                      tr
+                        th.table-highlighted.column-key Номер
+                        th.table-highlighted Название
+                        th.table-highlighted Статус
+                    tbody
+                      each feature in result.untestedFeatures
+                        tr
+                          td.centered-text
+                            a(href=feature.url) #{feature.key}
+                          td= feature.subject
+                          td
+                            img(src=feature.status.iconUrl)
+                            | &nbsp;#{feature.status.name}
+                  br
+          table.report-table
+            tbody
+              tr.section-header-row
+                td.section-header-cell.version(colSpan='2')
+                  - var i = 0;
+                  while i < 6
+                    span
+                      img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
+                    - i++;
                   | &nbsp;Информация об исправленных дефектах из предыдущих версий
               tr.dense-information
                 td.full-width

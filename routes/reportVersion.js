@@ -220,19 +220,22 @@ function byQuality(a, b) {
 }
 
 function generateResponse(res, incomingData) {
-    //res.setHeader('Content-Type', 'application/json');
-    //res.send(JSON.stringify(result));
-
-    //result.testCoverage = getAdditionalTestCoverage(incomingData);
     result.qualityAsessment = getQualityAsessment(incomingData);
     result.actualAndFixedDefects = getActualAndFixed(incomingData);
     result.needToFix = getNeedToFix(incomingData);
     result.features = getFeatures(incomingData);
+    result.untestedFeatures = getUntestedFeatures();
     result.lowQualityFeatures = getLowQualityFeatures();
     result.fixedDefects = getFixedDefects(incomingData);
     result.input.featuresUrl = incomingData['Тестовое покрытие'].url;
 
     done = true;
+}
+
+function getUntestedFeatures() {
+    return result.features.filter(function(feature) {
+        return feature.status.name === 'На тестировании';
+    });
 }
 
 function getQuality(defects, areInduced) {
