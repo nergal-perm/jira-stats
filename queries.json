@@ -102,135 +102,135 @@
     },
     {
       "type": "наведенные_оставшиеся_к_выпуску",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен)"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен)"
     },
     {
       "type": "наведенные_оставшиеся_к_выпуску_trivial",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Trivial"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Trivial"
     },
     {
       "type": "наведенные_оставшиеся_к_выпуску_minor",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Minor"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Minor"
     },
     {
       "type": "наведенные_оставшиеся_к_выпуску_major",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Major"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Major"
     },
     {
       "type": "наведенные_оставшиеся_к_выпуску_critical",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Critical"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Critical"
     },
     {
       "type": "наведенные_оставшиеся_к_выпуску_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Blocker"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion='%Version%' AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) AND status not in (Closed, Закрыт, Отменен) AND priority = Blocker"
     },
     {
       "type": "оставшиеся_в_системе",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен)"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен)"
     },
     {
       "type": "оставшиеся_в_системе_trivial",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Trivial"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Trivial"
     },
     {
       "type": "оставшиеся_в_системе_minor",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Minor"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Minor"
     },
     {
       "type": "оставшиеся_в_системе_major",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Major"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Major"
     },
     {
       "type": "оставшиеся_в_системе_critical",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Critical"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Critical"
     },
     {
       "type": "оставшиеся_в_системе_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Blocker"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменен) AND priority = Blocker"
     },
     {
       "type": "ААА_актуальных_дефектов_в_системе",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен)"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен)"
     },
     {
       "type": "ААА-1_актуальных_дефектов_в_системе_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Blocker"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Blocker"
     },
     {
       "type": "ААА-2_актуальных_дефектов_в_системе_critical",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Critical"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Critical"
     },
     {
       "type": "ААА-3_актуальных_дефектов_в_системе_major",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Major"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Major"
     },
     {
       "type": "БББ_наведенных_дефектов_в_системе",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY)"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY)"
     },
     {
       "type": "БББ-1_наведенных_дефектов_в_системе_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Blocker"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Blocker"
     },
     {
       "type": "БББ-2_наведенных_дефектов_в_системе_critical",
-      "query":"project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Critical"
+      "query":"project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Critical"
     },
     {
       "type": "БББ-3_наведенных_дефектов_в_системе_major",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Major"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Major"
     },
     {
       "type": "ВВВ_актуальных_дефектов_для_версии",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен)"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен)"
     },
     {
       "type": "ВВВ-1_актуальных_дефектов_для_версии_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Blocker"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Blocker"
     },
     {
       "type": "ВВВ-2_актуальных_дефектов_для_версии_critical",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Critical"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Critical"
     },
     {
       "type": "ВВВ-3_актуальных_дефектов_для_версии_major",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Major"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion <= '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) and priority = Major"
     },
     {
       "type": "ГГГ_наведенных_дефектов_для_версии",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY)"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY)"
     },
     {
       "type": "ГГГ-1_наведенных_дефектов_для_версии_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Blocker"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Blocker"
     },
     {
       "type": "ГГГ-2_наведенных_дефектов_для_версии_critical",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Critical"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Critical"
     },
     {
       "type": "ГГГ-3_наведенных_дефектов_для_версии_major",
-      "query": "project = HCS AND issuetype in (Bug) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Major"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND fixversion = '%Version%' AND affectedVersion = '%Version%' AND status not in (Closed, Закрыт, Отменена, Отменен) AND Наведенный in (Наведен, 'Не известно', 'Не проверялось', Подтверждаю, EMPTY) and priority = Major"
     },
     {
       "type": "ДДД_исправлено_ненаведенных_дефектов",
-      "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
     },
     {
       "type": "ДДД-1_исправлено_ненаведенных_дефектов_blocker",
-      "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and priority = Blocker and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and priority = Blocker and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
     },
     {
       "type": "ДДД-2_исправлено_ненаведенных_дефектов_critical",
-      "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and priority = Critical and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and priority = Critical and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
     },
     {
       "type": "ДДД-3_исправлено_ненаведенных_дефектов_major",
-      "query": "project = HCS AND issuetype in (Bug) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and priority = Major and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND status in (Closed, Закрыт) AND fixversion = '%Version%' and affectedVersion < '%Version%' and priority = Major and resolution not in ('Cannot Reproduce', 'Won\\'t Fix')"
     },
     {
       "type": "detailed_актуальные_дефекты_для_версии",
-      "query": "project = HCS AND issuetype in (Bug) AND status not in (Closed, Закрыт, Отменен) AND fixversion = '%Version%' order by priority DESC, affectedVersion DESC"
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND status not in (Closed, Закрыт, Отменен) AND fixversion = '%Version%' order by priority DESC, affectedVersion DESC"
     },
     {
       "type": "detailed_список_доработок",
@@ -238,7 +238,7 @@
     },
     {
       "type": "detailed_исправленные_дефекты",
-      "query": "project = HCS AND issuetype in (Bug) AND affectedVersion < '%Version%' AND fixVersion = '%Version%' AND status in (Closed, Закрыт) and resolution not in ('Cannot Reproduce', 'Won\\'t Fix') order by priority",
+      "query": "project = HCS AND (issuetype in (Bug) OR (issuetype in (Task) AND component in (Bug_Task))) AND affectedVersion < '%Version%' AND fixVersion = '%Version%' AND status in (Closed, Закрыт) and resolution not in ('Cannot Reproduce', 'Won\\'t Fix') order by priority",
       "limit": 50,
       "fields": "id,key,summary,priority,status,customfield_10131,versions,customfield_16424,customfield_14120"
     }
