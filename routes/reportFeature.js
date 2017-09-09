@@ -21,8 +21,8 @@ router.post('/', function(req, res) {
         return item;
     });
     let options = {
-        dataType: ["Feature"],
-        dataValue: [req.body.featureID]
+        dataType: ["Feature", "Project"],
+        dataValue: [req.body.featureID, req.body.featureID.split("-")[0]]
     };
     let dateArr = req.body.dateTestEnd.split('-');
     result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
@@ -31,7 +31,6 @@ router.post('/', function(req, res) {
 
 router.get('/data', function(req, res) {
     res.render('inputFeature', { defaults: {
-        projectName: 'ГИС ЖКХ',
         date: getTodaysDate(),
         testCoverage: 'Тестирование доработки включало в себя следующие активности:\r\n1. Тестирование доработки;\r\n2. Валидация заведенных дефектов.',
         additionalInfo: 'Доработка переведена на валидацию. Продолжаем валидировать дефекты после их исправления. Так же дополнительное тестирование будет произведено в рамках регрессионного тестирования всех подсистем.'
@@ -57,6 +56,7 @@ function getTodaysDate() {
 function generateResponse(res, incoming_data) {
     result.input.featureLink = 'https://jira.lanit.ru/browse/' + result.input.featureID;
     result.input.featureName = incoming_data.detailed_main.issues[0].fields.summary;
+    result.input.projectName = incoming_data.detailed_main.issues[0].fields.project.name;
     result.summary = {
         defectsCreated: incoming_data.total_defects.count || 0,
         defectsCreatedLink: incoming_data.total_defects.url,

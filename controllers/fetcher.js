@@ -109,7 +109,7 @@ module.exports.getData = function (options, res, renderCallback) {
                 });
             });
         } else if (item.type.substring(0, 6) === 'detail') {
-            q.fields = item.fields || 'id,key,summary,priority,status,customfield_10131,versions,customfield_16424';
+            q.fields = item.fields || 'id,project,key,summary,priority,status,customfield_10131,versions,customfield_16424';
             if (item.limit) {
                 q.maxResults = item.limit;
             }
@@ -169,7 +169,8 @@ function performRequest(endpoint, method, data, success) {
     let options = {
         url: host + endpoint,
         auth: auth,
-        method: method
+        method: method,
+        timeout: 120000
     };
 
     // иногда нужно проксировать доступ

@@ -3,10 +3,6 @@ extends layout
 block content
   form.form-horizontal(method='POST', action='/report-feature')
     .form-group
-      label.control-label.col-sm-3.col-md-2 Название проекта:
-      .col-sm-9.col-md-10
-        input(readonly="true", value=defaults.projectName, name='projectName').form-control
-    .form-group
       label.control-label.col-sm-3.col-md-2 ID доработки:
       .col-sm-9.col-md-10
         input.form-control(name="featureID", type="text")
