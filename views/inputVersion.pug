@@ -5,7 +5,9 @@ block content
     .form-group
       label.control-label.col-sm-3.col-md-2 Название проекта:
       .col-sm-9.col-md-10
-        input(readonly="true", value=defaults.projectName, name='projectName').form-control
+        select(name='projectName').form-control
+          each project in projects
+            option(value=project.key) #{project.name}
     .form-group
       label.control-label.col-sm-3.col-md-2 Номер версии / ХФ:
       .col-sm-9.col-md-10

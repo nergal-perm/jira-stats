@@ -20,6 +20,19 @@ let proxy = conf.get('HTTP_PROXY');
 let madeQueries = 0;  //Счетчик выполненных запросов
 let totalQueries = 0;
 
+module.exports.getProjects = function(callback) {
+    var projects = undefined;
+    performRequest('/rest/api/latest/project', 'GET', null, function(result) {
+        var projects = [];
+        result.forEach(function(item) {
+            if ((item.key.indexOf('HCS') !== -1) && (item.name.indexOf('ЯЯЯ') === -1)) {
+                projects.push({key: item.key, name: item.name});
+            }
+        });
+        callback(projects);
+    });
+};
+
 module.exports.getStatus = function() {
     return {
         madeQueries: madeQueries,
@@ -162,7 +175,7 @@ function preprocessQuery(stringToProcess, options) {
 
 function performRequest(endpoint, method, data, success) {
 
-    if (method === 'GET') {
+    if (method === 'GET' && data) {
         endpoint += '?' + querystring.stringify(data);
     }
 

@@ -12,13 +12,19 @@ const fetcher = require('../controllers/fetcher');
 let result = {};
 let response = {};
 let done = false;
+let projectsMap = {};
 
 router.get('/data', function(req, res) {
-    res.render('inputVersion', { defaults: {
-        projectName: 'ГИС ЖКХ',
-        date: getTodaysDate(),
-    },
-        submitAddress: 'report-version'});
+    fetcher.getProjects(function(projects){
+        projects.forEach(function(element) {
+            projectsMap[element.key] = element.name;    
+        });
+        res.render('inputVersion', { 
+            defaults: { date: getTodaysDate() },
+            submitAddress: 'report-version',
+            projects: projects
+        });
+    });
 });
 
 router.post('/', function(req, res, next) {
@@ -27,10 +33,10 @@ router.post('/', function(req, res, next) {
     let dateArr = req.body.dateTestEnd.split('-');
     result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
     let options = {
-        dataType: ["Version"],
-        dataValue: [req.body.version]
+        dataType: ["Version", "Project"],
+        dataValue: [req.body.version, req.body.projectName]
     };
-
+    console.log(JSON.stringify(options));
     response = res;
     fetcher.getData(options, response, generateResponse);
     res.redirect('../report-version/processing');
@@ -45,6 +51,7 @@ router.get('/processing', function(req, res, next) {
 });
 
 router.get('/done', function(req, res, next) {
+    result.projectName = projectsMap[result.input.projectName];
     res.render('reportVersion', {result: result, title: "Отчет по версии/ХФ"});
 });
 
