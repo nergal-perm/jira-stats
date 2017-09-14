@@ -16,20 +16,20 @@ conf.argv()
 let host = conf.get('jiraUrl');
 let auth = conf.get('auth');
 let proxy = conf.get('HTTP_PROXY');
+let projects = conf.get('projects');
 
 let madeQueries = 0;  //Счетчик выполненных запросов
 let totalQueries = 0;
 
 module.exports.getProjects = function(callback) {
-    var projects = undefined;
     performRequest('/rest/api/latest/project', 'GET', null, function(result) {
-        var projects = [];
+        let projectNames = [];
         result.forEach(function(item) {
-            if ((item.key.indexOf('HCS') !== -1) && (item.name.indexOf('ЯЯЯ') === -1)) {
-                projects.push({key: item.key, name: item.name});
+            if (projects.includes(item.key)) {
+                projectNames.push({key: item.key, name: item.name});
             }
         });
-        callback(projects);
+        callback(projectNames);
     });
 };
 

@@ -3,5 +3,6 @@
       "username" : "some_user",
       "password" : "some_pass"
   },
-  "jiraUrl" : "some_url"
+  "jiraUrl" : "some_url",
+  "projects": ["some_key_1", "some_key_2"]
 }
