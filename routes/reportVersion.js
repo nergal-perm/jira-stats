@@ -30,6 +30,8 @@ router.get('/data', function(req, res) {
 router.post('/', function(req, res, next) {
     result.input = req.body;
     result.input.testCoverage = getInitialTestCoverage(req);
+    result.input.patches = getStringArrayFromText(req.body.patches);
+    result.input.dependencies = getStringArrayFromText(req.body.dependencies);
     let dateArr = req.body.dateTestEnd.split('-');
     result.input.dateTestEnd = dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0];
     let options = {
@@ -56,9 +58,15 @@ router.get('/done', function(req, res, next) {
 });
 
 function getInitialTestCoverage(request) {
-    return request.body.testCoverage ? request.body.testCoverage.split('\n').map(function(item) {
+    return request.body.testCoverage ? getStringArrayFromText(request.body.testCoverage) : "";
+}
+
+
+
+function getStringArrayFromText(multiLineText) {
+    return multiLineText.split('\n').map(function(item) {
         return item;
-    }) : "";
+    });
 }
 
 function getQualityAsessment(incomingData) {

@@ -8,7 +8,7 @@ block content
           td.section-header-cell.version(colSpan='2')
             span
               img(src='/images/headerBullet.png', alt="bullet", style="height:12px; width:16px")
-            | &nbsp;Общая информация о тестировании доработки
+            | &nbsp;Общая информация о тестировании
         tr.dense-information
           td.dense-header Название проекта
           td.dense-data= result.projectName
@@ -25,6 +25,18 @@ block content
         tr.dense-information
           td.dense-header Браузер
           td.dense-data= result.input.browser
+        tr.dense-information
+          td.dense-header Включены патчи
+          td.dense-data
+            for row in result.input.patches
+              a(href=row) #{row}
+              br
+        tr.dense-information
+          td.dense-header Зависимости
+          td.dense-data
+            for row in result.input.dependencies
+              | #{row}
+              br
     table.report-table
       tbody
         tr.section-header-row
@@ -43,7 +55,7 @@ block content
               li
                 a(href=result.input.featuresUrl) Тестирование доработок
               for row in result.input.testCoverage
-                li #{row}
+                li #{row}             
     table.report-table
       tbody
         tr.section-header-row

@@ -32,5 +32,13 @@ block content
       label.control-label.col-sm-3.col-md-2 Тестовое покрытие (кроме тестирования доработок):
       .col-sm-9.col-md-10
         textarea.form-control(name="testCoverage")= defaults.testCoverage
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Включены патчи:
+      .col-sm-9.col-md-10
+        textarea.form-control(name="patches")= defaults.patches
+    .form-group
+      label.control-label.col-sm-3.col-md-2 Зависимости:
+      .col-sm-9.col-md-10
+        textarea.form-control(name="dependencies")= defaults.dependencies                
     .btn-group
       button.btn.btn-primary(type="submit") Получить отчет
