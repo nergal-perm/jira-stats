@@ -123,7 +123,7 @@ function getNeedToFix(incomingData) {
     let tempIssues = incomingData['detailed_актуальные_дефекты_для_версии'].issues.map(function(issue) {
         return {
             key: issue.key,
-            url: 'https://jira.lanit.ru/browse/' + issue.key,
+            url: incomingData.host + '/browse/' + issue.key,
             subject: issue.fields.summary,
             priority: {
                 iconUrl: issue.fields.priority.iconUrl,
@@ -170,7 +170,7 @@ function getFeatures(incomingData) {
         };
         return {
             key: issue.key,
-            url: 'https://jira.lanit.ru/browse/' + issue.key,
+            url: incomingData.host + '/browse/' + issue.key,
             subject: issue.fields.summary,
             quality: getQuality(issueDefects, false),
             'ИИИ': {
@@ -214,7 +214,7 @@ function getFixedDefects(incomingData) {
         issues: incomingData['detailed_исправленные_дефекты'].issues.map(function(issue) {
             return {
                 key: issue.key,
-                url: 'https://jira.lanit.ru/browse/' + issue.key,
+                url: incomingData.host + '/browse/' + issue.key,
                 subject: issue.fields.summary,
                 journal: issue.fields.customfield_14120,
                 priority: {

@@ -3,6 +3,7 @@
  */
 'use strict';
 
+
 let async = require('async');
 let querystring = require('querystring');
 let request = require('request');
@@ -151,6 +152,7 @@ module.exports.getData = function (options, res, renderCallback) {
         } else {
             console.log('Выполнено ' + madeQueries + ' запросов');
             temp.options = options;
+            temp.host = host;
             renderCallback(res, temp);
         }
     });
@@ -192,6 +194,7 @@ function performRequest(endpoint, method, data, success) {
     }
 
     request(options, function (err, res, body) {
+	if(err) { throw err; }
         let result = {};
         try {
             result = JSON.parse(body);

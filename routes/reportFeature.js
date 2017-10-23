@@ -8,6 +8,13 @@ const phantomjs = require('../node_modules/phantomjs-prebuilt');
 const binPath = phantomjs.path;
 const fetcher = require('../controllers/fetcher');
 
+let conf = require('nconf');
+
+conf.argv()
+    .env()
+    .file('config.json')
+    .file('queries', 'queries.json');
+
 let result = {};
 let response = {};
 
@@ -54,7 +61,8 @@ function getTodaysDate() {
 }
 
 function generateResponse(res, incoming_data) {
-    result.input.featureLink = 'https://jira.lanit.ru/browse/' + result.input.featureID;
+    result.host = incoming_data.host;
+    result.input.featureLink = incoming_data.host + '/browse/' + result.input.featureID;
     result.input.featureName = incoming_data.detailed_main.issues[0].fields.summary;
     result.input.projectName = incoming_data.detailed_main.issues[0].fields.project.name;
     result.summary = {

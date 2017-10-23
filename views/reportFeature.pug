@@ -164,7 +164,7 @@ block content
                   each issue, index in result.detailedBC
                     tr
                       td= (index + 1) + '. '
-                        a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                        a(href= result.host + '/browse/' + issue.key)= issue.key
                       td= issue.fields.summary
                       td
                         img(src=issue.fields.priority.iconUrl)
@@ -186,13 +186,13 @@ block content
                   each issue, index in result.detailedBlocked
                     tr
                       td= (index + 1) + '. '
-                        a(href='https://jira.lanit.ru/browse/' + issue.key)= issue.key
+                        a(href= result.host + '/browse/' + issue.key)= issue.key
                       td= issue.fields.summary
                       td
                         img(src=issue.fields.priority.iconUrl)
                         | &nbsp;#{issue.fields.priority.name}
                       td
-                        a(href='https://jira.lanit.ru/browse/' + issue.fields.customfield_10131)= issue.fields.customfield_10131
+                        a(href=result.host + '/browse/' + issue.fields.customfield_10131)= issue.fields.customfield_10131
         tr.dense-information
           td
           td
